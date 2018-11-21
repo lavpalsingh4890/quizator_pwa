@@ -1,0 +1,32 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Select Categories you like</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col *ngFor="let item of items" col-auto>
+        <button ion-button (click)="validation(item)" color={{item.color}} round> {{item.data}}</button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <h5 *ngIf="selcted_category_string">
+          Selected Categories:
+        </h5>
+        <h6>
+            {{selcted_category_string}}
+        </h6>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-fab right bottom>
+      <button  ion-fab>
+        <ion-icon name="md-add"></ion-icon>
+      </button>
+    </ion-fab>
+</ion-content>

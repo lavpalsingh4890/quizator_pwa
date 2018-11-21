@@ -1,0 +1,61 @@
+
+
+<ion-content fullscreen="true" class="no-padding-top"> 
+    
+       
+
+  <ion-slides #slider pager="true" autoplay="2500" loop="true" effect="fade" >
+    <ion-slide *ngFor="let slide of slides"
+               class="slide-background"
+               [ngStyle]="{'background-image': 'url(' + slide.imageUrl +')'}">
+      <div class="text-wrapper">
+        <div class="slide-text">
+          <h2 class="slide-title" [innerHTML]="slide.title"></h2><br>
+          <p [innerHTML]="slide.description"></p>
+          
+        </div>
+        <div class="floating-buttons  pop-in">
+          <ion-grid  >
+            <ion-row align-items-justify>
+              <ion-col text-center>
+                  <button ion-button color="light"  round>Guest Login</button>
+              </ion-col>
+              <ion-col text-center>
+                
+                      <div *ngIf="isLoggedIn; else facebookLogin">
+                        <h2>Hi, {{users.name}} ({{users.email}})</h2>
+                        <p>
+                          Gender: {{users.gender}}
+                        </p>
+                        <p>
+                          <img src="{{users.picture.data.url}}" width="100" alt="{{users.name}}" />
+                        </p>
+                        <p>
+                          <button ion-button icon-right (click)="logout()">
+                            Logout
+                          </button>
+                        </p>
+                      </div>
+                      <ng-template #facebookLogin>
+                        <button ion-button icon-right (click)="login()">
+                          Login with 
+                          <ion-icon name="logo-facebook"></ion-icon>
+                        </button>
+                      </ng-template>
+                   
+              </ion-col>
+              <ion-col text-center>
+                  <button ion-button block color="danger" (click)="loginUser()" *ngIf="!userProfile">
+                      <ion-icon name="logo-googleplus"></ion-icon>
+                       Login
+                    </button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+      </div>
+    </ion-slide>
+  </ion-slides>
+
+    
+</ion-content>

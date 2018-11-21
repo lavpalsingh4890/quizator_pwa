@@ -1,0 +1,7 @@
+export var environment = {   
+    BASE_URL:"http://localhost:8080/",
+    POST_API:"post",
+    CATEGORY_API:"category",
+    PARENT_CATEGORY_PARAMS:"?type=main&parent=0"
+    
+}

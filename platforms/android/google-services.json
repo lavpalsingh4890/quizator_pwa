@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "556459777006",
+    "firebase_url": "https://quizator-be795.firebaseio.com",
+    "project_id": "quizator-be795",
+    "storage_bucket": "quizator-be795.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:556459777006:android:3d1df3e41c88f92c",
+        "android_client_info": {
+          "package_name": "com.technofriend.quizator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "556459777006-rj7ggorgcli34mkoj7jai2lvrrms96tc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.technofriend.quizator",
+            "certificate_hash": "14971cde7e74ee8bd221e2ad92a219c04bb1eb5c"
+          }
+        },
+        {
+          "client_id": "556459777006-l45lnjk1hopsok4hvhcoia0kmag1tvp1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqNJPEOYbEurQT3VHdZiy_-wnFiz3lVfw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "556459777006-l45lnjk1hopsok4hvhcoia0kmag1tvp1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

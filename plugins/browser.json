@@ -1,0 +1,58 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "com.moust.cordova.videoplayer": {
+      "PACKAGE_NAME": "com.technofriend.quizator"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.technofriend.quizator"
+    },
+    "cordova-plugin-facebook4": {
+      "APP_ID": "469320163596969",
+      "APP_NAME": "com.technofriend.quizator",
+      "FACEBOOK_ANDROID_SDK_VERSION": "4.37.0",
+      "PACKAGE_NAME": "com.technofriend.quizator"
+    },
+    "cordova-plugin-fcm-with-dependecy-updated": {
+      "PACKAGE_NAME": "com.technofriend.quizator"
+    },
+    "cordova-plugin-ionic-keyboard": {
+      "PACKAGE_NAME": "com.technofriend.quizator"
+    },
+    "cordova-plugin-ionic-webview": {
+      "PACKAGE_NAME": "com.technofriend.quizator"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "com.technofriend.quizator"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "com.technofriend.quizator"
+    },
+    "cordova-plugin-streaming-media": {
+      "PACKAGE_NAME": "com.technofriend.quizator"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "com.technofriend.quizator"
+    },
+    "ionic-plugin-deeplinks": {
+      "URL_SCHEME": "quizator",
+      "DEEPLINK_SCHEME": "https",
+      "DEEPLINK_HOST": "quizator.com",
+      "PACKAGE_NAME": "com.technofriend.quizator"
+    },
+    "cordova-plugin-googleplus": {
+      "WEB_APPLICATION_CLIENT_ID": "556459777006-l45lnjk1hopsok4hvhcoia0kmag1tvp1.apps.googleusercontent.com",
+      "PACKAGE_NAME": "com.technofriend.quizator"
+    },
+    "cordova-sqlite-storage": {
+      "PACKAGE_NAME": "com.technofriend.quizator"
+    }
+  },
+  "dependent_plugins": {}
+}

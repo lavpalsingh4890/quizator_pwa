@@ -1,0 +1,2 @@
+# Referenced at /home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/manifests/full/debug/AndroidManifest.xml:33
+-keep class android.support.multidex.MultiDexApplication { <init>(...); }

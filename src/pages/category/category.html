@@ -1,0 +1,70 @@
+<ion-content padding class="page-category">
+  <ion-card>
+
+    <ion-card-header>
+      Choose Post Category
+      <button class="dp_button" (click)="clear()" ion-button clear end>clear
+       
+        </button>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-row>
+        <button ion-button (click)="getSubCategory(0)" color="light" round icon-end full>{{main_category}}
+          <ion-icon name="search"></ion-icon>
+        </button>
+      </ion-row>
+      <ion-row *ngIf="is_main_selected">
+        <button ion-button (click)="getSubCategory(1)" color="light" round icon-end full>{{sub_category1}}
+          <ion-icon name="search"></ion-icon>
+        </button>
+      </ion-row>
+      <ion-row *ngIf="is_sub_selected">
+          <button ion-button (click)="getSubCategory(2)" color="light" round icon-end full>{{sub_category2}}
+            <ion-icon name="search"></ion-icon>
+          </button>
+        </ion-row>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+
+    <ion-card-header>
+        <ion-item>
+            <ion-label floating>Enter new category name</ion-label>
+            <ion-input type="text"></ion-input>
+          </ion-item>
+    </ion-card-header>
+
+    <ion-card-content>
+       
+      <ion-row *ngIf="is_category_image">
+        <div class="container">
+          <img class="post_image" src="{{image}}" />
+          <ion-row class="btn" align-items-center>
+            <ion-col col-2>
+              <button class="dp_button" margin ion-button icon-only clear>
+                <ion-icon name="heart"></ion-icon>
+              </button>
+            </ion-col>
+            <ion-col offset-7 col-2>
+              <button class="dp_button" margin ion-button icon-only clear>
+                <ion-icon name="close"></ion-icon>
+              </button>
+            </ion-col>
+          </ion-row>
+        </div>
+      </ion-row>
+      <ion-row>
+          <button ion-button color="light" round icon-end full>Add Category image
+            <ion-icon name="add"></ion-icon>
+          </button>
+        </ion-row>
+    </ion-card-content>
+  </ion-card>
+  <ion-label *ngIf="is_error" class="error_text">
+    {{error_text}}
+  </ion-label>
+  <button ion-button color="light" round full>Done
+    </button>
+
+</ion-content>

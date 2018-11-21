@@ -1,0 +1,153 @@
+<ion-header>
+</ion-header>
+
+
+<ion-content>
+
+  <ion-slides *ngIf="isImage" #slider effect="fade" pager="true" loop="true" spaceBetween="1" slidesPerView="1" class="slides_container">
+    <ion-slide *ngFor="let slide of slides" class="slide-background" [ngStyle]="{'background' : 'url(' + slide.imageUrl + ')'}">
+
+      <ion-grid>
+        <ion-row>
+          <ion-col col-2 align-items-center>
+            <button class="dp_button" ion-button icon-only>
+              <ion-icon name="google-md"></ion-icon>
+            </button>
+          </ion-col>
+          <ion-col>
+            <p class="email">{{slide.email}}</p>
+          </ion-col>
+          <ion-col>
+            <button class="dp_button" ion-button icon-only>
+              <ion-icon name="star"></ion-icon>
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-fab center middle>
+        <button *ngIf="!isImage" ion-fab>
+          <ion-icon name="md-add"></ion-icon>
+        </button>
+      </ion-fab>
+      <ion-fab right bottom>
+        <button *ngIf="isImage" ion-fab>
+          <ion-icon name="md-add"></ion-icon>
+        </button>
+      </ion-fab>
+    </ion-slide>
+  </ion-slides>
+
+
+  <!-- <div class="slides_container" > 
+    <ion-slides #slider  autoplay="2000" loop="true" (ionSlideDidChange)="onSlideChanged()">
+      <ion-slide *ngFor="let slide of slides" class="slide_transition"   [style.background-color]="color" >
+       
+      </ion-slide>
+    </ion-slides>
+  </div> -->
+  <ion-card>
+    <ion-card-content>
+      <ion-grid>
+
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label floating>Name</ion-label>
+              <ion-input type="text"></ion-input>
+            </ion-item>
+
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-row radio-group [(ngModel)]="Gender">
+
+              <ion-col>
+                <ion-item>
+                  <ion-label>Male <ion-icon name="man"></ion-icon>
+                  </ion-label>
+
+                  <ion-radio value="male">
+
+                  </ion-radio>
+                </ion-item>
+              </ion-col>
+              <ion-col>
+                <ion-item>
+                  <ion-label>Female <ion-icon name="woman"></ion-icon>
+                  </ion-label>
+                  <ion-radio value="female"></ion-radio>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-row radio-group [(ngModel)]="AgeGroup">
+
+              <ion-col col-12>
+                <ion-label>Age Group</ion-label>
+              </ion-col>
+              <ion-col col-6>
+                <ion-item>
+                  <ion-label>0-18</ion-label>
+                  <ion-radio value="18"></ion-radio>
+                </ion-item>
+              </ion-col>
+              <ion-col col-6>
+                <ion-item>
+                  <ion-label>19-30</ion-label>
+                  <ion-radio value="30"></ion-radio>
+                </ion-item>
+              </ion-col>
+
+              <ion-col col-6>
+                <ion-item>
+                  <ion-label>31-60</ion-label>
+                  <ion-radio value="60"></ion-radio>
+                </ion-item>
+              </ion-col>
+              <ion-col col-6>
+                <ion-item>
+                  <ion-label>61+</ion-label>
+                  <ion-radio value="60plus"></ion-radio>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-10>
+            <p>Country</p>
+          </ion-col>
+          <ion-col col-2>
+            <button *ngIf="isImage" ion-fab>
+              <ion-icon name="locate"></ion-icon>
+            </button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+              <ion-item>
+                   <ion-textarea rows="1" id="messageInputBox" placeholder="Send message" (input)="change()" required></ion-textarea>
+                </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <p class="userid">userid</p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-12>
+            <button ion-button color="light" round full>Continue</button>
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
