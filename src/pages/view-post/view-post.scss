@@ -1,3 +1,65 @@
-page-view-post {
 
-}
+   
+    .container {
+        position: relative;
+        width: 100%;
+      }
+      
+      /* Make the image responsive */
+      .container img {
+        width: 100%;
+        height: auto;
+      }
+      
+      /* Style the button and place it in the middle of the container/image */
+      .container .btn {
+        width: 100%;
+        position: absolute;
+        top: 10%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        color: white;
+        font-size: 15px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+      
+     
+
+   #post_image{
+        height: 400px;
+    }
+
+    #poll_result{
+        width: 25px;
+        height: 25px;
+    }
+    #blog_image{
+        width: 50px;
+        height: 50px;
+        margin:15px;
+    }
+  
+    .card {
+        width: 100%;
+        text-align: center;
+        word-wrap: break-word;
+    }
+    
+    .card .item-text-wrap {
+        background: silver;
+        justify-content: center;
+        padding: 1px;
+        margin:1px;
+    }
+
+    .email{
+        text-align: left;
+        text-transform: lowercase;
+        text-shadow: 0.3px 0.3px black;
+        font-weight: bold;
+        color:white;
+        font-size:10px;
+    }

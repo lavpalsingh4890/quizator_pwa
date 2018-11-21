@@ -1,13 +1,99 @@
-
-<ion-header>
-
-  <ion-navbar>
-    <ion-title>add-post</ion-title>
-  </ion-navbar>
-
-</ion-header>
-
-
-<ion-content padding>
-
-</ion-content>
+<ion-content class="page-add-post">
+    <div class="container">
+      <img class="post_image" src="{{image}}" />
+      <ion-row class="btn" align-items-center>
+        <ion-col offset-10 col-2>
+          <button class="dp_button" margin ion-button icon-only clear>
+            <ion-icon name="heart"></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+  
+      <ion-fab center middle>
+        <button *ngIf="!isImage" ion-fab>
+          <ion-icon name="md-add"></ion-icon>
+        </button>
+      </ion-fab>
+    </div>
+    <ion-row radio-group [(ngModel)]="post_type">
+  
+      <ion-col>
+        <ion-item>
+          <ion-label>Quiz
+          </ion-label>
+          <ion-radio value="quiz" (click)="isquiz=true;">
+          </ion-radio>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item>
+          <ion-label>Poll<ion-icon name="poll"></ion-icon>
+          </ion-label>
+          <ion-radio value="poll" (click)="isquiz=false;"></ion-radio>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  
+    <div id="container">
+      <ion-list>
+  
+        <ion-item class="rounded" id="question">
+          <ion-textarea rows="1" id="messageInputBox1" maxlength="500" placeholder="Add Question" (input)="change(1)" [(ngModel)]="question" required></ion-textarea>
+        </ion-item>
+        
+        <div *ngFor="let item of items">
+          <ion-row>
+            <ion-col col-8>
+              <ion-item>
+                <ion-textarea rows="1" id="messageInputBox" value={{item}} (input)="change()" required></ion-textarea>
+              </ion-item>
+            </ion-col>
+            <ion-col  col-2>
+            
+            </ion-col>
+            <ion-col col-2>
+              <button ion-button icon-only (click)="deleteOption(item)">
+                <ion-icon name="close"></ion-icon>
+              </button>
+            </ion-col>
+          </ion-row>
+        </div>
+  
+        <ion-item class="rounded" id="option">
+          <ion-textarea rows="1" maxlength="50" id="messageInputBox" placeholder="Add Option"  [(ngModel)]="option"
+            required></ion-textarea>
+        </ion-item>
+       
+        <ion-item>
+          <button ion-button icon-start full (click)="addOption()">
+            <ion-icon name="md-add"></ion-icon>
+            Add Option
+          </button>
+        </ion-item>
+      
+          <ion-row *ngIf="items.length>1&&isquiz" justify-content-center> 
+            <ion-col>
+                <ion-select [(ngModel)]="correct_option" multiple="false" placeholder="Choose correct option" style="width:100%">  
+                    <ion-option *ngFor="let item of items" value="{{item}}" selected="{{item}}">{{item}}</ion-option>
+                </ion-select>
+            </ion-col>
+          </ion-row>
+        
+        <ion-item class="rounded" id="question">
+            <ion-textarea rows="1" maxlength="500" id="messageInputBox2" placeholder="Add Description" (input)="change(2)" [(ngModel)]="description" required></ion-textarea>
+          </ion-item>
+      </ion-list>
+  
+      <ion-row justify-content-center>
+        <ion-col>
+            <button ion-button color="dark" round full (click)="submit()">Draft</button>
+        </ion-col>
+        <ion-col>
+            <button ion-button color="dark" round full (click)="post()">Post</button>
+        </ion-col>
+      </ion-row>
+  
+    </div>
+  
+  
+  </ion-content>

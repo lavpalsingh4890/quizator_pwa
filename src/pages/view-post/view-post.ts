@@ -1,25 +1,38 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component} from '@angular/core';
 
-/**
- * Generated class for the ViewPostPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
-@IonicPage()
 @Component({
-  selector: 'page-view-post',
-  templateUrl: 'view-post.html',
+  templateUrl: 'view-post.html'
 })
+
 export class ViewPostPage {
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor() {
+  }
+  ngAfterViewInit() {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ViewPostPage');
-  }
-
+  items = [
+    {
+      email: "lavpalsingh4890@gmail.com",
+      imageUrl: 'https://lorempixel.com/1200/1200/nature/1',
+    }, {
+      imageUrl: 'https://lorempixel.com/1200/1200/nature/2',
+    }, {
+      imageUrl: 'https://lorempixel.com/1200/1200/nature/3',
+    }, {
+      imageUrl: 'https://lorempixel.com/1200/1200/nature/4',
+    }, {
+      imageUrl: 'https://lorempixel.com/1200/1200/nature/5',
+    }, {
+      imageUrl: 'https://lorempixel.com/1200/1200/nature/6',
+    }, {
+      imageUrl: 'https://lorempixel.com/1200/1200/nature/7',
+    }, {
+      imageUrl: 'https://lorempixel.com/1200/1200/nature/8',
+    }, {
+      imageUrl: 'https://lorempixel.com/1200/1200/nature/9',
+    }, {
+      imageUrl: 'https://lorempixel.com/1200/1200/nature/10',
+    },
+  ];
 }

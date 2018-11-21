@@ -31,6 +31,17 @@ import { HttpModule } from '@angular/http';
 import { CategoryPage } from '../pages/category/category';
 import { SubcategoryPage } from '../pages/category/subcategory/subcategory';
 
+
+
+import { EmojiProvider } from '../providers/emoji';
+import { TextUtilProvider } from '../providers/text-util/text-util';
+import { FCM } from '@ionic-native/fcm';
+import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
+import { GooglePlus } from '@ionic-native/google-plus';
+import { IonicStorageModule } from '@ionic/storage';
+import { StorageUtilProvider } from '../providers/storage-util/storage-util';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import { SessionUtilProvider } from '../providers/session-util/session-util';
 @NgModule({
   declarations: [
     MyApp,
@@ -57,6 +68,10 @@ import { SubcategoryPage } from '../pages/category/subcategory/subcategory';
   imports: [
     HttpModule,
     BrowserModule,
+    IonicStorageModule.forRoot({
+      name: 'quizator',
+         driverOrder: ['indexeddb','sqlite', 'websql']
+    }),
     IonicModule.forRoot(MyApp, {
       statusbarPadding: true,
       //locationStrategy: 'path'
@@ -111,6 +126,15 @@ import { SubcategoryPage } from '../pages/category/subcategory/subcategory';
     Slides,
     SplashScreen,
     Deeplinks,
+    EmojiProvider,
+    FCM,
+    Facebook,
+    GooglePlus,
+    SQLite,
+   // { provide: LocationStrategy, useClass: PathLocationStrategy },
+    TextUtilProvider,
+    StorageUtilProvider,
+    SessionUtilProvider,
     ServerUtil,
    // { provide: LocationStrategy, useClass: PathLocationStrategy },
     {provide: ErrorHandler, useClass: IonicErrorHandler}

@@ -1,3 +1,36 @@
 page-account {
+    .body{
+        height:100%;
+    }
+    .slides_container{
+        height: 50%;
+       
 
+    }
+    .slide_transition{
+        transition: all 1s linear;
+    }
+    .slide-background {
+        background-size: cover !important;
+        background-position: center;
+        background-repeat: no-repeat;
+        border-color: transparent;
+      }
+   
+    .email{
+        text-align: left;
+        text-transform: lowercase;
+        text-shadow: 0.3px 0.3px black;
+        font-weight: bold;
+        color:white;
+        font-size:10px;
+    }
+    .dp_button{
+        right: 0px;
+        float: right;
+        margin: 10px;
+    }
+    .age_group_list{
+        display: block;
+    }
 }

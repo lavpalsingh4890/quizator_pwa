@@ -25674,6 +25674,45 @@ ion-navbar.toolbar {
   min-height: calc(46px + env(safe-area-inset-bottom));
 }
 
+page-account .body {
+  height: 100%;
+}
+
+page-account .slides_container {
+  height: 50%;
+}
+
+page-account .slide_transition {
+  -webkit-transition: all 1s linear;
+  transition: all 1s linear;
+}
+
+page-account .slide-background {
+  background-size: cover !important;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-color: transparent;
+}
+
+page-account .email {
+  text-align: left;
+  text-transform: lowercase;
+  text-shadow: 0.3px 0.3px black;
+  font-weight: bold;
+  color: white;
+  font-size: 10px;
+}
+
+page-account .dp_button {
+  right: 0px;
+  float: right;
+  margin: 10px;
+}
+
+page-account .age_group_list {
+  display: block;
+}
+
 page-basic-detail .body {
   height: 100%;
 }
@@ -25732,6 +25771,73 @@ page-category .btn {
 
 page-category .error_text {
   color: red;
+  font-size: 10px;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+}
+
+/* Make the image responsive */
+.container img {
+  width: 100%;
+  height: auto;
+}
+
+/* Style the button and place it in the middle of the container/image */
+.container .btn {
+  width: 100%;
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  color: white;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#post_image {
+  height: 400px;
+}
+
+#poll_result {
+  width: 25px;
+  height: 25px;
+}
+
+#blog_image {
+  width: 50px;
+  height: 50px;
+  margin: 15px;
+}
+
+.card {
+  width: 100%;
+  text-align: center;
+  word-wrap: break-word;
+}
+
+.card .item-text-wrap {
+  background: silver;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding: 1px;
+  margin: 1px;
+}
+
+.email {
+  text-align: left;
+  text-transform: lowercase;
+  text-shadow: 0.3px 0.3px black;
+  font-weight: bold;
+  color: white;
   font-size: 10px;
 }
 
@@ -25826,4 +25932,8 @@ p {
 
 p b {
   color: #000000;
+}
+
+#login-label {
+  color: #FFF;
 }
