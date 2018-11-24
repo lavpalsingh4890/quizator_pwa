@@ -56,12 +56,12 @@
         "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/0ab84221d9ea433b67c9d8cb8d774c5d/res/color/abc_hint_foreground_material_dark.xml"
     },
     {
-        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-port-xxxhdpi_screen.png.flat",
-        "source": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/res/drawable-port-xxxhdpi/screen.png"
-    },
-    {
         "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_ic_menu_cut_mtrl_alpha.png.flat",
         "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/0ab84221d9ea433b67c9d8cb8d774c5d/res/drawable-xxxhdpi-v4/abc_ic_menu_cut_mtrl_alpha.png"
+    },
+    {
+        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-port-xxxhdpi_screen.png.flat",
+        "source": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/res/drawable-port-xxxhdpi/screen.png"
     },
     {
         "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable_messenger_button_white_bg_round.xml.flat",
@@ -88,12 +88,12 @@
         "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/0ab84221d9ea433b67c9d8cb8d774c5d/res/drawable-xxxhdpi-v4/abc_btn_radio_to_on_mtrl_000.png"
     },
     {
-        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-xhdpi_ic_action_discard_dark.png.flat",
-        "source": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/res/drawable-xhdpi/ic_action_discard_dark.png"
-    },
-    {
         "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_messenger_bubble_small_blue.png.flat",
         "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/facebook-messenger-4.37.0.aar/fcc0945500fa28d87fc9090c59498670/res/drawable-xxhdpi-v4/messenger_bubble_small_blue.png"
+    },
+    {
+        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-xhdpi_ic_action_discard_dark.png.flat",
+        "source": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/res/drawable-xhdpi/ic_action_discard_dark.png"
     },
     {
         "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_list_divider_mtrl_alpha.9.png.flat",
@@ -152,12 +152,12 @@
         "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/drawable-hdpi-v4/abc_scrubber_primary_mtrl_alpha.9.png"
     },
     {
-        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_notification_bg_low_normal.9.png.flat",
-        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/support-compat-27.0.2.aar/03812cef4ad7a5c898714a89eaa9ee51/res/drawable-hdpi-v4/notification_bg_low_normal.9.png"
-    },
-    {
         "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_common_google_signin_btn_text_light_normal_background.9.png.flat",
         "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/play-services-base-10.2.6.aar/19f800a1c17933d4d4cbfc97cf1b7651/res/drawable-mdpi-v4/common_google_signin_btn_text_light_normal_background.9.png"
+    },
+    {
+        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_notification_bg_low_normal.9.png.flat",
+        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/support-compat-27.0.2.aar/03812cef4ad7a5c898714a89eaa9ee51/res/drawable-hdpi-v4/notification_bg_low_normal.9.png"
     },
     {
         "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/drawable-port-mdpi_screen.png.flat",
@@ -174,6 +174,10 @@
     {
         "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_text_select_handle_right_mtrl_dark.png.flat",
         "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/drawable-xxhdpi-v4/abc_text_select_handle_right_mtrl_dark.png"
+    },
+    {
+        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-xhdpi_crop__tile.png.flat",
+        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/android-crop-1.0.0.aar/31a6336255c5af57dbdbeff9a6ae2daa/res/drawable-xhdpi/crop__tile.png"
     },
     {
         "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_tab_indicator_mtrl_alpha.9.png.flat",
@@ -252,12 +256,12 @@
         "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/support-compat-27.0.2.aar/070ffc83395789b94ed96d843a6ae01f/res/drawable/notification_icon_background.xml"
     },
     {
-        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_textfield_activated_mtrl_alpha.9.png.flat",
-        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/drawable-mdpi-v4/abc_textfield_activated_mtrl_alpha.9.png"
-    },
-    {
         "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_text_select_handle_middle_mtrl_dark.png.flat",
         "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/0ab84221d9ea433b67c9d8cb8d774c5d/res/drawable-hdpi-v4/abc_text_select_handle_middle_mtrl_dark.png"
+    },
+    {
+        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_textfield_activated_mtrl_alpha.9.png.flat",
+        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/drawable-mdpi-v4/abc_textfield_activated_mtrl_alpha.9.png"
     },
     {
         "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable_com_facebook_button_login_logo.xml.flat",
@@ -308,12 +312,12 @@
         "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/layout/select_dialog_singlechoice_material.xml"
     },
     {
-        "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_ic_star_black_48dp.png.flat",
-        "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/0ab84221d9ea433b67c9d8cb8d774c5d/res/drawable-xhdpi-v4/abc_ic_star_black_48dp.png"
-    },
-    {
         "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_textfield_activated_mtrl_alpha.9.png.flat",
         "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/0ab84221d9ea433b67c9d8cb8d774c5d/res/drawable-xhdpi-v4/abc_textfield_activated_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_ic_star_black_48dp.png.flat",
+        "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/0ab84221d9ea433b67c9d8cb8d774c5d/res/drawable-xhdpi-v4/abc_ic_star_black_48dp.png"
     },
     {
         "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/layout_com_facebook_tooltip_bubble.xml.flat",
@@ -336,12 +340,12 @@
         "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/0ab84221d9ea433b67c9d8cb8d774c5d/res/drawable/abc_ic_arrow_drop_right_black_24dp.xml"
     },
     {
-        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable_common_google_signin_btn_text_light_normal.xml.flat",
-        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/play-services-base-10.2.6.aar/250d2ab3704cea959ac4cea2350e29c8/res/drawable/common_google_signin_btn_text_light_normal.xml"
-    },
-    {
         "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/anim_abc_slide_in_bottom.xml.flat",
         "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/0ab84221d9ea433b67c9d8cb8d774c5d/res/anim/abc_slide_in_bottom.xml"
+    },
+    {
+        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable_common_google_signin_btn_text_light_normal.xml.flat",
+        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/play-services-base-10.2.6.aar/250d2ab3704cea959ac4cea2350e29c8/res/drawable/common_google_signin_btn_text_light_normal.xml"
     },
     {
         "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_messenger_bubble_large_white.png.flat",
@@ -356,12 +360,12 @@
         "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/0ab84221d9ea433b67c9d8cb8d774c5d/res/drawable-xhdpi-v4/abc_scrubber_primary_mtrl_alpha.9.png"
     },
     {
-        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable_abc_ic_arrow_drop_right_black_24dp.xml.flat",
-        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/drawable/abc_ic_arrow_drop_right_black_24dp.xml"
-    },
-    {
         "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_ic_star_half_black_36dp.png.flat",
         "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/drawable-mdpi-v4/abc_ic_star_half_black_36dp.png"
+    },
+    {
+        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable_abc_ic_arrow_drop_right_black_24dp.xml.flat",
+        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/drawable/abc_ic_arrow_drop_right_black_24dp.xml"
     },
     {
         "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/drawable_tooltip_frame_dark.xml.flat",
@@ -548,12 +552,12 @@
         "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/drawable-xxhdpi-v4/abc_textfield_activated_mtrl_alpha.9.png"
     },
     {
-        "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_textfield_activated_mtrl_alpha.9.png.flat",
-        "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/0ab84221d9ea433b67c9d8cb8d774c5d/res/drawable-hdpi-v4/abc_textfield_activated_mtrl_alpha.9.png"
-    },
-    {
         "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_list_pressed_holo_light.9.png.flat",
         "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/0ab84221d9ea433b67c9d8cb8d774c5d/res/drawable-mdpi-v4/abc_list_pressed_holo_light.9.png"
+    },
+    {
+        "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_textfield_activated_mtrl_alpha.9.png.flat",
+        "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/0ab84221d9ea433b67c9d8cb8d774c5d/res/drawable-hdpi-v4/abc_textfield_activated_mtrl_alpha.9.png"
     },
     {
         "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_common_google_signin_btn_icon_dark_normal_background.9.png.flat",
@@ -692,16 +696,16 @@
         "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/drawable-xhdpi-v4/abc_cab_background_top_mtrl_alpha.9.png"
     },
     {
-        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable_abc_ic_go_search_api_material.xml.flat",
-        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/drawable/abc_ic_go_search_api_material.xml"
+        "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_notification_bg_low_pressed.9.png.flat",
+        "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/support-compat-27.0.2.aar/070ffc83395789b94ed96d843a6ae01f/res/drawable-hdpi-v4/notification_bg_low_pressed.9.png"
     },
     {
         "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/color_abc_secondary_text_material_dark.xml.flat",
         "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/color/abc_secondary_text_material_dark.xml"
     },
     {
-        "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_notification_bg_low_pressed.9.png.flat",
-        "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/support-compat-27.0.2.aar/070ffc83395789b94ed96d843a6ae01f/res/drawable-hdpi-v4/notification_bg_low_pressed.9.png"
+        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable_abc_ic_go_search_api_material.xml.flat",
+        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/drawable/abc_ic_go_search_api_material.xml"
     },
     {
         "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable_abc_list_selector_background_transition_holo_light.xml.flat",
@@ -736,12 +740,12 @@
         "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/drawable-ldrtl-xxxhdpi-v17/abc_ic_menu_copy_mtrl_am_alpha.png"
     },
     {
-        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_ic_menu_cut_mtrl_alpha.png.flat",
-        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/drawable-xxxhdpi-v4/abc_ic_menu_cut_mtrl_alpha.png"
-    },
-    {
         "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_popup_background_mtrl_mult.9.png.flat",
         "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/drawable-hdpi-v4/abc_popup_background_mtrl_mult.9.png"
+    },
+    {
+        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_ic_menu_cut_mtrl_alpha.png.flat",
+        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/drawable-xxxhdpi-v4/abc_ic_menu_cut_mtrl_alpha.png"
     },
     {
         "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_messenger_bubble_large_blue.png.flat",
@@ -780,16 +784,16 @@
         "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/facebook-common-4.37.0.aar/43206989b1329cafcedbc387af191185/res/drawable-mdpi-v4/com_facebook_button_icon_blue.png"
     },
     {
-        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_ic_menu_copy_mtrl_am_alpha.png.flat",
-        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/drawable-xhdpi-v4/abc_ic_menu_copy_mtrl_am_alpha.png"
+        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_scrubber_control_off_mtrl_alpha.png.flat",
+        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/drawable-hdpi-v4/abc_scrubber_control_off_mtrl_alpha.png"
     },
     {
         "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable_abc_seekbar_tick_mark_material.xml.flat",
         "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/drawable/abc_seekbar_tick_mark_material.xml"
     },
     {
-        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_scrubber_control_off_mtrl_alpha.png.flat",
-        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/drawable-hdpi-v4/abc_scrubber_control_off_mtrl_alpha.png"
+        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_ic_menu_copy_mtrl_am_alpha.png.flat",
+        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/drawable-xhdpi-v4/abc_ic_menu_copy_mtrl_am_alpha.png"
     },
     {
         "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable_abc_vector_test.xml.flat",
@@ -1150,6 +1154,10 @@
     {
         "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_text_select_handle_right_mtrl_light.png.flat",
         "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/drawable-xhdpi-v4/abc_text_select_handle_right_mtrl_light.png"
+    },
+    {
+        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/layout_crop__layout_done_cancel.xml.flat",
+        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/android-crop-1.0.0.aar/31a6336255c5af57dbdbeff9a6ae2daa/res/layout/crop__layout_done_cancel.xml"
     },
     {
         "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/layout_abc_list_menu_item_layout.xml.flat",
@@ -1604,6 +1612,10 @@
         "source": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/res/xml/camera_provider_paths.xml"
     },
     {
+        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable_crop__texture.xml.flat",
+        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/android-crop-1.0.0.aar/31a6336255c5af57dbdbeff9a6ae2daa/res/drawable/crop__texture.xml"
+    },
+    {
         "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/color-v23_abc_btn_colored_text_material.xml.flat",
         "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/0ab84221d9ea433b67c9d8cb8d774c5d/res/color-v23/abc_btn_colored_text_material.xml"
     },
@@ -1714,6 +1726,10 @@
     {
         "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable_com_facebook_send_button_icon.xml.flat",
         "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/facebook-share-4.37.0.aar/1d8aaba5997bffade28c75cb59224fb7/res/drawable/com_facebook_send_button_icon.xml"
+    },
+    {
+        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-hdpi_crop__ic_cancel.png.flat",
+        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/android-crop-1.0.0.aar/31a6336255c5af57dbdbeff9a6ae2daa/res/drawable-hdpi/crop__ic_cancel.png"
     },
     {
         "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/drawable_common_google_signin_btn_text_light_focused.xml.flat",
@@ -2204,6 +2220,10 @@
         "source": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/res/drawable-mdpi/ic_launcher.png"
     },
     {
+        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable_crop__selectable_background.xml.flat",
+        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/android-crop-1.0.0.aar/31a6336255c5af57dbdbeff9a6ae2daa/res/drawable/crop__selectable_background.xml"
+    },
+    {
         "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/drawable_com_facebook_button_send_background.xml.flat",
         "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/facebook-share-4.37.0.aar/491750ecbf3321002507daf972f812b8/res/drawable/com_facebook_button_send_background.xml"
     },
@@ -2504,6 +2524,10 @@
         "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/facebook-messenger-4.37.0.aar/fcc0945500fa28d87fc9090c59498670/res/drawable-xhdpi-v4/messenger_button_send_round_shadow.png"
     },
     {
+        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-mdpi_crop__ic_cancel.png.flat",
+        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/android-crop-1.0.0.aar/31a6336255c5af57dbdbeff9a6ae2daa/res/drawable-mdpi/crop__ic_cancel.png"
+    },
+    {
         "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_cab_background_top_mtrl_alpha.9.png.flat",
         "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/0ab84221d9ea433b67c9d8cb8d774c5d/res/drawable-hdpi-v4/abc_cab_background_top_mtrl_alpha.9.png"
     },
@@ -2738,6 +2762,10 @@
     {
         "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_com_facebook_tooltip_blue_bottomnub.png.flat",
         "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/facebook-login-4.37.0.aar/40af56fb05994ad5140da40a2e9cb5df/res/drawable-hdpi-v4/com_facebook_tooltip_blue_bottomnub.png"
+    },
+    {
+        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-xhdpi_crop__divider.9.png.flat",
+        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/android-crop-1.0.0.aar/31a6336255c5af57dbdbeff9a6ae2daa/res/drawable-xhdpi/crop__divider.9.png"
     },
     {
         "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/color_com_facebook_button_text_color.xml.flat",
@@ -2984,6 +3012,10 @@
         "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/0ab84221d9ea433b67c9d8cb8d774c5d/res/drawable-xhdpi-v4/abc_list_pressed_holo_light.9.png"
     },
     {
+        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-xhdpi_crop__ic_cancel.png.flat",
+        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/android-crop-1.0.0.aar/31a6336255c5af57dbdbeff9a6ae2daa/res/drawable-xhdpi/crop__ic_cancel.png"
+    },
+    {
         "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_text_select_handle_middle_mtrl_light.png.flat",
         "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/0ab84221d9ea433b67c9d8cb8d774c5d/res/drawable-xxhdpi-v4/abc_text_select_handle_middle_mtrl_light.png"
     },
@@ -3192,6 +3224,10 @@
         "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/drawable-hdpi-v4/abc_text_select_handle_left_mtrl_light.png"
     },
     {
+        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/layout_crop__activity_crop.xml.flat",
+        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/android-crop-1.0.0.aar/31a6336255c5af57dbdbeff9a6ae2daa/res/layout/crop__activity_crop.xml"
+    },
+    {
         "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/color_abc_primary_text_disable_only_material_dark.xml.flat",
         "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/0ab84221d9ea433b67c9d8cb8d774c5d/res/color/abc_primary_text_disable_only_material_dark.xml"
     },
@@ -3290,6 +3326,10 @@
     {
         "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_ic_star_half_black_36dp.png.flat",
         "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/drawable-xxhdpi-v4/abc_ic_star_half_black_36dp.png"
+    },
+    {
+        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-mdpi_crop__divider.9.png.flat",
+        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/android-crop-1.0.0.aar/31a6336255c5af57dbdbeff9a6ae2daa/res/drawable-mdpi/crop__divider.9.png"
     },
     {
         "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_messenger_button_send_round_shadow.png.flat",
@@ -3418,6 +3458,10 @@
     {
         "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_btn_switch_to_on_mtrl_00012.9.png.flat",
         "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/drawable-hdpi-v4/abc_btn_switch_to_on_mtrl_00012.9.png"
+    },
+    {
+        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-xhdpi_crop__ic_done.png.flat",
+        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/android-crop-1.0.0.aar/31a6336255c5af57dbdbeff9a6ae2daa/res/drawable-xhdpi/crop__ic_done.png"
     },
     {
         "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_list_pressed_holo_light.9.png.flat",
@@ -3924,6 +3968,10 @@
         "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/drawable-xxhdpi-v4/abc_scrubber_control_to_pressed_mtrl_005.png"
     },
     {
+        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-v21_crop__selectable_background.xml.flat",
+        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/android-crop-1.0.0.aar/31a6336255c5af57dbdbeff9a6ae2daa/res/drawable-v21/crop__selectable_background.xml"
+    },
+    {
         "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/layout_abc_alert_dialog_material.xml.flat",
         "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/0ab84221d9ea433b67c9d8cb8d774c5d/res/layout/abc_alert_dialog_material.xml"
     },
@@ -3942,6 +3990,10 @@
     {
         "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/layout_abc_screen_content_include.xml.flat",
         "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/layout/abc_screen_content_include.xml"
+    },
+    {
+        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-mdpi_crop__ic_done.png.flat",
+        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/android-crop-1.0.0.aar/31a6336255c5af57dbdbeff9a6ae2daa/res/drawable-mdpi/crop__ic_done.png"
     },
     {
         "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_text_select_handle_middle_mtrl_light.png.flat",
@@ -4038,6 +4090,10 @@
     {
         "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/layout-v21_notification_template_icon_group.xml.flat",
         "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/support-compat-27.0.2.aar/070ffc83395789b94ed96d843a6ae01f/res/layout-v21/notification_template_icon_group.xml"
+    },
+    {
+        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-hdpi_crop__divider.9.png.flat",
+        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/android-crop-1.0.0.aar/31a6336255c5af57dbdbeff9a6ae2daa/res/drawable-hdpi/crop__divider.9.png"
     },
     {
         "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_scrubber_control_to_pressed_mtrl_000.png.flat",
@@ -4354,6 +4410,10 @@
     {
         "merged": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_com_facebook_button_send_icon_blue.png.flat",
         "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/facebook-share-4.37.0.aar/491750ecbf3321002507daf972f812b8/res/drawable-hdpi-v4/com_facebook_button_send_icon_blue.png"
+    },
+    {
+        "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-hdpi_crop__ic_done.png.flat",
+        "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/android-crop-1.0.0.aar/31a6336255c5af57dbdbeff9a6ae2daa/res/drawable-hdpi/crop__ic_done.png"
     },
     {
         "merged": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_com_facebook_profile_picture_blank_portrait.png.flat",

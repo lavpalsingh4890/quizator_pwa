@@ -22,6 +22,7 @@
     "@angular/platform-browser-dynamic": "5.2.11",
     "@ionic-native/camera": "^4.17.0",
     "@ionic-native/core": "~4.15.0",
+    "@ionic-native/crop": "^4.17.0",
     "@ionic-native/deeplinks": "^4.15.0",
     "@ionic-native/facebook": "^4.17.0",
     "@ionic-native/fcm": "^4.17.0",
@@ -35,6 +36,7 @@
     "@reactivex/rxjs": "^5.5.3",
     "angularfire2": "^5.0.0-rc.5-next",
     "cordova-plugin-camera": "4.0.3",
+    "cordova-plugin-crop": "0.4.0",
     "cordova-plugin-telerik-imagepicker": "2.2.2",
     "firebase": "^4.8.0",
     "ionic-angular": "3.9.2",
@@ -43,6 +45,7 @@
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.3.3",
     "sw-toolbox": "3.6.0",
+    "xlsx": "^0.14.1",
     "zone.js": "0.8.26"
   },
   "devDependencies": {
@@ -61,7 +64,8 @@
       "cordova-plugin-telerik-imagepicker": {
         "PHOTO_LIBRARY_USAGE_DESCRIPTION": "your usage message"
       },
-      "cordova-plugin-camera": {}
+      "cordova-plugin-camera": {},
+      "cordova-plugin-crop": {}
     }
   }
 }

@@ -1,5 +1,20 @@
 page-add-post {
+    #post_image_container{
+        
+        height: 50%;
+        width:100%;
+    }
     #post_image{
-        height: 250px;
+        height: 100%;
+        width:100%;
+        object-fit: contain;
+    }
+
+    #post_image_fab{
+        margin:10px;
+       
+    }
+    #post_detail{
+        margin-top:10px;
     }
 }

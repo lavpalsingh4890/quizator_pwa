@@ -25713,6 +25713,26 @@ page-account .age_group_list {
   display: block;
 }
 
+page-add-post #post_image_container {
+  height: 50%;
+  width: 100%;
+}
+
+page-add-post #post_image {
+  height: 100%;
+  width: 100%;
+  -o-object-fit: contain;
+  object-fit: contain;
+}
+
+page-add-post #post_image_fab {
+  margin: 10px;
+}
+
+page-add-post #post_detail {
+  margin-top: 10px;
+}
+
 page-basic-detail .body {
   height: 100%;
 }

@@ -136,6 +136,14 @@ module.exports = [
     "clobbers": [
       "CameraPopoverHandle"
     ]
+  },
+  {
+    "id": "cordova-plugin-crop.CropPlugin",
+    "file": "plugins/cordova-plugin-crop/www/crop.js",
+    "pluginId": "cordova-plugin-crop",
+    "clobbers": [
+      "plugins.crop"
+    ]
   }
 ];
 module.exports.metadata = 
@@ -155,7 +163,8 @@ module.exports.metadata =
   "cordova-plugin-googleplus": "5.3.2",
   "cordova-sqlite-storage": "2.5.1",
   "cordova-plugin-telerik-imagepicker": "2.2.2",
-  "cordova-plugin-camera": "4.0.3"
+  "cordova-plugin-camera": "4.0.3",
+  "cordova-plugin-crop": "0.3.1"
 };
 // BOTTOM OF METADATA
 });

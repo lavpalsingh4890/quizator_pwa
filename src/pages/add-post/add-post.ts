@@ -11,6 +11,9 @@ import { normalizeURL } from 'ionic-angular';
 import { CategoryPage } from '../category/category';
 
 import { DataProvider } from '../../providers/firebaseDataProvider';
+import { ImageUtil } from '../../providers/ImageUtil';
+import { Crop } from '@ionic-native/crop';
+import { Context } from '../../providers/context';
 
 @IonicPage()
 @Component({
@@ -21,7 +24,6 @@ export class AddPostPage {
   option: string = "Test";
   items = [
   ];
-  height = "100px";
   post_type = "quiz";
   question;
   description;
@@ -31,7 +33,8 @@ export class AddPostPage {
   data: any = {};
   isquiz: boolean = true;
   imageSrc;
-  constructor(private alertCtrl: AlertController, private toastCtrl: ToastController, private dataProvider: DataProvider, private platform: Platform, private camera: Camera, public server: ServerUtil, public navCtrl: NavController, public navParams: NavParams, public textUtil: TextUtilProvider, public http: Http) {
+  isImageUploading: boolean = false;
+  constructor(public cropService: Crop, private imageUtil: ImageUtil, private alertCtrl: AlertController, private toastCtrl: ToastController, private dataProvider: DataProvider, private platform: Platform, private camera: Camera, public server: ServerUtil, public navCtrl: NavController, public navParams: NavParams, public textUtil: TextUtilProvider, public http: Http) {
     this.image = "../assets/imgs/397.jpg";
 
     this.data.username = 'Love';
@@ -39,6 +42,11 @@ export class AddPostPage {
 
     this.http = http;
 
+  }
+
+  getInfo() {
+
+    this.dataProvider.getPath("files2/1543066535346.txt").subscribe(data => console.log(data));
   }
 
   addFile() {
@@ -73,7 +81,7 @@ export class AddPostPage {
       this.dataProvider.storeInfoToDatabase(res.metadata).then(() => {
         console.log(res);
         let toast = this.toastCtrl.create({
-          message: 'New File added!'+res,
+          message: 'New File added!' + res,
           duration: 3000
         });
         toast.present();
@@ -82,20 +90,23 @@ export class AddPostPage {
   }
 
   removeImage() {
+
     this.isImage = false;
     this.image = null;
+   
+    this.imageUtil.removeImage();
   }
   getImage() {
 
     let options: CameraOptions = {
       quality: 100,
-      destinationType: this.camera.DestinationType.FILE_URI,
+      destinationType: this.camera.DestinationType.DATA_URL,
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-      encodingType: this.camera.EncodingType.PNG,
-      targetWidth: 1000,
-      targetHeight: 1000,
+      targetWidth: 1024,
+      targetHeight: 768,
       saveToPhotoAlbum: true,
-      correctOrientation: true
+      correctOrientation: true,
+      mediaType: this.camera.MediaType.PICTURE
     };
     this.camera.getPicture(options).then(imageData => {
       this.isImage = true;
@@ -206,5 +217,12 @@ export class AddPostPage {
       "poll_count": 0
     };
     return post_opt;
+  }
+
+  test() {
+    if (!Context.get("isImageUploading")) {
+      Context.set("isImageUploading", true);
+      this.imageUtil.uploadImageToFirebase(this.image);
+    }
   }
 }

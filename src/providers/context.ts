@@ -7,6 +7,6 @@ export class Context{
         Context.contextObject.set(key,val);
    }
     public static get(key:string){
-        Context.contextObject.get(key);
+        return Context.contextObject.get(key);
     }
 }

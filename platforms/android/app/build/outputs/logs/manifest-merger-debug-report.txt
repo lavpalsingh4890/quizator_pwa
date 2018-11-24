@@ -11,10 +11,10 @@ INJECTED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/s
 	android:name
 		ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:50:127-180
 manifest
-ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:2:1-58:12
-INJECTED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:2:1-58:12
-INJECTED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:2:1-58:12
-INJECTED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:2:1-58:12
+ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:2:1-59:12
+INJECTED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:2:1-59:12
+INJECTED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:2:1-59:12
+INJECTED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:2:1-59:12
 MERGED from [com.google.firebase:firebase-core:10.2.6] /Users/lavpal/.gradle/caches/transforms-1/files-1.1/firebase-core-10.2.6.aar/19b43cdb3bf8e6f49eebfd807eb01893/AndroidManifest.xml:2:1-6:12
 MERGED from [com.facebook.android:facebook-android-sdk:4.37.0] /Users/lavpal/.gradle/caches/transforms-1/files-1.1/facebook-android-sdk-4.37.0.aar/c5c1bf25617864bbd2ec5906512cd47b/AndroidManifest.xml:21:1-31:12
 MERGED from [com.facebook.android:facebook-login:4.37.0] /Users/lavpal/.gradle/caches/transforms-1/files-1.1/facebook-login-4.37.0.aar/40af56fb05994ad5140da40a2e9cb5df/AndroidManifest.xml:21:1-31:12
@@ -47,12 +47,13 @@ MERGED from [com.android.support:animated-vector-drawable:27.0.2] /Users/lavpal/
 MERGED from [com.android.support:support-core-ui:27.0.2] /Users/lavpal/.gradle/caches/transforms-1/files-1.1/support-core-ui-27.0.2.aar/333c53c628045cd0654ffa0009b1f04e/AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:support-vector-drawable:27.0.2] /Users/lavpal/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-27.0.2.aar/5b4e4ece4c1266c9f7f8a97be4d8406a/AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:support-compat:27.0.2] /Users/lavpal/.gradle/caches/transforms-1/files-1.1/support-compat-27.0.2.aar/03812cef4ad7a5c898714a89eaa9ee51/AndroidManifest.xml:17:1-22:12
+MERGED from [com.soundcloud.android:android-crop:1.0.0] /Users/lavpal/.gradle/caches/transforms-1/files-1.1/android-crop-1.0.0.aar/31a6336255c5af57dbdbeff9a6ae2daa/AndroidManifest.xml:2:1-10:12
 MERGED from [com.android.support:multidex:1.0.2] /Users/lavpal/.gradle/caches/transforms-1/files-1.1/multidex-1.0.2.aar/038d76cf805003dfe4648386b77aaf34/AndroidManifest.xml:17:1-22:12
 MERGED from [:CordovaLib] /Users/lavpal/My Workspace/quizator-client/platforms/android/CordovaLib/build/intermediates/manifests/full/debug/AndroidManifest.xml:20:1-27:12
 MERGED from [android.arch.lifecycle:runtime:1.0.3] /Users/lavpal/.gradle/caches/transforms-1/files-1.1/runtime-1.0.3.aar/272bf0bbe6a842f7eeb9b77d6f97e687/AndroidManifest.xml:17:1-24:12
-INJECTED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:2:1-58:12
-INJECTED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:2:1-58:12
-INJECTED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:2:1-58:12
+INJECTED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:2:1-59:12
+INJECTED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:2:1-59:12
+INJECTED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:2:1-59:12
 	package
 		ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:2:98-133
 		INJECTED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml
@@ -94,7 +95,7 @@ MERGED from [com.google.firebase:firebase-iid:10.2.6] /Users/lavpal/.gradle/cach
 	android:name
 		ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:4:22-64
 application
-ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:5:5-53:19
+ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:5:5-54:19
 MERGED from [com.google.firebase:firebase-core:10.2.6] /Users/lavpal/.gradle/caches/transforms-1/files-1.1/firebase-core-10.2.6.aar/19b43cdb3bf8e6f49eebfd807eb01893/AndroidManifest.xml:5:5-20
 MERGED from [com.google.firebase:firebase-core:10.2.6] /Users/lavpal/.gradle/caches/transforms-1/files-1.1/firebase-core-10.2.6.aar/19b43cdb3bf8e6f49eebfd807eb01893/AndroidManifest.xml:5:5-20
 MERGED from [com.facebook.android:facebook-android-sdk:4.37.0] /Users/lavpal/.gradle/caches/transforms-1/files-1.1/facebook-android-sdk-4.37.0.aar/c5c1bf25617864bbd2ec5906512cd47b/AndroidManifest.xml:28:5-29:19
@@ -275,8 +276,12 @@ ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/
 		ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:49:113-157
 	android:name
 		ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:49:58-112
+activity#com.soundcloud.android.crop.CropImageActivity
+ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:53:9-82
+	android:name
+		ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:53:19-79
 uses-sdk
-ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:54:5-74
+ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:55:5-74
 MERGED from [com.google.firebase:firebase-core:10.2.6] /Users/lavpal/.gradle/caches/transforms-1/files-1.1/firebase-core-10.2.6.aar/19b43cdb3bf8e6f49eebfd807eb01893/AndroidManifest.xml:4:5-43
 MERGED from [com.google.firebase:firebase-core:10.2.6] /Users/lavpal/.gradle/caches/transforms-1/files-1.1/firebase-core-10.2.6.aar/19b43cdb3bf8e6f49eebfd807eb01893/AndroidManifest.xml:4:5-43
 MERGED from [com.facebook.android:facebook-android-sdk:4.37.0] /Users/lavpal/.gradle/caches/transforms-1/files-1.1/facebook-android-sdk-4.37.0.aar/c5c1bf25617864bbd2ec5906512cd47b/AndroidManifest.xml:24:5-26:41
@@ -341,6 +346,8 @@ MERGED from [com.android.support:support-vector-drawable:27.0.2] /Users/lavpal/.
 MERGED from [com.android.support:support-vector-drawable:27.0.2] /Users/lavpal/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-27.0.2.aar/5b4e4ece4c1266c9f7f8a97be4d8406a/AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:support-compat:27.0.2] /Users/lavpal/.gradle/caches/transforms-1/files-1.1/support-compat-27.0.2.aar/03812cef4ad7a5c898714a89eaa9ee51/AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:support-compat:27.0.2] /Users/lavpal/.gradle/caches/transforms-1/files-1.1/support-compat-27.0.2.aar/03812cef4ad7a5c898714a89eaa9ee51/AndroidManifest.xml:20:5-44
+MERGED from [com.soundcloud.android:android-crop:1.0.0] /Users/lavpal/.gradle/caches/transforms-1/files-1.1/android-crop-1.0.0.aar/31a6336255c5af57dbdbeff9a6ae2daa/AndroidManifest.xml:6:5-8:41
+MERGED from [com.soundcloud.android:android-crop:1.0.0] /Users/lavpal/.gradle/caches/transforms-1/files-1.1/android-crop-1.0.0.aar/31a6336255c5af57dbdbeff9a6ae2daa/AndroidManifest.xml:6:5-8:41
 MERGED from [com.android.support:multidex:1.0.2] /Users/lavpal/.gradle/caches/transforms-1/files-1.1/multidex-1.0.2.aar/038d76cf805003dfe4648386b77aaf34/AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:multidex:1.0.2] /Users/lavpal/.gradle/caches/transforms-1/files-1.1/multidex-1.0.2.aar/038d76cf805003dfe4648386b77aaf34/AndroidManifest.xml:20:5-43
 MERGED from [:CordovaLib] /Users/lavpal/My Workspace/quizator-client/platforms/android/CordovaLib/build/intermediates/manifests/full/debug/AndroidManifest.xml:25:5-44
@@ -348,21 +355,21 @@ MERGED from [:CordovaLib] /Users/lavpal/My Workspace/quizator-client/platforms/a
 MERGED from [android.arch.lifecycle:runtime:1.0.3] /Users/lavpal/.gradle/caches/transforms-1/files-1.1/runtime-1.0.3.aar/272bf0bbe6a842f7eeb9b77d6f97e687/AndroidManifest.xml:20:5-22:41
 MERGED from [android.arch.lifecycle:runtime:1.0.3] /Users/lavpal/.gradle/caches/transforms-1/files-1.1/runtime-1.0.3.aar/272bf0bbe6a842f7eeb9b77d6f97e687/AndroidManifest.xml:20:5-22:41
 	android:targetSdkVersion
-		ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:54:42-71
+		ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:55:42-71
 	android:minSdkVersion
-		ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:54:15-41
+		ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:55:15-41
 uses-permission#android.permission.GET_ACCOUNTS
-ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:55:5-71
+ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:56:5-71
 	android:name
-		ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:55:22-68
+		ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:56:22-68
 uses-permission#android.permission.USE_CREDENTIALS
-ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:56:5-74
+ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:57:5-74
 	android:name
-		ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:56:22-71
+		ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:57:22-71
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:57:5-81
+ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:58:5-81
 	android:name
-		ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:57:22-78
+		ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:58:22-78
 meta-data#android.support.FILE_PROVIDER_PATHS
 ADDED from /Users/lavpal/My Workspace/quizator-client/platforms/android/app/src/main/AndroidManifest.xml:51:13-123
 	android:resource

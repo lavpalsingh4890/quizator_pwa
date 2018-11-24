@@ -1,7 +1,8 @@
 <ion-content class="page-add-post">
     <div class="container">
-      <div id="post_image" >
-          <img *ngIf="isImage" src="{{image}}" />
+      <div id="post_image_container" >
+        
+          <img  id="post_image" *ngIf="isImage" src="{{image}}" />
       </div>
       <ion-row  *ngIf="isImage" class="btn" align-items-center >  
           <ion-col col-2>
@@ -16,14 +17,17 @@
         </ion-col>
       </ion-row>
   
-      <ion-fab *ngIf="!isImage" center middle>
-        <button (click)="getImage()"  ion-fab>
-          <ion-icon name="md-add"></ion-icon>
-        </button>
-      </ion-fab>
+      <ion-fab id="post_image_fab" *ngIf="!isImage" end middle>
+          <button (click)="getImage()"  ion-fab>
+            <ion-icon name="md-add"></ion-icon>
+          </button>
+        </ion-fab>
     </div>
+  <div id="post_detail"> 
+
+
     <ion-row *ngIf="isImage">
-        <button ion-button  (click)="addFile()"  full clear light>
+        <button ion-button  (click)="test()"  full clear light>
            Upload Image
           </button>
     </ion-row>
@@ -58,7 +62,7 @@
         </ion-item>
       </ion-col>
     </ion-row>
-  
+  </div>
     <div id="container">
       <ion-list >
   

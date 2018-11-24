@@ -51,6 +51,9 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { DataProvider } from '../providers/firebaseDataProvider';
 import { Context } from '../providers/context';
+import { Crop } from '@ionic-native/crop';
+import { ImageUtil } from '../providers/ImageUtil';
+import { FirebaseService } from '../providers/firebase.service';
 
 var firebaseConfig = {
   apiKey: "AIzaSyAh1EyYPn6Uhn8R9e9AT7wqfPA4aWp8IB4",
@@ -158,9 +161,12 @@ var firebaseConfig = {
     SessionUtilProvider,
     ServerUtil,
     ImagePicker,
+    FirebaseService,
     Camera,
     DataProvider,
     Context,
+    Crop,
+    ImageUtil,
    // { provide: LocationStrategy, useClass: PathLocationStrategy },
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
