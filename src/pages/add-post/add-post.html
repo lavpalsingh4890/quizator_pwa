@@ -1,27 +1,45 @@
 <ion-content class="page-add-post">
     <div class="container">
-      <img class="post_image" src="{{image}}" />
-      <ion-row class="btn" align-items-center>
-        <ion-col offset-10 col-2>
-          <button class="dp_button" margin ion-button icon-only clear>
-            <ion-icon name="heart"></ion-icon>
+      <div id="post_image" >
+          <img *ngIf="isImage" src="{{image}}" />
+      </div>
+      <ion-row  *ngIf="isImage" class="btn" align-items-center >  
+          <ion-col col-2>
+              <button class="dp_button" (click)="getImage()" margin ion-button icon-only clear>
+                <ion-icon name="add-circle"></ion-icon>
+              </button>
+            </ion-col>
+        <ion-col offset-7 col-2>
+          <button class="dp_button" (click)="removeImage()" margin ion-button icon-only clear>
+            <ion-icon name="close"></ion-icon>
           </button>
         </ion-col>
       </ion-row>
   
-      <ion-fab center middle>
-        <button *ngIf="!isImage" ion-fab>
+      <ion-fab *ngIf="!isImage" center middle>
+        <button (click)="getImage()"  ion-fab>
           <ion-icon name="md-add"></ion-icon>
         </button>
       </ion-fab>
     </div>
+    <ion-row *ngIf="isImage">
+        <button ion-button  (click)="addFile()"  full clear light>
+           Upload Image
+          </button>
+    </ion-row>
+    <ion-row *ngIf="!isImage">
+        <ion-item>
+            <ion-label floating>Add Media Url</ion-label>
+            <ion-input type="text"></ion-input>
+          </ion-item>
+    </ion-row>
     <ion-row radio-group [(ngModel)]="post_type">
   
       <ion-col>
         <ion-item>
           <ion-label>Quiz
           </ion-label>
-          <ion-radio value="quiz" (click)="isquiz=true;">
+          <ion-radio value="quiz" (click)="isquiz=true; post_type='quiz';">
           </ion-radio>
         </ion-item>
       </ion-col>
@@ -29,17 +47,26 @@
         <ion-item>
           <ion-label>Poll<ion-icon name="poll"></ion-icon>
           </ion-label>
-          <ion-radio value="poll" (click)="isquiz=false;"></ion-radio>
+          <ion-radio value="poll" (click)="isquiz=false; post_type='poll';"></ion-radio>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item>
+          <ion-label>Fact<ion-icon name="poll"></ion-icon>
+          </ion-label>
+          <ion-radio value="fact" (click)="isquiz=false; post_type='fact';"></ion-radio>
         </ion-item>
       </ion-col>
     </ion-row>
   
     <div id="container">
-      <ion-list>
+      <ion-list >
   
         <ion-item class="rounded" id="question">
           <ion-textarea rows="1" id="messageInputBox1" maxlength="500" placeholder="Add Question" (input)="change(1)" [(ngModel)]="question" required></ion-textarea>
         </ion-item>
+        <div *ngIf="post_type!='fact'" >
+          
         
         <div *ngFor="let item of items">
           <ion-row>
@@ -82,9 +109,16 @@
         <ion-item class="rounded" id="question">
             <ion-textarea rows="1" maxlength="500" id="messageInputBox2" placeholder="Add Description" (input)="change(2)" [(ngModel)]="description" required></ion-textarea>
           </ion-item>
+        </div>
       </ion-list>
   
+      <ion-row>
+          <button (click)="chooseCategory()" ion-button color="light" full>Select Category</button>
+      </ion-row>
       <ion-row justify-content-center>
+          <ion-col>
+              <button ion-button color="dark" round full (click)="submit()">Cancel</button>
+          </ion-col>
         <ion-col>
             <button ion-button color="dark" round full (click)="submit()">Draft</button>
         </ion-col>

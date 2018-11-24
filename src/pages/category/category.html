@@ -55,7 +55,7 @@
         </div>
       </ion-row>
       <ion-row>
-          <button ion-button color="light" round icon-end full>Add Category image
+          <button (click)="pickImage()" ion-button color="light" round icon-end full>Add Category image
             <ion-icon name="add"></ion-icon>
           </button>
         </ion-row>
@@ -66,5 +66,5 @@
   </ion-label>
   <button ion-button color="light" round full>Done
     </button>
-
+    <!-- <input type="file" (change)="onFileChanged($event)"> -->
 </ion-content>

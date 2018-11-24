@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { SubcategoryPage } from './subcategory/subcategory';
-
+import { ImagePicker,ImagePickerOptions } from '@ionic-native/image-picker';
 
 @IonicPage()
 @Component({
@@ -19,7 +19,7 @@ export class CategoryPage {
   is_error:boolean =false;
   error_text:string ="This is sample error";
   image = "../assets/imgs/397.jpg";
-  constructor(public navCtrl: NavController, public navParams: NavParams,public modalCtrl: ModalController) {
+  constructor(private imagePicker: ImagePicker,public navCtrl: NavController, public navParams: NavParams,public modalCtrl: ModalController) {
     if(SubcategoryPage.is_main_selected){
      this.main_category =SubcategoryPage.main_option.category;
      this.is_main_selected =true;
@@ -33,6 +33,16 @@ export class CategoryPage {
 
      }
 
+     pickImage(){
+      var options ={
+         
+      };
+      this.imagePicker.getPictures(options).then((results) => {
+        for (var i = 0; i < results.length; i++) {
+            console.log('Image URI: ' + results[i]);
+        }
+      }, (err) => { });
+     }
   clear(){
     SubcategoryPage.is_main_selected=false;
     SubcategoryPage.main_option =null;

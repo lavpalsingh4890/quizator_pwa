@@ -26,7 +26,7 @@ import { FCM } from '@ionic-native/fcm';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = CategoryPage;
+  rootPage: any = AddPostPage;
 
   pages: Array<{title: string, component: any}>;
 
@@ -42,6 +42,7 @@ export class MyApp {
   }
 
   initializeApp() {
+    if (this.platform.is('ios')){
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
@@ -60,6 +61,7 @@ export class MyApp {
   
     
     });
+  }
   }
 
   openPage(page) {

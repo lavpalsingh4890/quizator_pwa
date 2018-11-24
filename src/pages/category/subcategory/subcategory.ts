@@ -28,11 +28,16 @@ export class SubcategoryPage {
   public static main_option:Category;
   public static main_option2:Category;
   public static is_main_selected:boolean=false;
+
   constructor(public http: Http, public navCtrl: NavController, public navParams: NavParams, public server: ServerUtil) {
     this.type = navParams.data;
     console.log("type: " + this.type);
+
     this.initializeItems();
+    console.log("constructor");
   }
+
+
   log(item) {
     switch (this.type) {
       case 0:
@@ -64,15 +69,16 @@ back(){
   this.navCtrl.pop();
 }
   getSubCategory() {
+    var link;
     switch (this.type) {
       case  0:
-      var link = ENV.BASE_URL + ENV.CATEGORY_API + ENV.PARENT_CATEGORY_PARAMS;
+       link = ENV.BASE_URL + ENV.CATEGORY_API + ENV.PARENT_CATEGORY_PARAMS;
       break;
       case 1:
-        var link = ENV.BASE_URL + ENV.CATEGORY_API + "?type=subcategory&parent=" + SubcategoryPage.main_option2.id;
+         link = ENV.BASE_URL + ENV.CATEGORY_API + "?type=subcategory&parent=" + SubcategoryPage.main_option2.id;
         break;
       case 2:
-        var link = ENV.BASE_URL + ENV.CATEGORY_API + "?type=subcategory&parent=" + SubcategoryPage.sub_option1.id;
+         link = ENV.BASE_URL + ENV.CATEGORY_API + "?type=subcategory&parent=" + SubcategoryPage.sub_option1.id;
         break;
       default:
         break;

@@ -52,6 +52,12 @@
     },
     "cordova-sqlite-storage": {
       "PACKAGE_NAME": "com.technofriend.quizator"
+    },
+    "cordova-plugin-telerik-imagepicker": {
+      "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "cordova-plugin-camera": {
+      "PACKAGE_NAME": "com.technofriend.quizator"
     }
   },
   "dependent_plugins": {}

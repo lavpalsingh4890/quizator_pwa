@@ -1,6 +1,165 @@
 webpackJsonp([0],{
 
-/***/ 114:
+/***/ 108:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ServerUtil; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__environments_environment__ = __webpack_require__(325);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__(109);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var ServerUtil = /** @class */ (function () {
+    function ServerUtil(http) {
+        this.http = http;
+        this.data = {};
+        console.log(__WEBPACK_IMPORTED_MODULE_1__environments_environment__["a" /* environment */].BASE_URL);
+    }
+    ServerUtil.getHeaders = function () {
+        var headers = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* Headers */]();
+        //       headers.append('Origin' , 'http://127.0.0.1:8100');
+        headers.append('Access-Control-Allow-Origin', '*');
+        headers.append('Access-Control-Allow-Methods', 'POST, GET, PUT');
+        headers.append('Accept', 'application/json');
+        headers.append('content-type', 'application/json');
+        var options = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["d" /* RequestOptions */]({ headers: headers });
+        return options;
+    };
+    ServerUtil.prototype.getSubCategory = function (parent_id) {
+    };
+    ServerUtil.prototype.addPost = function (post_data) {
+        var _this = this;
+        var link = __WEBPACK_IMPORTED_MODULE_1__environments_environment__["a" /* environment */].BASE_URL + __WEBPACK_IMPORTED_MODULE_1__environments_environment__["a" /* environment */].POST_API;
+        var myData = JSON.stringify(post_data);
+        var headers = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* Headers */]();
+        //       headers.append('Origin' , 'http://127.0.0.1:8100');
+        headers.append('Access-Control-Allow-Origin', '*');
+        headers.append('Access-Control-Allow-Methods', 'POST, GET, PUT');
+        headers.append('Accept', 'application/json');
+        headers.append('content-type', 'application/json');
+        var options = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["d" /* RequestOptions */]({ headers: headers });
+        this.http.post(link, myData, options)
+            .subscribe(function (data) {
+            _this.data.response = data["_body"];
+            console.log(_this.data.response);
+        }, function (error) {
+            console.log("Oooops!");
+        });
+    };
+    ServerUtil = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Http */]])
+    ], ServerUtil);
+    return ServerUtil;
+}());
+
+//# sourceMappingURL=serverUtil.js.map
+
+/***/ }),
+
+/***/ 182:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CategoryPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__subcategory_subcategory__ = __webpack_require__(328);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_image_picker__ = __webpack_require__(329);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var CategoryPage = /** @class */ (function () {
+    function CategoryPage(imagePicker, navCtrl, navParams, modalCtrl) {
+        this.imagePicker = imagePicker;
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.modalCtrl = modalCtrl;
+        this.main_category = "Select Main Category";
+        this.sub_category1 = "Select Sub Category";
+        this.sub_category2 = "Select Sub Category";
+        this.is_main_selected = false;
+        this.is_sub_selected = false;
+        this.is_category_image = false;
+        this.is_error = false;
+        this.error_text = "This is sample error";
+        this.image = "../assets/imgs/397.jpg";
+        if (__WEBPACK_IMPORTED_MODULE_2__subcategory_subcategory__["a" /* SubcategoryPage */].is_main_selected) {
+            this.main_category = __WEBPACK_IMPORTED_MODULE_2__subcategory_subcategory__["a" /* SubcategoryPage */].main_option.category;
+            this.is_main_selected = true;
+        }
+        if (__WEBPACK_IMPORTED_MODULE_2__subcategory_subcategory__["a" /* SubcategoryPage */].is_sub1_selected) {
+            this.sub_category1 = __WEBPACK_IMPORTED_MODULE_2__subcategory_subcategory__["a" /* SubcategoryPage */].sub_option1.category;
+            this.is_sub_selected = true;
+            console.log(__WEBPACK_IMPORTED_MODULE_2__subcategory_subcategory__["a" /* SubcategoryPage */].main_option2.id + " " + __WEBPACK_IMPORTED_MODULE_2__subcategory_subcategory__["a" /* SubcategoryPage */].main_option2.category + " " + __WEBPACK_IMPORTED_MODULE_2__subcategory_subcategory__["a" /* SubcategoryPage */].sub_option1.id + " " + __WEBPACK_IMPORTED_MODULE_2__subcategory_subcategory__["a" /* SubcategoryPage */].sub_option1.category);
+        }
+    }
+    CategoryPage.prototype.pickImage = function () {
+        var options = {};
+        this.imagePicker.getPictures(options).then(function (results) {
+            for (var i = 0; i < results.length; i++) {
+                console.log('Image URI: ' + results[i]);
+            }
+        }, function (err) { });
+    };
+    CategoryPage.prototype.clear = function () {
+        __WEBPACK_IMPORTED_MODULE_2__subcategory_subcategory__["a" /* SubcategoryPage */].is_main_selected = false;
+        __WEBPACK_IMPORTED_MODULE_2__subcategory_subcategory__["a" /* SubcategoryPage */].main_option = null;
+        __WEBPACK_IMPORTED_MODULE_2__subcategory_subcategory__["a" /* SubcategoryPage */].is_sub1_selected = false;
+        __WEBPACK_IMPORTED_MODULE_2__subcategory_subcategory__["a" /* SubcategoryPage */].sub_option1 = null;
+        this.is_sub_selected = false;
+        this.is_main_selected = false;
+        this.main_category = "Select Main Category";
+        this.sub_category1 = "Select Sub Category";
+        this.sub_category2 = "Select Sub Category";
+    };
+    CategoryPage.prototype.ionViewDidLoad = function () {
+    };
+    CategoryPage.prototype.ioViewDidReload = function () {
+        console.log('ionViewDidResume CategoryPage');
+    };
+    CategoryPage.prototype.getMainCategory = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__subcategory_subcategory__["a" /* SubcategoryPage */]);
+    };
+    CategoryPage.prototype.getSubCategory = function (type) {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__subcategory_subcategory__["a" /* SubcategoryPage */], type);
+        console.log('ionViewDidLoad CategoryPage');
+    };
+    CategoryPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-category',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/category/category.html"*/'<ion-content padding class="page-category">\n  <ion-card>\n\n    <ion-card-header>\n      Choose Post Category\n      <button class="dp_button" (click)="clear()" ion-button clear end>clear\n       \n        </button>\n    </ion-card-header>\n\n    <ion-card-content>\n      <ion-row>\n        <button ion-button (click)="getSubCategory(0)" color="light" round icon-end full>{{main_category}}\n          <ion-icon name="search"></ion-icon>\n        </button>\n      </ion-row>\n      <ion-row *ngIf="is_main_selected">\n        <button ion-button (click)="getSubCategory(1)" color="light" round icon-end full>{{sub_category1}}\n          <ion-icon name="search"></ion-icon>\n        </button>\n      </ion-row>\n      <ion-row *ngIf="is_sub_selected">\n          <button ion-button (click)="getSubCategory(2)" color="light" round icon-end full>{{sub_category2}}\n            <ion-icon name="search"></ion-icon>\n          </button>\n        </ion-row>\n    </ion-card-content>\n  </ion-card>\n  <ion-card>\n\n    <ion-card-header>\n        <ion-item>\n            <ion-label floating>Enter new category name</ion-label>\n            <ion-input type="text"></ion-input>\n          </ion-item>\n    </ion-card-header>\n\n    <ion-card-content>\n       \n      <ion-row *ngIf="is_category_image">\n        <div class="container">\n          <img class="post_image" src="{{image}}" />\n          <ion-row class="btn" align-items-center>\n            <ion-col col-2>\n              <button class="dp_button" margin ion-button icon-only clear>\n                <ion-icon name="heart"></ion-icon>\n              </button>\n            </ion-col>\n            <ion-col offset-7 col-2>\n              <button class="dp_button" margin ion-button icon-only clear>\n                <ion-icon name="close"></ion-icon>\n              </button>\n            </ion-col>\n          </ion-row>\n        </div>\n      </ion-row>\n      <ion-row>\n          <button (click)="pickImage()" ion-button color="light" round icon-end full>Add Category image\n            <ion-icon name="add"></ion-icon>\n          </button>\n        </ion-row>\n    </ion-card-content>\n  </ion-card>\n  <ion-label *ngIf="is_error" class="error_text">\n    {{error_text}}\n  </ion-label>\n  <button ion-button color="light" round full>Done\n    </button>\n    <!-- <input type="file" (change)="onFileChanged($event)"> -->\n</ion-content>'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/category/category.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__ionic_native_image_picker__["a" /* ImagePicker */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* ModalController */]])
+    ], CategoryPage);
+    return CategoryPage;
+}());
+
+//# sourceMappingURL=category.js.map
+
+/***/ }),
+
+/***/ 236:
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -13,11 +172,11 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 114;
+webpackEmptyAsyncContext.id = 236;
 
 /***/ }),
 
-/***/ 155:
+/***/ 278:
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -30,17 +189,17 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 155;
+webpackEmptyAsyncContext.id = 278;
 
 /***/ }),
 
-/***/ 198:
+/***/ 321:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(14);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -81,10 +240,10 @@ var HomePage = /** @class */ (function () {
         ];
     }
     HomePage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-home',template:/*ion-inline-start:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/home/home.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-grid>\n      <ion-row>\n        <ion-col col-2>\n          <button ion-button menuToggle icon-only>\n            <ion-icon ios="ios-menu" md="md-menu"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n          <button ion-button icon-only>\n            <ion-icon ios="ios-notifications" md="md-notifications"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n\n          <button ion-button icon-only>\n            <ion-icon ios="ios-chatbubbles" md="md-chatbubbles"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n\n          <button ion-button icon-only>\n            <ion-icon ios="ios-shuffle" md="md-shuffle"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n\n          <button ion-button icon-only>\n            <ion-icon name="search"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n\n          <button ion-button icon-only>\n            <ion-icon ios="ios-person" md="md-person"></ion-icon>\n          </button>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n\n\n      </ion-row>\n    </ion-grid>\n\n  </ion-navbar>\n</ion-header>\n\n<ion-content>\n  <ion-list>\n    <ion-item *ngFor="let item of items" >\n      <ion-card>\n        <img src="assets/imgs/397.jpg" />\n        <ion-card-content no-padding>\n           <ion-card-title>\n            Nine Inch Nails Live\n          </ion-card-title> \n         \n          <ion-grid>\n            <ion-row>\n            <ion-col col-6 *ngFor="let item of items"  text-wrap no-padding >\n                <p class="item-text-wrap" no-padding>\n                    The most popular industrial group ever, and largely\n                    responsible for bringing the music to a mass audience.\n                  </p>\n            </ion-col>\n         \n            </ion-row>\n          </ion-grid>\n         </ion-card-content> \n        <ion-row no-padding>\n            <ion-col>\n              <button ion-button clear small color="danger" icon-start>\n                <ion-icon name=\'star\'></ion-icon>\n                Favorite\n              </button>\n            </ion-col>\n            <ion-col text-center>\n              <button ion-button clear small color="danger" icon-start>\n                <ion-icon name=\'musical-notes\'></ion-icon>\n                Listen\n              </button>\n            </ion-col>\n            <ion-col text-right>\n              <button ion-button clear small color="danger" icon-start>\n                <ion-icon name=\'share-alt\'></ion-icon>\n                Share\n              </button>\n            </ion-col>\n          </ion-row>\n\n\n      </ion-card>\n    </ion-item>\n  </ion-list>\n</ion-content>'/*ion-inline-end:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/home/home.html"*/
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-home',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/home/home.html"*/'<ion-header>\n    <ion-navbar>\n      <ion-grid>\n        <ion-row>\n          <ion-col col-2>\n            <button ion-button menuToggle icon-only>\n              <ion-icon ios="ios-menu" md="md-menu"></ion-icon>\n            </button>\n          </ion-col>\n          <ion-col>\n            <button ion-button icon-only>\n              <ion-icon ios="ios-notifications" md="md-notifications"></ion-icon>\n            </button>\n          </ion-col>\n          <ion-col>\n  \n            <button ion-button icon-only>\n              <ion-icon ios="ios-chatbubbles" md="md-chatbubbles"></ion-icon>\n            </button>\n          </ion-col>\n          <ion-col>\n  \n            <button ion-button icon-only>\n              <ion-icon ios="ios-shuffle" md="md-shuffle"></ion-icon>\n            </button>\n          </ion-col>\n          <ion-col>\n  \n            <button ion-button icon-only>\n              <ion-icon name="search"></ion-icon>\n            </button>\n          </ion-col>\n          <ion-col>\n  \n            <button ion-button icon-only>\n              <ion-icon ios="ios-person" md="md-person"></ion-icon>\n            </button>\n          </ion-col>\n        </ion-row>\n        <ion-row>\n  \n  \n        </ion-row>\n      </ion-grid>\n  \n    </ion-navbar>\n  </ion-header>\n  \n  <ion-content>\n    <ion-list>\n      <ion-item *ngFor="let item of items" >\n        <ion-card>\n          <img src="assets/imgs/397.jpg" />\n          <ion-card-content no-padding>\n             <ion-card-title>\n              Nine Inch Nails Live\n            </ion-card-title> \n           \n            <ion-grid>\n              <ion-row>\n              <ion-col col-6 *ngFor="let item of items"  text-wrap no-padding >\n                  <p class="item-text-wrap" no-padding>\n                      The most popular industrial group ever, and largely\n                      responsible for bringing the music to a mass audience.\n                    </p>\n              </ion-col>\n           \n              </ion-row>\n            </ion-grid>\n           </ion-card-content> \n          <ion-row no-padding>\n              <ion-col>\n                <button ion-button clear small color="danger" icon-start>\n                  <ion-icon name=\'star\'></ion-icon>\n                  Favorite\n                </button>\n              </ion-col>\n              <ion-col text-center>\n                <button ion-button clear small color="danger" icon-start>\n                  <ion-icon name=\'musical-notes\'></ion-icon>\n                  Listen\n                </button>\n              </ion-col>\n              <ion-col text-right>\n                <button ion-button clear small color="danger" icon-start>\n                  <ion-icon name=\'share-alt\'></ion-icon>\n                  Share\n                </button>\n              </ion-col>\n            </ion-row>\n  \n  \n        </ion-card>\n      </ion-item>\n    </ion-list>\n  </ion-content>'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/home/home.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */]])
     ], HomePage);
     return HomePage;
 }());
@@ -93,13 +252,13 @@ var HomePage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 199:
+/***/ 322:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ListPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(14);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -137,10 +296,10 @@ var ListPage = /** @class */ (function () {
         });
     };
     ListPage = ListPage_1 = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-list',template:/*ion-inline-start:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/list/list.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>List</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content>\n  <ion-list>\n    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">\n      <ion-icon [name]="item.icon" item-start></ion-icon>\n      {{item.title}}\n      <div class="item-note" item-end>\n        {{item.note}}\n      </div>\n    </button>\n  </ion-list>\n  <div *ngIf="selectedItem" padding>\n    You navigated here from <b>{{selectedItem.title}}</b>\n  </div>\n</ion-content>\n'/*ion-inline-end:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/list/list.html"*/
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-list',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/list/list.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>List</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content>\n  <ion-list>\n    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">\n      <ion-icon [name]="item.icon" item-start></ion-icon>\n      {{item.title}}\n      <div class="item-note" item-end>\n        {{item.note}}\n      </div>\n    </button>\n  </ion-list>\n  <div *ngIf="selectedItem" padding>\n    You navigated here from <b>{{selectedItem.title}}</b>\n  </div>\n</ion-content>\n'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/list/list.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]])
     ], ListPage);
     return ListPage;
     var ListPage_1;
@@ -150,13 +309,13 @@ var ListPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 200:
+/***/ 323:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return InterestPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(14);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -203,10 +362,10 @@ var InterestPage = /** @class */ (function () {
         console.log('ionViewDidLoad InterestPage');
     };
     InterestPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-interest',template:/*ion-inline-start:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/interest/interest.html"*/'<ion-header>\n\n  <ion-navbar>\n    <ion-title>Select Categories you like</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n<ion-content padding>\n  <ion-grid>\n    <ion-row>\n      <ion-col *ngFor="let item of items" col-auto>\n        <button ion-button (click)="validation(item)" color={{item.color}} round> {{item.data}}</button>\n      </ion-col>\n    </ion-row>\n    <ion-row>\n      <ion-col>\n        <h5 *ngIf="selcted_category_string">\n          Selected Categories:\n        </h5>\n        <h6>\n            {{selcted_category_string}}\n        </h6>\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n  <ion-fab right bottom>\n      <button  ion-fab>\n        <ion-icon name="md-add"></ion-icon>\n      </button>\n    </ion-fab>\n</ion-content>'/*ion-inline-end:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/interest/interest.html"*/,
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-interest',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/interest/interest.html"*/'<ion-header>\n\n  <ion-navbar>\n    <ion-title>Select Categories you like</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n<ion-content padding>\n  <ion-grid>\n    <ion-row>\n      <ion-col *ngFor="let item of items" col-auto>\n        <button ion-button (click)="validation(item)" color={{item.color}} round> {{item.data}}</button>\n      </ion-col>\n    </ion-row>\n    <ion-row>\n      <ion-col>\n        <h5 *ngIf="selcted_category_string">\n          Selected Categories:\n        </h5>\n        <h6>\n            {{selcted_category_string}}\n        </h6>\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n  <ion-fab right bottom>\n      <button  ion-fab>\n        <ion-icon name="md-add"></ion-icon>\n      </button>\n    </ion-fab>\n</ion-content>'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/interest/interest.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]])
     ], InterestPage);
     return InterestPage;
 }());
@@ -215,15 +374,19 @@ var InterestPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 201:
+/***/ 324:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AddPostPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_text_util_text_util__ = __webpack_require__(202);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(203);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_server_util_serverUtil__ = __webpack_require__(108);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_text_util_text_util__ = __webpack_require__(326);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(109);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_camera__ = __webpack_require__(327);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__category_category__ = __webpack_require__(182);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__providers_firebaseDataProvider__ = __webpack_require__(330);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -237,15 +400,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
+
+
+
 var AddPostPage = /** @class */ (function () {
-    function AddPostPage(navCtrl, navParams, textUtil, http) {
+    function AddPostPage(alertCtrl, toastCtrl, dataProvider, platform, camera, server, navCtrl, navParams, textUtil, http) {
+        this.alertCtrl = alertCtrl;
+        this.toastCtrl = toastCtrl;
+        this.dataProvider = dataProvider;
+        this.platform = platform;
+        this.camera = camera;
+        this.server = server;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.textUtil = textUtil;
         this.http = http;
         this.option = "Test";
         this.items = [];
+        this.height = "100px";
         this.post_type = "quiz";
+        this.isImage = false;
         this.data = {};
         this.isquiz = true;
         this.image = "../assets/imgs/397.jpg";
@@ -253,6 +429,72 @@ var AddPostPage = /** @class */ (function () {
         this.data.response = '';
         this.http = http;
     }
+    AddPostPage.prototype.addFile = function () {
+        var _this = this;
+        var inputAlert = this.alertCtrl.create({
+            title: 'Store new information',
+            inputs: [
+                {
+                    name: 'info',
+                    placeholder: 'Lorem ipsum dolor...'
+                }
+            ],
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel'
+                },
+                {
+                    text: 'Store',
+                    handler: function (data) {
+                        _this.uploadInformation(data.info);
+                    }
+                }
+            ]
+        });
+        inputAlert.present();
+    };
+    AddPostPage.prototype.uploadInformation = function (text) {
+        var _this = this;
+        var upload = this.dataProvider.uploadToStorage(text);
+        // Perhaps this syntax might change, it's no error here!
+        upload.then().then(function (res) {
+            _this.dataProvider.storeInfoToDatabase(res.metadata).then(function () {
+                console.log(res);
+                var toast = _this.toastCtrl.create({
+                    message: 'New File added!' + res,
+                    duration: 3000
+                });
+                toast.present();
+            });
+        });
+    };
+    AddPostPage.prototype.removeImage = function () {
+        this.isImage = false;
+        this.image = null;
+    };
+    AddPostPage.prototype.getImage = function () {
+        var _this = this;
+        var options = {
+            quality: 100,
+            destinationType: this.camera.DestinationType.FILE_URI,
+            sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+            encodingType: this.camera.EncodingType.PNG,
+            targetWidth: 1000,
+            targetHeight: 1000,
+            saveToPhotoAlbum: true,
+            correctOrientation: true
+        };
+        this.camera.getPicture(options).then(function (imageData) {
+            _this.isImage = true;
+            if (_this.platform.is('ios'))
+                _this.image = Object(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* normalizeURL */])(imageData);
+            else
+                _this.image = "data:image/jpeg;base64," + imageData;
+        }, function (error) {
+            console.log('ERROR -> ' + JSON.stringify(error));
+        });
+    };
     AddPostPage.prototype.submit = function () {
         var _this = this;
         var link = 'http://localhost/api.php';
@@ -264,6 +506,9 @@ var AddPostPage = /** @class */ (function () {
         }, function (error) {
             console.log("Oooops!");
         });
+    };
+    AddPostPage.prototype.chooseCategory = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_6__category_category__["a" /* CategoryPage */]);
     };
     AddPostPage.prototype.addOption = function () {
         if (this.option.length != 0) {
@@ -292,9 +537,6 @@ var AddPostPage = /** @class */ (function () {
     AddPostPage.prototype.change = function (index) {
         this.textUtil.change(index);
     };
-    AddPostPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad AddPostPage');
-    };
     AddPostPage.prototype.post = function () {
         var post_type = this.post_type;
         var question = this.question;
@@ -312,11 +554,43 @@ var AddPostPage = /** @class */ (function () {
         };
         console.log(post);
     };
+    AddPostPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad AddPostPage');
+        var opt1 = this.createOption(1, "option1", true);
+        var opt2 = this.createOption(2, "option2", false);
+        var opt3 = this.createOption(3, "option3", false);
+        var opts = [opt1, opt2, opt3];
+        var post = this.createPost("My title", "My description", "My media path", 1, 1, "My post category", 1, opts);
+        // this.server.addPost(post);
+        console.log(post);
+    };
+    AddPostPage.prototype.createPost = function (title, description, media_path, post_type, post_category_id, post_category, blogger_id, options) {
+        var post_data = {
+            "title": title,
+            "options": options,
+            "post_type": post_type,
+            "post_desc": description,
+            "post_category_id": post_category_id,
+            "category_name": post_category,
+            "post_media_url": media_path,
+            "blogger_id": blogger_id
+        };
+        return post_data;
+    };
+    AddPostPage.prototype.createOption = function (id, data, is_true) {
+        var post_opt = {
+            "post_option": data,
+            "id": id,
+            "is_correct": is_true,
+            "poll_count": 0
+        };
+        return post_opt;
+    };
     AddPostPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-add-post',template:/*ion-inline-start:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/add-post/add-post.html"*/'<ion-content class="page-add-post">\n  <div class="container">\n    <img class="post_image" src="{{image}}" />\n    <ion-row class="btn" align-items-center>\n      <ion-col offset-10 col-2>\n        <button class="dp_button" margin ion-button icon-only clear>\n          <ion-icon name="heart"></ion-icon>\n        </button>\n      </ion-col>\n    </ion-row>\n\n    <ion-fab center middle>\n      <button *ngIf="!isImage" ion-fab>\n        <ion-icon name="md-add"></ion-icon>\n      </button>\n    </ion-fab>\n  </div>\n  <ion-row radio-group [(ngModel)]="post_type">\n\n    <ion-col>\n      <ion-item>\n        <ion-label>Quiz\n        </ion-label>\n        <ion-radio value="quiz" (click)="isquiz=true;">\n        </ion-radio>\n      </ion-item>\n    </ion-col>\n    <ion-col>\n      <ion-item>\n        <ion-label>Poll<ion-icon name="poll"></ion-icon>\n        </ion-label>\n        <ion-radio value="poll" (click)="isquiz=false;"></ion-radio>\n      </ion-item>\n    </ion-col>\n  </ion-row>\n\n  <div id="container">\n    <ion-list>\n\n      <ion-item class="rounded" id="question">\n        <ion-textarea rows="1" id="messageInputBox1" maxlength="500" placeholder="Add Question" (input)="change(1)" [(ngModel)]="question" required></ion-textarea>\n      </ion-item>\n      \n      <div *ngFor="let item of items">\n        <ion-row>\n          <ion-col col-8>\n            <ion-item>\n              <ion-textarea rows="1" id="messageInputBox" value={{item}} (input)="change()" required></ion-textarea>\n            </ion-item>\n          </ion-col>\n          <ion-col  col-2>\n          \n          </ion-col>\n          <ion-col col-2>\n            <button ion-button icon-only (click)="deleteOption(item)">\n              <ion-icon name="close"></ion-icon>\n            </button>\n          </ion-col>\n        </ion-row>\n      </div>\n\n      <ion-item class="rounded" id="option">\n        <ion-textarea rows="1" maxlength="50" id="messageInputBox" placeholder="Add Option"  [(ngModel)]="option"\n          required></ion-textarea>\n      </ion-item>\n     \n      <ion-item>\n        <button ion-button icon-start full (click)="addOption()">\n          <ion-icon name="md-add"></ion-icon>\n          Add Option\n        </button>\n      </ion-item>\n    \n        <ion-row *ngIf="items.length>1&&isquiz" justify-content-center> \n          <ion-col>\n              <ion-select [(ngModel)]="correct_option" multiple="false" placeholder="Choose correct option" style="width:100%">  \n                  <ion-option *ngFor="let item of items" value="{{item}}" selected="{{item}}">{{item}}</ion-option>\n              </ion-select>\n          </ion-col>\n        </ion-row>\n      \n      <ion-item class="rounded" id="question">\n          <ion-textarea rows="1" maxlength="500" id="messageInputBox2" placeholder="Add Description" (input)="change(2)" [(ngModel)]="description" required></ion-textarea>\n        </ion-item>\n    </ion-list>\n\n    <ion-row justify-content-center>\n      <ion-col>\n          <button ion-button color="dark" round full (click)="submit()">Draft</button>\n      </ion-col>\n      <ion-col>\n          <button ion-button color="dark" round full (click)="post()">Post</button>\n      </ion-col>\n    </ion-row>\n\n  </div>\n\n\n</ion-content>'/*ion-inline-end:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/add-post/add-post.html"*/,
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-add-post',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/add-post/add-post.html"*/'<ion-content class="page-add-post">\n    <div class="container">\n      <div id="post_image" >\n          <img *ngIf="isImage" src="{{image}}" />\n      </div>\n      <ion-row  *ngIf="isImage" class="btn" align-items-center >  \n          <ion-col col-2>\n              <button class="dp_button" (click)="getImage()" margin ion-button icon-only clear>\n                <ion-icon name="add-circle"></ion-icon>\n              </button>\n            </ion-col>\n        <ion-col offset-7 col-2>\n          <button class="dp_button" (click)="removeImage()" margin ion-button icon-only clear>\n            <ion-icon name="close"></ion-icon>\n          </button>\n        </ion-col>\n      </ion-row>\n  \n      <ion-fab *ngIf="!isImage" center middle>\n        <button (click)="getImage()"  ion-fab>\n          <ion-icon name="md-add"></ion-icon>\n        </button>\n      </ion-fab>\n    </div>\n    <ion-row *ngIf="isImage">\n        <button ion-button  (click)="addFile()"  full clear light>\n           Upload Image\n          </button>\n    </ion-row>\n    <ion-row *ngIf="!isImage">\n        <ion-item>\n            <ion-label floating>Add Media Url</ion-label>\n            <ion-input type="text"></ion-input>\n          </ion-item>\n    </ion-row>\n    <ion-row radio-group [(ngModel)]="post_type">\n  \n      <ion-col>\n        <ion-item>\n          <ion-label>Quiz\n          </ion-label>\n          <ion-radio value="quiz" (click)="isquiz=true; post_type=\'quiz\';">\n          </ion-radio>\n        </ion-item>\n      </ion-col>\n      <ion-col>\n        <ion-item>\n          <ion-label>Poll<ion-icon name="poll"></ion-icon>\n          </ion-label>\n          <ion-radio value="poll" (click)="isquiz=false; post_type=\'poll\';"></ion-radio>\n        </ion-item>\n      </ion-col>\n      <ion-col>\n        <ion-item>\n          <ion-label>Fact<ion-icon name="poll"></ion-icon>\n          </ion-label>\n          <ion-radio value="fact" (click)="isquiz=false; post_type=\'fact\';"></ion-radio>\n        </ion-item>\n      </ion-col>\n    </ion-row>\n  \n    <div id="container">\n      <ion-list >\n  \n        <ion-item class="rounded" id="question">\n          <ion-textarea rows="1" id="messageInputBox1" maxlength="500" placeholder="Add Question" (input)="change(1)" [(ngModel)]="question" required></ion-textarea>\n        </ion-item>\n        <div *ngIf="post_type!=\'fact\'" >\n          \n        \n        <div *ngFor="let item of items">\n          <ion-row>\n            <ion-col col-8>\n              <ion-item>\n                <ion-textarea rows="1" id="messageInputBox" value={{item}} (input)="change()" required></ion-textarea>\n              </ion-item>\n            </ion-col>\n            <ion-col  col-2>\n            \n            </ion-col>\n            <ion-col col-2>\n              <button ion-button icon-only (click)="deleteOption(item)">\n                <ion-icon name="close"></ion-icon>\n              </button>\n            </ion-col>\n          </ion-row>\n        </div>\n  \n        <ion-item class="rounded" id="option">\n          <ion-textarea rows="1" maxlength="50" id="messageInputBox" placeholder="Add Option"  [(ngModel)]="option"\n            required></ion-textarea>\n        </ion-item>\n       \n        <ion-item>\n          <button ion-button icon-start full (click)="addOption()">\n            <ion-icon name="md-add"></ion-icon>\n            Add Option\n          </button>\n        </ion-item>\n      \n          <ion-row *ngIf="items.length>1&&isquiz" justify-content-center> \n            <ion-col>\n                <ion-select [(ngModel)]="correct_option" multiple="false" placeholder="Choose correct option" style="width:100%">  \n                    <ion-option *ngFor="let item of items" value="{{item}}" selected="{{item}}">{{item}}</ion-option>\n                </ion-select>\n            </ion-col>\n          </ion-row>\n        \n        <ion-item class="rounded" id="question">\n            <ion-textarea rows="1" maxlength="500" id="messageInputBox2" placeholder="Add Description" (input)="change(2)" [(ngModel)]="description" required></ion-textarea>\n          </ion-item>\n        </div>\n      </ion-list>\n  \n      <ion-row>\n          <button (click)="chooseCategory()" ion-button color="light" full>Select Category</button>\n      </ion-row>\n      <ion-row justify-content-center>\n          <ion-col>\n              <button ion-button color="dark" round full (click)="submit()">Cancel</button>\n          </ion-col>\n        <ion-col>\n            <button ion-button color="dark" round full (click)="submit()">Draft</button>\n        </ion-col>\n        <ion-col>\n            <button ion-button color="dark" round full (click)="post()">Post</button>\n        </ion-col>\n      </ion-row>\n  \n    </div>\n  \n  \n  </ion-content>'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/add-post/add-post.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_text_util_text_util__["a" /* TextUtilProvider */], __WEBPACK_IMPORTED_MODULE_3__angular_http__["a" /* Http */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */], __WEBPACK_IMPORTED_MODULE_7__providers_firebaseDataProvider__["a" /* DataProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* Platform */], __WEBPACK_IMPORTED_MODULE_5__ionic_native_camera__["a" /* Camera */], __WEBPACK_IMPORTED_MODULE_2__providers_server_util_serverUtil__["a" /* ServerUtil */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */], __WEBPACK_IMPORTED_MODULE_3__providers_text_util_text_util__["a" /* TextUtilProvider */], __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */]])
     ], AddPostPage);
     return AddPostPage;
 }());
@@ -325,7 +599,22 @@ var AddPostPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 202:
+/***/ 325:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return environment; });
+var environment = {
+    BASE_URL: "http://localhost:8080/",
+    POST_API: "post",
+    CATEGORY_API: "category",
+    PARENT_CATEGORY_PARAMS: "?type=main&parent=0"
+};
+//# sourceMappingURL=environment.js.map
+
+/***/ }),
+
+/***/ 326:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -362,7 +651,7 @@ var TextUtilProvider = /** @class */ (function () {
         textarea.style.height = scroll_height + "px";
     };
     TextUtilProvider = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
         __metadata("design:paramtypes", [])
     ], TextUtilProvider);
     return TextUtilProvider;
@@ -372,16 +661,17 @@ var TextUtilProvider = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 204:
+/***/ 328:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WelcomePage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SubcategoryPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_storage__ = __webpack_require__(102);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_storage_util_storage_util__ = __webpack_require__(206);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_session_util_session_util__ = __webpack_require__(208);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__category__ = __webpack_require__(182);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_server_util_serverUtil__ = __webpack_require__(108);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__environments_environment__ = __webpack_require__(325);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_http__ = __webpack_require__(109);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -396,69 +686,189 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-// @IonicPage({
-//   name: 'welcome'
-// })
-var WelcomePage = /** @class */ (function () {
-    function WelcomePage(navCtrl, st, navParams, storage, sp) {
+
+var SubcategoryPage = /** @class */ (function () {
+    function SubcategoryPage(http, navCtrl, navParams, server) {
+        this.http = http;
         this.navCtrl = navCtrl;
-        this.st = st;
         this.navParams = navParams;
-        this.storage = storage;
-        this.sp = sp;
-        this.slideIndex = 0;
-        this.slides = [
-            {
-                title: 'Dream\'s Adventure',
-                imageUrl: 'assets/imgs/397.jpg',
-                description: 'Take a look at our amazing options',
-            },
-            {
-                title: 'For the Weekend',
-                imageUrl: 'assets/imgs/1683.jpg',
-                description: 'Take a look at our amazing options',
-            },
-            {
-                title: 'Family Time',
-                imageUrl: 'assets/imgs/8281.jpg',
-                description: 'Take a look at our amazing options',
-            }
-        ];
-        this.sp.initialize_session();
-        this.sp.check_login_state();
+        this.server = server;
+        this.searchQuery = '';
+        this.data = {};
+        this.type = navParams.data;
+        console.log("type: " + this.type);
+        this.initializeItems();
+        console.log("constructor");
     }
-    WelcomePage.prototype.ionViewDidLoad = function () {
-        //this.storage.store("love","pal");
-        console.log('ionViewDidLoad WelcomePage');
+    SubcategoryPage_1 = SubcategoryPage;
+    SubcategoryPage.prototype.log = function (item) {
+        switch (this.type) {
+            case 0:
+                SubcategoryPage_1.main_option = item;
+                SubcategoryPage_1.main_option2 = item;
+                SubcategoryPage_1.is_main_selected = true;
+                SubcategoryPage_1.sub_option1 = null;
+                SubcategoryPage_1.is_sub1_selected = false;
+                SubcategoryPage_1.sub_option2 = null;
+                SubcategoryPage_1.is_sub2_selected = false;
+                break;
+            case 1:
+                SubcategoryPage_1.sub_option1 = item;
+                SubcategoryPage_1.is_sub1_selected = true;
+                break;
+            case 2:
+                SubcategoryPage_1.main_option2 = SubcategoryPage_1.sub_option1;
+                SubcategoryPage_1.is_main_selected = true;
+                SubcategoryPage_1.sub_option1 = item;
+                SubcategoryPage_1.is_sub1_selected = true;
+                break;
+            default:
+                break;
+        }
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__category__["a" /* CategoryPage */]);
     };
-    WelcomePage.prototype.goToApp = function () {
-        console.log('Go to App clicked');
+    SubcategoryPage.prototype.back = function () {
+        this.navCtrl.pop();
     };
-    WelcomePage.prototype.skip = function () {
+    SubcategoryPage.prototype.getSubCategory = function () {
+        var _this = this;
+        var link;
+        switch (this.type) {
+            case 0:
+                link = __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].BASE_URL + __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].CATEGORY_API + __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].PARENT_CATEGORY_PARAMS;
+                break;
+            case 1:
+                link = __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].BASE_URL + __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].CATEGORY_API + "?type=subcategory&parent=" + SubcategoryPage_1.main_option2.id;
+                break;
+            case 2:
+                link = __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].BASE_URL + __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].CATEGORY_API + "?type=subcategory&parent=" + SubcategoryPage_1.sub_option1.id;
+                break;
+            default:
+                break;
+        }
+        this.http.get(link, __WEBPACK_IMPORTED_MODULE_3__providers_server_util_serverUtil__["a" /* ServerUtil */].getHeaders())
+            .subscribe(function (d) {
+            _this.data.response = d["_body"];
+            console.log(_this.data.response);
+            var data_array = JSON.stringify(d.json());
+            var cat = JSON.parse(data_array);
+            _this.category_data = cat.data;
+        }, function (error) {
+            console.log("Oooops!");
+        });
     };
-    WelcomePage.prototype.showalert = function () {
-        console.log(this.storage.executeSQL("testdb", "create table TestTable(ID INT, NAME VARCHAR(200));"));
+    SubcategoryPage.prototype.initializeItems = function () {
+        this.getSubCategory();
     };
-    WelcomePage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-welcome',template:/*ion-inline-start:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/welcome/welcome.html"*/'\n\n<ion-content fullscreen="true" class="no-padding-top"> \n    \n       \n\n  <ion-slides #slider pager="true" autoplay="2500" loop="true" effect="fade" >\n    <ion-slide *ngFor="let slide of slides"\n               class="slide-background"\n               [ngStyle]="{\'background-image\': \'url(\' + slide.imageUrl +\')\'}">\n      <div class="text-wrapper">\n        <div class="slide-text">\n          <h2 class="slide-title" [innerHTML]="slide.title"></h2><br>\n          <p [innerHTML]="slide.description"></p>\n          \n        </div>\n        <div class="floating-buttons  pop-in">\n          <ion-grid  >\n            <ion-row>\n                <ion-col text-center>\n                    <ion-label id="login-label">Login</ion-label>\n                </ion-col>\n            </ion-row>\n            <ion-row align-items-justify>\n            \n              <ion-col text-center>\n                \n                      <div *ngIf="isLoggedIn; else facebookLogin">\n                        <h2>Hi, {{users.name}} ({{users.email}})</h2>\n                        <p>\n                          Gender: {{users.gender}}\n                        </p>\n                        <p>\n                          <img src="{{users.picture.data.url}}" width="100" alt="{{users.name}}" />\n                        </p>\n                        <p>\n                          <button ion-button icon-right (click)="logout()">\n                            Logout\n                          </button>\n                        </p>\n                      </div>\n                      <div class="btn_container">\n                        <button ion-button full (click)="loginAction();" round>\n                           \n                          <ion-icon name="logo-facebook"></ion-icon>\n                          <ion-label>Facebook</ion-label>\n                        </button>\n                    </div>\n                                      \n              </ion-col>\n              <ion-col text-center>\n                  <button ion-button block color="danger" (click)="skip()" *ngIf="!userProfile" round>\n                      <ion-icon name="logo-googleplus"> </ion-icon>\n                      <ion-label>Google</ion-label>\n                        \n                    </button>\n              </ion-col>\n            </ion-row>\n          </ion-grid>\n        </div>\n      </div>\n    </ion-slide>\n  </ion-slides>\n\n    \n</ion-content>'/*ion-inline-end:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/welcome/welcome.html"*/,
+    SubcategoryPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad MaincategoryPage');
+    };
+    SubcategoryPage.prototype.getItems = function (ev) {
+        // Reset items back to all of the items
+        this.initializeItems();
+        // set val to the value of the searchbar
+        var val = ev.target.value;
+        // if the value is an empty string don't filter the items
+        if (val && val.trim() != '') {
+            this.items = this.items.filter(function (item) {
+                return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
+            });
+        }
+    };
+    SubcategoryPage.is_sub1_selected = false;
+    SubcategoryPage.is_sub2_selected = false;
+    SubcategoryPage.is_main_selected = false;
+    SubcategoryPage = SubcategoryPage_1 = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-subcategory',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/category/subcategory/subcategory.html"*/'<ion-content padding>\n    <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>\n    <ion-list>\n      <ion-item (click)="log(item)" *ngFor="let item of category_data">\n       <ion-label>\n        {{ item.category }}\n       </ion-label>\n      </ion-item>\n    </ion-list>\n    <ion-row>\n        <button ion-button (click)="back()" color="light" round full>Back\n          \n        </button>\n      </ion-row>\n  </ion-content>\n  '/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/category/subcategory/subcategory.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_2__ionic_storage__["b" /* Storage */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */], __WEBPACK_IMPORTED_MODULE_3__providers_storage_util_storage_util__["a" /* StorageUtilProvider */], __WEBPACK_IMPORTED_MODULE_4__providers_session_util_session_util__["a" /* SessionUtilProvider */]])
-    ], WelcomePage);
-    return WelcomePage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5__angular_http__["b" /* Http */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */], __WEBPACK_IMPORTED_MODULE_3__providers_server_util_serverUtil__["a" /* ServerUtil */]])
+    ], SubcategoryPage);
+    return SubcategoryPage;
+    var SubcategoryPage_1;
 }());
 
-//# sourceMappingURL=welcome.js.map
+//# sourceMappingURL=subcategory.js.map
 
 /***/ }),
 
-/***/ 206:
+/***/ 330:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DataProvider; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angularfire2_database__ = __webpack_require__(331);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angularfire2_storage__ = __webpack_require__(373);
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var DataProvider = /** @class */ (function () {
+    function DataProvider(db, afStorage) {
+        this.db = db;
+        this.afStorage = afStorage;
+    }
+    DataProvider.prototype.getFiles = function () {
+        var ref = this.db.list('files');
+        return ref.snapshotChanges().map(function (changes) {
+            return changes.map(function (c) { return (__assign({ key: c.payload.key }, c.payload.val())); });
+        });
+    };
+    DataProvider.prototype.uploadToStorage = function (information) {
+        var newName = new Date().getTime() + ".txt";
+        return this.afStorage.ref("files/" + newName).putString(information);
+    };
+    DataProvider.prototype.storeInfoToDatabase = function (metainfo) {
+        var toSave = {
+            created: metainfo.timeCreated,
+            url: metainfo.downloadURLs[0],
+            fullPath: metainfo.fullPath,
+            contentType: metainfo.contentType
+        };
+        return this.db.list('files').push(toSave);
+    };
+    DataProvider.prototype.deleteFile = function (file) {
+        var key = file.key;
+        var storagePath = file.fullPath;
+        var ref = this.db.list('files');
+        ref.remove(key);
+        return this.afStorage.ref(storagePath).delete();
+    };
+    DataProvider = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_angularfire2_database__["a" /* AngularFireDatabase */], __WEBPACK_IMPORTED_MODULE_2_angularfire2_storage__["a" /* AngularFireStorage */]])
+    ], DataProvider);
+    return DataProvider;
+}());
+
+//# sourceMappingURL=firebaseDataProvider.js.map
+
+/***/ }),
+
+/***/ 387:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return StorageUtilProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ionic_native_sqlite__ = __webpack_require__(207);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ionic_native_sqlite__ = __webpack_require__(388);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -489,7 +899,7 @@ var StorageUtilProvider = /** @class */ (function () {
             .catch(function (e) { return console.log(e); });
     };
     StorageUtilProvider = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__ionic_native_sqlite__["a" /* SQLite */]])
     ], StorageUtilProvider);
     return StorageUtilProvider;
@@ -499,19 +909,19 @@ var StorageUtilProvider = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 208:
+/***/ 389:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SessionUtilProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ionic_native_facebook__ = __webpack_require__(209);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_google_plus__ = __webpack_require__(210);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_constants_App_Constants__ = __webpack_require__(310);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_storage__ = __webpack_require__(102);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__navigation_util_navigation_util__ = __webpack_require__(211);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pojo_session__ = __webpack_require__(311);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_ionic_angular__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ionic_native_facebook__ = __webpack_require__(390);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_google_plus__ = __webpack_require__(391);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_constants_App_Constants__ = __webpack_require__(688);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_storage__ = __webpack_require__(196);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pojo_session__ = __webpack_require__(689);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_account_account__ = __webpack_require__(392);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_ionic_angular__ = __webpack_require__(14);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -530,12 +940,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var SessionUtilProvider = /** @class */ (function () {
-    function SessionUtilProvider(navCtrl, fb, googlePlus, storage, navUtil) {
-        this.navCtrl = navCtrl;
+    function SessionUtilProvider(appCtrl, fb, googlePlus, storage) {
+        this.appCtrl = appCtrl;
         this.fb = fb;
         this.googlePlus = googlePlus;
         this.storage = storage;
-        this.navUtil = navUtil;
         this.initialize_session();
         this.check_login_state();
     }
@@ -554,16 +963,18 @@ var SessionUtilProvider = /** @class */ (function () {
         this.storage.set(__WEBPACK_IMPORTED_MODULE_3__providers_constants_App_Constants__["a" /* App_Constants */].SESSION_STATE, "N");
     };
     SessionUtilProvider.prototype.check_login_state = function () {
+        var _this = this;
         this.get_login_state().then(function (val) {
             if (val == 'N') {
                 console.log('Hello SessionUtilProvider Provider');
-                // this.navCtrl.push(AccountPage);
+                _this.appCtrl.getRootNav().push(__WEBPACK_IMPORTED_MODULE_6__pages_account_account__["a" /* AccountPage */]);
+                //this.navCtrl.push(AccountPage);
                 // this.navUtil.navigateTo('Account_page');
             }
         });
     };
     SessionUtilProvider.prototype.set_login_data = function (name, email, imageurl, login_type, bday, gender) {
-        this.session_obj = new __WEBPACK_IMPORTED_MODULE_6__pojo_session__["a" /* session */](name, email, imageurl, login_type, bday, gender);
+        this.session_obj = new __WEBPACK_IMPORTED_MODULE_5__pojo_session__["a" /* session */](name, email, imageurl, login_type, bday, gender);
         this.storage.set(__WEBPACK_IMPORTED_MODULE_3__providers_constants_App_Constants__["a" /* App_Constants */].SESSION_OBJECT, this.session_obj);
     };
     SessionUtilProvider.prototype.googleLogin = function () {
@@ -604,8 +1015,8 @@ var SessionUtilProvider = /** @class */ (function () {
         });
     };
     SessionUtilProvider = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_7_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_1__ionic_native_facebook__["a" /* Facebook */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_google_plus__["a" /* GooglePlus */], __WEBPACK_IMPORTED_MODULE_4__ionic_storage__["b" /* Storage */], __WEBPACK_IMPORTED_MODULE_5__navigation_util_navigation_util__["a" /* NavigationUtil */]])
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_7_ionic_angular__["b" /* App */], __WEBPACK_IMPORTED_MODULE_1__ionic_native_facebook__["a" /* Facebook */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_google_plus__["a" /* GooglePlus */], __WEBPACK_IMPORTED_MODULE_4__ionic_storage__["b" /* Storage */]])
     ], SessionUtilProvider);
     return SessionUtilProvider;
 }());
@@ -614,56 +1025,13 @@ var SessionUtilProvider = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 211:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NavigationUtil; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_ionic_angular__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__pages_account_account__ = __webpack_require__(212);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__(0);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-var NavigationUtil = /** @class */ (function () {
-    function NavigationUtil(navCtrl) {
-        this.navCtrl = navCtrl;
-        console.log('Hello SessionUtilProvider Provider');
-    }
-    NavigationUtil.prototype.navigateTo = function (page) {
-        switch (page) {
-            case "Account_page":
-                this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_1__pages_account_account__["a" /* AccountPage */]);
-                break;
-        }
-    };
-    NavigationUtil = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0_ionic_angular__["e" /* NavController */]])
-    ], NavigationUtil);
-    return NavigationUtil;
-}());
-
-//# sourceMappingURL=navigation-util.js.map
-
-/***/ }),
-
-/***/ 212:
+/***/ 392:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AccountPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(14);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -738,10 +1106,10 @@ var AccountPage = /** @class */ (function () {
         textarea.style.height = scroll_height + "px";
     };
     AccountPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-account',template:/*ion-inline-start:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/account/account.html"*/'<ion-header>\n</ion-header>\n\n\n<ion-content>\n\n  <ion-slides *ngIf="isImage" #slider effect="fade" pager="true" loop="true" spaceBetween="1" slidesPerView="1" class="slides_container">\n    <ion-slide *ngFor="let slide of slides" class="slide-background" [ngStyle]="{\'background\' : \'url(\' + slide.imageUrl + \')\'}">\n\n      <ion-grid>\n        <ion-row>     \n          <ion-col>\n            <p class="email">{{slide.email}}</p>\n          </ion-col>\n          <ion-col>\n            <button class="dp_button" ion-button icon-only>\n              <ion-icon name="star"></ion-icon>\n            </button>\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n    </ion-slide>\n  </ion-slides>\n  <ion-grid>\n    <ion-row justify-content-center>\n      <ion-col col-2>\n        <ion-fab>\n          <button *ngIf="isImage" ion-fab>\n            <ion-icon name="md-add"></ion-icon>\n          </button>\n        </ion-fab>\n\n      </ion-col>\n      <ion-col col-2 offset-1>\n        <ion-fab>\n          <button *ngIf="isImage" ion-fab>\n            <ion-icon name="md-add"></ion-icon>\n          </button>\n        </ion-fab>\n\n      </ion-col>\n      <ion-col col-2 offset-1>\n        <ion-fab>\n          <button *ngIf="isImage" ion-fab>\n            <ion-icon name="md-add"></ion-icon>\n          </button>\n        </ion-fab>\n\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n  <ion-grid>\n    <ion-row>\n      <ion-col>\n      <p style="color:black">Name</p>\n      </ion-col>\n    </ion-row>\n    <ion-row>\n      <ion-col>\n        <ion-row radio-group [(ngModel)]="Gender">\n\n          <ion-col>\n            <ion-item>\n              <ion-label>Male <ion-icon name="man"></ion-icon>\n              </ion-label>\n\n              <ion-radio value="male">\n\n              </ion-radio>\n            </ion-item>\n          </ion-col>\n          <ion-col>\n            <ion-item>\n              <ion-label>Female <ion-icon name="woman"></ion-icon>\n              </ion-label>\n              <ion-radio value="female"></ion-radio>\n            </ion-item>\n          </ion-col>\n        </ion-row>\n\n      </ion-col>\n    </ion-row>\n    <ion-row>\n      <ion-col>\n        <ion-row radio-group [(ngModel)]="AgeGroup">\n\n          <ion-col col-12>\n            <ion-label>Age Group</ion-label>\n          </ion-col>\n          <ion-col col-6>\n            <ion-item>\n              <ion-label>0-18</ion-label>\n              <ion-radio value="18"></ion-radio>\n            </ion-item>\n          </ion-col>\n          <ion-col col-6>\n            <ion-item>\n              <ion-label>19-30</ion-label>\n              <ion-radio value="30"></ion-radio>\n            </ion-item>\n          </ion-col>\n\n          <ion-col col-6>\n            <ion-item>\n              <ion-label>31-60</ion-label>\n              <ion-radio value="60"></ion-radio>\n            </ion-item>\n          </ion-col>\n          <ion-col col-6>\n            <ion-item>\n              <ion-label>61+</ion-label>\n              <ion-radio value="60plus"></ion-radio>\n            </ion-item>\n          </ion-col>\n        </ion-row>\n      </ion-col>\n    </ion-row>\n    <ion-row>\n      <ion-col col-10>\n        <p>Country</p>\n      </ion-col>\n      <ion-col col-2>\n        <button *ngIf="isImage" ion-fab>\n          <ion-icon name="locate"></ion-icon>\n        </button>\n      </ion-col>\n    </ion-row>\n    <ion-row>\n      <ion-col>\n        <ion-item>\n          <ion-textarea rows="1" id="messageInputBox" placeholder="Send message" (input)="change()" required></ion-textarea>\n        </ion-item>\n      </ion-col>\n    </ion-row>\n\n    <ion-row>\n      <ion-col>\n        <p class="userid">userid</p>\n      </ion-col>\n    </ion-row>\n    <ion-row>\n      <ion-col col-12>\n        <button ion-button color="light" round full>Continue</button>\n      </ion-col>\n\n    </ion-row>\n  </ion-grid>\n  <!-- </ion-card-content>\n  </ion-card> -->\n</ion-content>'/*ion-inline-end:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/account/account.html"*/,
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-account',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/account/account.html"*/'<ion-header>\n  </ion-header>\n  \n  \n  <ion-content>\n  \n    <ion-slides *ngIf="isImage" #slider effect="fade" pager="true" loop="true" spaceBetween="1" slidesPerView="1" class="slides_container">\n      <ion-slide *ngFor="let slide of slides" class="slide-background" [ngStyle]="{\'background\' : \'url(\' + slide.imageUrl + \')\'}">\n  \n        <ion-grid>\n          <ion-row>     \n            <ion-col>\n              <p class="email">{{slide.email}}</p>\n            </ion-col>\n            <ion-col>\n              <button class="dp_button" ion-button icon-only>\n                <ion-icon name="star"></ion-icon>\n              </button>\n            </ion-col>\n          </ion-row>\n        </ion-grid>\n      </ion-slide>\n    </ion-slides>\n    <ion-grid>\n      <ion-row justify-content-center>\n        <ion-col col-2>\n          <ion-fab>\n            <button *ngIf="isImage" ion-fab>\n              <ion-icon name="md-add"></ion-icon>\n            </button>\n          </ion-fab>\n  \n        </ion-col>\n        <ion-col col-2 offset-1>\n          <ion-fab>\n            <button *ngIf="isImage" ion-fab>\n              <ion-icon name="md-add"></ion-icon>\n            </button>\n          </ion-fab>\n  \n        </ion-col>\n        <ion-col col-2 offset-1>\n          <ion-fab>\n            <button *ngIf="isImage" ion-fab>\n              <ion-icon name="md-add"></ion-icon>\n            </button>\n          </ion-fab>\n  \n        </ion-col>\n      </ion-row>\n    </ion-grid>\n    <ion-grid>\n      <ion-row>\n        <ion-col>\n        <p style="color:black">Name</p>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col>\n          <ion-row radio-group [(ngModel)]="Gender">\n  \n            <ion-col>\n              <ion-item>\n                <ion-label>Male <ion-icon name="man"></ion-icon>\n                </ion-label>\n  \n                <ion-radio value="male">\n  \n                </ion-radio>\n              </ion-item>\n            </ion-col>\n            <ion-col>\n              <ion-item>\n                <ion-label>Female <ion-icon name="woman"></ion-icon>\n                </ion-label>\n                <ion-radio value="female"></ion-radio>\n              </ion-item>\n            </ion-col>\n          </ion-row>\n  \n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col>\n          <ion-row radio-group [(ngModel)]="AgeGroup">\n  \n            <ion-col col-12>\n              <ion-label>Age Group</ion-label>\n            </ion-col>\n            <ion-col col-6>\n              <ion-item>\n                <ion-label>0-18</ion-label>\n                <ion-radio value="18"></ion-radio>\n              </ion-item>\n            </ion-col>\n            <ion-col col-6>\n              <ion-item>\n                <ion-label>19-30</ion-label>\n                <ion-radio value="30"></ion-radio>\n              </ion-item>\n            </ion-col>\n  \n            <ion-col col-6>\n              <ion-item>\n                <ion-label>31-60</ion-label>\n                <ion-radio value="60"></ion-radio>\n              </ion-item>\n            </ion-col>\n            <ion-col col-6>\n              <ion-item>\n                <ion-label>61+</ion-label>\n                <ion-radio value="60plus"></ion-radio>\n              </ion-item>\n            </ion-col>\n          </ion-row>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col col-10>\n          <p>Country</p>\n        </ion-col>\n        <ion-col col-2>\n          <button *ngIf="isImage" ion-fab>\n            <ion-icon name="locate"></ion-icon>\n          </button>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col>\n          <ion-item>\n            <ion-textarea rows="1" id="messageInputBox" placeholder="Send message" (input)="change()" required></ion-textarea>\n          </ion-item>\n        </ion-col>\n      </ion-row>\n  \n      <ion-row>\n        <ion-col>\n          <p class="userid">userid</p>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col col-12>\n          <button ion-button color="light" round full>Continue</button>\n        </ion-col>\n  \n      </ion-row>\n    </ion-grid>\n    <!-- </ion-card-content>\n    </ion-card> -->\n  </ion-content>'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/account/account.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]])
     ], AccountPage);
     return AccountPage;
 }());
@@ -750,13 +1118,13 @@ var AccountPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 235:
+/***/ 393:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(236);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(258);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(394);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(525);
 
 
 Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_1__app_module__["a" /* AppModule */]);
@@ -764,50 +1132,54 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 
 /***/ }),
 
-/***/ 258:
+/***/ 525:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(53);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__app_component__ = __webpack_require__(301);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(198);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_list_list__ = __webpack_require__(199);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_welcome_welcome__ = __webpack_require__(204);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_basic_detail_basic_detail__ = __webpack_require__(312);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_account_account__ = __webpack_require__(212);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_add_blog_add_blog__ = __webpack_require__(313);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_add_post_add_post__ = __webpack_require__(201);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_chat_main_chat_main__ = __webpack_require__(314);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_chat_list_chat_list__ = __webpack_require__(315);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_comment_comment__ = __webpack_require__(316);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_interest_interest__ = __webpack_require__(200);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_matchup_matchup__ = __webpack_require__(317);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_notification_notification__ = __webpack_require__(318);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_search_search__ = __webpack_require__(319);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_view_blog_view_blog__ = __webpack_require__(320);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_view_post_view_post__ = __webpack_require__(322);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_matchup_play_matchup_play__ = __webpack_require__(323);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__ionic_native_status_bar__ = __webpack_require__(195);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__ionic_native_splash_screen__ = __webpack_require__(197);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__ionic_native_deeplinks__ = __webpack_require__(213);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24_angular2_swing__ = __webpack_require__(324);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24_angular2_swing___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_24_angular2_swing__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__providers_emoji__ = __webpack_require__(336);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__providers_text_util_text_util__ = __webpack_require__(202);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__ionic_native_streaming_media__ = __webpack_require__(215);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28_ngx_facebook__ = __webpack_require__(216);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__angular_http__ = __webpack_require__(203);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__ionic_native_fcm__ = __webpack_require__(214);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__ionic_native_facebook__ = __webpack_require__(209);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__ionic_native_google_plus__ = __webpack_require__(210);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__ionic_storage__ = __webpack_require__(102);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__providers_storage_util_storage_util__ = __webpack_require__(206);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__ionic_native_sqlite__ = __webpack_require__(207);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__providers_session_util_session_util__ = __webpack_require__(208);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__providers_navigation_util_navigation_util__ = __webpack_require__(211);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__app_component__ = __webpack_require__(567);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(321);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_list_list__ = __webpack_require__(322);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_welcome_welcome__ = __webpack_require__(686);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_basic_detail_basic_detail__ = __webpack_require__(690);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_account_account__ = __webpack_require__(392);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_add_blog_add_blog__ = __webpack_require__(691);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_add_post_add_post__ = __webpack_require__(324);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_chat_main_chat_main__ = __webpack_require__(692);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_chat_list_chat_list__ = __webpack_require__(693);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_comment_comment__ = __webpack_require__(694);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_interest_interest__ = __webpack_require__(323);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_matchup_matchup__ = __webpack_require__(695);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_notification_notification__ = __webpack_require__(696);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_search_search__ = __webpack_require__(697);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_view_blog_view_blog__ = __webpack_require__(698);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_view_post_view_post__ = __webpack_require__(699);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_matchup_play_matchup_play__ = __webpack_require__(700);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__ionic_native_status_bar__ = __webpack_require__(318);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__ionic_native_splash_screen__ = __webpack_require__(320);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__ionic_native_deeplinks__ = __webpack_require__(384);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__providers_server_util_serverUtil__ = __webpack_require__(108);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__angular_http__ = __webpack_require__(109);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__pages_category_category__ = __webpack_require__(182);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__pages_category_subcategory_subcategory__ = __webpack_require__(328);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__providers_emoji__ = __webpack_require__(701);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__providers_text_util_text_util__ = __webpack_require__(326);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__ionic_native_fcm__ = __webpack_require__(385);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__ionic_native_facebook__ = __webpack_require__(390);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__ionic_native_google_plus__ = __webpack_require__(391);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__ionic_storage__ = __webpack_require__(196);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__providers_storage_util_storage_util__ = __webpack_require__(387);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__ionic_native_sqlite__ = __webpack_require__(388);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__providers_session_util_session_util__ = __webpack_require__(389);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__ionic_native_image_picker__ = __webpack_require__(329);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__ionic_native_camera__ = __webpack_require__(327);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39_angularfire2__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40_angularfire2_database__ = __webpack_require__(331);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41_angularfire2_storage__ = __webpack_require__(373);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__providers_firebaseDataProvider__ = __webpack_require__(330);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -852,11 +1224,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
+
+
+
+
+var firebaseConfig = {
+    apiKey: "AIzaSyAh1EyYPn6Uhn8R9e9AT7wqfPA4aWp8IB4",
+    authDomain: "quizator-be795.firebaseapp.com",
+    databaseURL: "https://quizator-be795.firebaseio.com",
+    projectId: "quizator-be795",
+    storageBucket: "quizator-be795.appspot.com",
+    messagingSenderId: "556459777006"
+};
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["NgModule"])({
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* NgModule */])({
             declarations: [
                 __WEBPACK_IMPORTED_MODULE_3__app_component__["a" /* MyApp */],
                 __WEBPACK_IMPORTED_MODULE_4__pages_home_home__["a" /* HomePage */],
@@ -875,18 +1260,21 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_17__pages_search_search__["a" /* SearchPage */],
                 __WEBPACK_IMPORTED_MODULE_18__pages_view_blog_view_blog__["a" /* ViewBlogPage */],
                 __WEBPACK_IMPORTED_MODULE_19__pages_view_post_view_post__["a" /* ViewPostPage */],
-                __WEBPACK_IMPORTED_MODULE_20__pages_matchup_play_matchup_play__["a" /* MatchupPlayPage */]
+                __WEBPACK_IMPORTED_MODULE_20__pages_matchup_play_matchup_play__["a" /* MatchupPlayPage */],
+                __WEBPACK_IMPORTED_MODULE_27__pages_category_subcategory_subcategory__["a" /* SubcategoryPage */],
+                __WEBPACK_IMPORTED_MODULE_26__pages_category_category__["a" /* CategoryPage */]
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_29__angular_http__["b" /* HttpModule */],
+                __WEBPACK_IMPORTED_MODULE_25__angular_http__["c" /* HttpModule */],
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
-                __WEBPACK_IMPORTED_MODULE_24_angular2_swing__["SwingModule"],
-                __WEBPACK_IMPORTED_MODULE_28_ngx_facebook__["b" /* FacebookModule */].forRoot(),
+                __WEBPACK_IMPORTED_MODULE_39_angularfire2__["a" /* AngularFireModule */].initializeApp(firebaseConfig),
+                __WEBPACK_IMPORTED_MODULE_40_angularfire2_database__["b" /* AngularFireDatabaseModule */],
+                __WEBPACK_IMPORTED_MODULE_41_angularfire2_storage__["b" /* AngularFireStorageModule */],
                 __WEBPACK_IMPORTED_MODULE_33__ionic_storage__["a" /* IonicStorageModule */].forRoot({
                     name: 'quizator',
                     driverOrder: ['indexeddb', 'sqlite', 'websql']
                 }),
-                __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["c" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_3__app_component__["a" /* MyApp */], {
+                __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["e" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_3__app_component__["a" /* MyApp */], {
                     statusbarPadding: true,
                 }, {
                     links: [
@@ -909,7 +1297,7 @@ var AppModule = /** @class */ (function () {
                     ]
                 })
             ],
-            bootstrap: [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["a" /* IonicApp */]],
+            bootstrap: [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["c" /* IonicApp */]],
             entryComponents: [
                 __WEBPACK_IMPORTED_MODULE_3__app_component__["a" /* MyApp */],
                 __WEBPACK_IMPORTED_MODULE_4__pages_home_home__["a" /* HomePage */],
@@ -928,25 +1316,30 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_17__pages_search_search__["a" /* SearchPage */],
                 __WEBPACK_IMPORTED_MODULE_18__pages_view_blog_view_blog__["a" /* ViewBlogPage */],
                 __WEBPACK_IMPORTED_MODULE_19__pages_view_post_view_post__["a" /* ViewPostPage */],
-                __WEBPACK_IMPORTED_MODULE_20__pages_matchup_play_matchup_play__["a" /* MatchupPlayPage */]
+                __WEBPACK_IMPORTED_MODULE_20__pages_matchup_play_matchup_play__["a" /* MatchupPlayPage */],
+                __WEBPACK_IMPORTED_MODULE_26__pages_category_category__["a" /* CategoryPage */],
+                __WEBPACK_IMPORTED_MODULE_27__pages_category_subcategory_subcategory__["a" /* SubcategoryPage */]
             ],
             providers: [
                 __WEBPACK_IMPORTED_MODULE_21__ionic_native_status_bar__["a" /* StatusBar */],
-                __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["h" /* Slides */],
+                __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["k" /* Slides */],
                 __WEBPACK_IMPORTED_MODULE_22__ionic_native_splash_screen__["a" /* SplashScreen */],
                 __WEBPACK_IMPORTED_MODULE_23__ionic_native_deeplinks__["a" /* Deeplinks */],
-                __WEBPACK_IMPORTED_MODULE_25__providers_emoji__["a" /* EmojiProvider */],
+                __WEBPACK_IMPORTED_MODULE_28__providers_emoji__["a" /* EmojiProvider */],
                 __WEBPACK_IMPORTED_MODULE_30__ionic_native_fcm__["a" /* FCM */],
                 __WEBPACK_IMPORTED_MODULE_31__ionic_native_facebook__["a" /* Facebook */],
                 __WEBPACK_IMPORTED_MODULE_32__ionic_native_google_plus__["a" /* GooglePlus */],
                 __WEBPACK_IMPORTED_MODULE_35__ionic_native_sqlite__["a" /* SQLite */],
                 // { provide: LocationStrategy, useClass: PathLocationStrategy },
-                { provide: __WEBPACK_IMPORTED_MODULE_1__angular_core__["ErrorHandler"], useClass: __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["b" /* IonicErrorHandler */] },
-                __WEBPACK_IMPORTED_MODULE_26__providers_text_util_text_util__["a" /* TextUtilProvider */],
-                __WEBPACK_IMPORTED_MODULE_27__ionic_native_streaming_media__["a" /* StreamingMedia */],
+                __WEBPACK_IMPORTED_MODULE_29__providers_text_util_text_util__["a" /* TextUtilProvider */],
                 __WEBPACK_IMPORTED_MODULE_34__providers_storage_util_storage_util__["a" /* StorageUtilProvider */],
                 __WEBPACK_IMPORTED_MODULE_36__providers_session_util_session_util__["a" /* SessionUtilProvider */],
-                __WEBPACK_IMPORTED_MODULE_37__providers_navigation_util_navigation_util__["a" /* NavigationUtil */]
+                __WEBPACK_IMPORTED_MODULE_24__providers_server_util_serverUtil__["a" /* ServerUtil */],
+                __WEBPACK_IMPORTED_MODULE_37__ionic_native_image_picker__["a" /* ImagePicker */],
+                __WEBPACK_IMPORTED_MODULE_38__ionic_native_camera__["a" /* Camera */],
+                __WEBPACK_IMPORTED_MODULE_42__providers_firebaseDataProvider__["a" /* DataProvider */],
+                // { provide: LocationStrategy, useClass: PathLocationStrategy },
+                { provide: __WEBPACK_IMPORTED_MODULE_1__angular_core__["u" /* ErrorHandler */], useClass: __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["d" /* IonicErrorHandler */] }
             ]
         })
     ], AppModule);
@@ -957,22 +1350,21 @@ var AppModule = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 301:
+/***/ 567:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(195);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(197);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(198);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_list_list__ = __webpack_require__(199);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_interest_interest__ = __webpack_require__(200);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_add_post_add_post__ = __webpack_require__(201);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_welcome_welcome__ = __webpack_require__(204);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ionic_native_deeplinks__ = __webpack_require__(213);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ionic_native_fcm__ = __webpack_require__(214);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(318);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(320);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(321);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_list_list__ = __webpack_require__(322);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_interest_interest__ = __webpack_require__(323);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_add_post_add_post__ = __webpack_require__(324);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ionic_native_deeplinks__ = __webpack_require__(384);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ionic_native_fcm__ = __webpack_require__(385);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -992,7 +1384,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
 var MyApp = /** @class */ (function () {
     function MyApp(deeplinks, platform, statusBar, splashScreen, fcm) {
         this.deeplinks = deeplinks;
@@ -1000,18 +1391,17 @@ var MyApp = /** @class */ (function () {
         this.statusBar = statusBar;
         this.splashScreen = splashScreen;
         this.fcm = fcm;
-        this.rootPage = __WEBPACK_IMPORTED_MODULE_8__pages_welcome_welcome__["a" /* WelcomePage */];
+        this.rootPage = __WEBPACK_IMPORTED_MODULE_7__pages_add_post_add_post__["a" /* AddPostPage */];
         this.initializeApp();
         this.pages = [
             { title: 'Home', component: __WEBPACK_IMPORTED_MODULE_4__pages_home_home__["a" /* HomePage */] },
             { title: 'List', component: __WEBPACK_IMPORTED_MODULE_5__pages_list_list__["a" /* ListPage */] },
-            { title: 'interest', component: __WEBPACK_IMPORTED_MODULE_6__pages_interest_interest__["a" /* InterestPage */] },
-            { title: 'add post', component: __WEBPACK_IMPORTED_MODULE_7__pages_add_post_add_post__["a" /* AddPostPage */] }
+            { title: 'interest', component: __WEBPACK_IMPORTED_MODULE_6__pages_interest_interest__["a" /* InterestPage */] }
         ];
     }
     MyApp.prototype.initializeApp = function () {
         var _this = this;
-        if (this.platform.is('cordova')) {
+        if (this.platform.is('ios')) {
             this.platform.ready().then(function () {
                 _this.statusBar.styleDefault();
                 _this.splashScreen.hide();
@@ -1036,13 +1426,13 @@ var MyApp = /** @class */ (function () {
         this.nav.setRoot(page.component);
     };
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* Nav */]),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* Nav */])
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* Nav */]),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* Nav */])
     ], MyApp.prototype, "nav", void 0);
     MyApp = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({template:/*ion-inline-start:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/app/app.html"*/'<ion-menu [content]="content">\n  <ion-header>\n    <ion-toolbar>\n      <ion-title>Menu</ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-content>\n    <ion-list>\n      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">\n        {{p.title}}\n      </button>\n    </ion-list>\n  </ion-content>\n\n</ion-menu>\n\n<!-- Disable swipe-to-go-back because it\'s poor UX to combine STGB with side menus -->\n<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>'/*ion-inline-end:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/app/app.html"*/
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/app/app.html"*/'<ion-menu [content]="content">\n  <ion-header>\n    <ion-toolbar>\n      <ion-title>Menu</ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-content>\n    <ion-list>\n      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">\n        {{p.title}}\n      </button>\n    </ion-list>\n  </ion-content>\n\n</ion-menu>\n\n<!-- Disable swipe-to-go-back because it\'s poor UX to combine STGB with side menus -->\n<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/app/app.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_9__ionic_native_deeplinks__["a" /* Deeplinks */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */], __WEBPACK_IMPORTED_MODULE_10__ionic_native_fcm__["a" /* FCM */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_8__ionic_native_deeplinks__["a" /* Deeplinks */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */], __WEBPACK_IMPORTED_MODULE_9__ionic_native_fcm__["a" /* FCM */]])
     ], MyApp);
     return MyApp;
 }());
@@ -1051,7 +1441,90 @@ var MyApp = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 310:
+/***/ 686:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WelcomePage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_storage__ = __webpack_require__(196);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_storage_util_storage_util__ = __webpack_require__(387);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_session_util_session_util__ = __webpack_require__(389);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_server_util_serverUtil__ = __webpack_require__(108);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+// @IonicPage({
+//   name: 'welcome'
+// })
+var WelcomePage = /** @class */ (function () {
+    function WelcomePage(server, navCtrl, st, navParams, storage, sp) {
+        this.server = server;
+        this.navCtrl = navCtrl;
+        this.st = st;
+        this.navParams = navParams;
+        this.storage = storage;
+        this.sp = sp;
+        this.slideIndex = 0;
+        this.slides = [
+            {
+                title: 'Dream\'s Adventure',
+                imageUrl: 'assets/imgs/397.jpg',
+                description: 'Take a look at our amazing options',
+            },
+            {
+                title: 'For the Weekend',
+                imageUrl: 'assets/imgs/1683.jpg',
+                description: 'Take a look at our amazing options',
+            },
+            {
+                title: 'Family Time',
+                imageUrl: 'assets/imgs/8281.jpg',
+                description: 'Take a look at our amazing options',
+            }
+        ];
+        this.sp.initialize_session();
+        this.sp.check_login_state();
+    }
+    WelcomePage.prototype.ionViewDidLoad = function () {
+        //this.storage.store("love","pal");
+        console.log('ionViewDidLoad WelcomePage');
+    };
+    WelcomePage.prototype.goToApp = function () {
+        console.log('Go to App clicked');
+    };
+    WelcomePage.prototype.skip = function () {
+    };
+    WelcomePage.prototype.showalert = function () {
+        console.log(this.storage.executeSQL("testdb", "create table TestTable(ID INT, NAME VARCHAR(200));"));
+    };
+    WelcomePage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-welcome',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/welcome/welcome.html"*/'\n\n<ion-content fullscreen="true" class="no-padding-top"> \n    \n       \n\n    <ion-slides #slider pager="true" autoplay="2500" loop="true" effect="fade" >\n      <ion-slide *ngFor="let slide of slides"\n                 class="slide-background"\n                 [ngStyle]="{\'background-image\': \'url(\' + slide.imageUrl +\')\'}">\n        <div class="text-wrapper">\n          <div class="slide-text">\n            <h2 class="slide-title" [innerHTML]="slide.title"></h2><br>\n            <p [innerHTML]="slide.description"></p>\n            \n          </div>\n          <div class="floating-buttons  pop-in">\n            <ion-grid  >\n              <ion-row>\n                  <ion-col text-center>\n                      <ion-label id="login-label">Login</ion-label>\n                  </ion-col>\n              </ion-row>\n              <ion-row align-items-justify>\n              \n                <ion-col text-center>\n                  \n                        <div *ngIf="isLoggedIn; else facebookLogin">\n                          <h2>Hi, {{users.name}} ({{users.email}})</h2>\n                          <p>\n                            Gender: {{users.gender}}\n                          </p>\n                          <p>\n                            <img src="{{users.picture.data.url}}" width="100" alt="{{users.name}}" />\n                          </p>\n                          <p>\n                            <button ion-button icon-right (click)="logout()">\n                              Logout\n                            </button>\n                          </p>\n                        </div>\n                        <div class="btn_container">\n                          <button ion-button full (click)="loginAction();" round>\n                             \n                            <ion-icon name="logo-facebook"></ion-icon>\n                            <ion-label>Facebook</ion-label>\n                          </button>\n                      </div>\n                                        \n                </ion-col>\n                <ion-col text-center>\n                    <button ion-button block color="danger" (click)="skip()" *ngIf="!userProfile" round>\n                        <ion-icon name="logo-googleplus"> </ion-icon>\n                        <ion-label>Google</ion-label>\n                          \n                      </button>\n                </ion-col>\n              </ion-row>\n            </ion-grid>\n          </div>\n        </div>\n      </ion-slide>\n    </ion-slides>\n  \n      \n  </ion-content>'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/welcome/welcome.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5__providers_server_util_serverUtil__["a" /* ServerUtil */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_2__ionic_storage__["b" /* Storage */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */], __WEBPACK_IMPORTED_MODULE_3__providers_storage_util_storage_util__["a" /* StorageUtilProvider */], __WEBPACK_IMPORTED_MODULE_4__providers_session_util_session_util__["a" /* SessionUtilProvider */]])
+    ], WelcomePage);
+    return WelcomePage;
+}());
+
+//# sourceMappingURL=welcome.js.map
+
+/***/ }),
+
+/***/ 688:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1076,7 +1549,7 @@ var App_Constants = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 311:
+/***/ 689:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1097,13 +1570,13 @@ var session = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 312:
+/***/ 690:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BasicDetailPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(14);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1178,10 +1651,10 @@ var BasicDetailPage = /** @class */ (function () {
         textarea.style.height = scroll_height + "px";
     };
     BasicDetailPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-basic-detail',template:/*ion-inline-start:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/basic-detail/basic-detail.html"*/'<ion-header>\n</ion-header>\n\n\n<ion-content>\n\n  <ion-slides *ngIf="isImage" #slider effect="fade" pager="true" loop="true" spaceBetween="1" slidesPerView="1" class="slides_container">\n    <ion-slide *ngFor="let slide of slides" class="slide-background" [ngStyle]="{\'background\' : \'url(\' + slide.imageUrl + \')\'}">\n\n      <ion-grid>\n        <ion-row>\n          <ion-col col-2 align-items-center>\n            <button class="dp_button" ion-button icon-only>\n              <ion-icon name="google-md"></ion-icon>\n            </button>\n          </ion-col>\n          <ion-col>\n            <p class="email">{{slide.email}}</p>\n          </ion-col>\n          <ion-col>\n            <button class="dp_button" ion-button icon-only>\n              <ion-icon name="star"></ion-icon>\n            </button>\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n      <ion-fab center middle>\n        <button *ngIf="!isImage" ion-fab>\n          <ion-icon name="md-add"></ion-icon>\n        </button>\n      </ion-fab>\n      <ion-fab right bottom>\n        <button *ngIf="isImage" ion-fab>\n          <ion-icon name="md-add"></ion-icon>\n        </button>\n      </ion-fab>\n    </ion-slide>\n  </ion-slides>\n\n\n  <!-- <div class="slides_container" > \n    <ion-slides #slider  autoplay="2000" loop="true" (ionSlideDidChange)="onSlideChanged()">\n      <ion-slide *ngFor="let slide of slides" class="slide_transition"   [style.background-color]="color" >\n       \n      </ion-slide>\n    </ion-slides>\n  </div> -->\n  <!-- <ion-card>\n    <ion-card-content> -->\n      <ion-grid>\n\n        <ion-row>\n          <ion-col>\n            <ion-item>\n              <ion-label floating>Name</ion-label>\n              <ion-input type="text"></ion-input>\n            </ion-item>\n\n          </ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col>\n            <ion-row radio-group [(ngModel)]="Gender">\n\n              <ion-col>\n                <ion-item>\n                  <ion-label>Male <ion-icon name="man"></ion-icon>\n                  </ion-label>\n\n                  <ion-radio value="male">\n\n                  </ion-radio>\n                </ion-item>\n              </ion-col>\n              <ion-col>\n                <ion-item>\n                  <ion-label>Female <ion-icon name="woman"></ion-icon>\n                  </ion-label>\n                  <ion-radio value="female"></ion-radio>\n                </ion-item>\n              </ion-col>\n            </ion-row>\n\n          </ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col>\n            <ion-row radio-group [(ngModel)]="AgeGroup">\n\n              <ion-col col-12>\n                <ion-label>Age Group</ion-label>\n              </ion-col>\n              <ion-col col-6>\n                <ion-item>\n                  <ion-label>0-18</ion-label>\n                  <ion-radio value="18"></ion-radio>\n                </ion-item>\n              </ion-col>\n              <ion-col col-6>\n                <ion-item>\n                  <ion-label>19-30</ion-label>\n                  <ion-radio value="30"></ion-radio>\n                </ion-item>\n              </ion-col>\n\n              <ion-col col-6>\n                <ion-item>\n                  <ion-label>31-60</ion-label>\n                  <ion-radio value="60"></ion-radio>\n                </ion-item>\n              </ion-col>\n              <ion-col col-6>\n                <ion-item>\n                  <ion-label>61+</ion-label>\n                  <ion-radio value="60plus"></ion-radio>\n                </ion-item>\n              </ion-col>\n            </ion-row>\n          </ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col col-10>\n            <p>Country</p>\n          </ion-col>\n          <ion-col col-2>\n            <button *ngIf="isImage" ion-fab>\n              <ion-icon name="locate"></ion-icon>\n            </button>\n          </ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col>\n              <ion-item>\n                   <ion-textarea rows="1" id="messageInputBox" placeholder="Send message" (input)="change()" required></ion-textarea>\n                </ion-item>\n          </ion-col>\n        </ion-row>\n\n        <ion-row>\n          <ion-col>\n            <p class="userid">userid</p>\n          </ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col col-12>\n            <button ion-button color="light" round full>Continue</button>\n          </ion-col>\n\n        </ion-row>\n      </ion-grid>\n    <!-- </ion-card-content>\n  </ion-card> -->\n</ion-content>'/*ion-inline-end:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/basic-detail/basic-detail.html"*/,
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-basic-detail',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/basic-detail/basic-detail.html"*/'<ion-header>\n  </ion-header>\n  \n  \n  <ion-content>\n  \n    <ion-slides *ngIf="isImage" #slider effect="fade" pager="true" loop="true" spaceBetween="1" slidesPerView="1" class="slides_container">\n      <ion-slide *ngFor="let slide of slides" class="slide-background" [ngStyle]="{\'background\' : \'url(\' + slide.imageUrl + \')\'}">\n  \n        <ion-grid>\n          <ion-row>\n            <ion-col col-2 align-items-center>\n              <button class="dp_button" ion-button icon-only>\n                <ion-icon name="google-md"></ion-icon>\n              </button>\n            </ion-col>\n            <ion-col>\n              <p class="email">{{slide.email}}</p>\n            </ion-col>\n            <ion-col>\n              <button class="dp_button" ion-button icon-only>\n                <ion-icon name="star"></ion-icon>\n              </button>\n            </ion-col>\n          </ion-row>\n        </ion-grid>\n        <ion-fab center middle>\n          <button *ngIf="!isImage" ion-fab>\n            <ion-icon name="md-add"></ion-icon>\n          </button>\n        </ion-fab>\n        <ion-fab right bottom>\n          <button *ngIf="isImage" ion-fab>\n            <ion-icon name="md-add"></ion-icon>\n          </button>\n        </ion-fab>\n      </ion-slide>\n    </ion-slides>\n  \n  \n    <!-- <div class="slides_container" > \n      <ion-slides #slider  autoplay="2000" loop="true" (ionSlideDidChange)="onSlideChanged()">\n        <ion-slide *ngFor="let slide of slides" class="slide_transition"   [style.background-color]="color" >\n         \n        </ion-slide>\n      </ion-slides>\n    </div> -->\n    <!-- <ion-card>\n      <ion-card-content> -->\n        <ion-grid>\n  \n          <ion-row>\n            <ion-col>\n              <ion-item>\n                <ion-label floating>Name</ion-label>\n                <ion-input type="text"></ion-input>\n              </ion-item>\n  \n            </ion-col>\n          </ion-row>\n          <ion-row>\n            <ion-col>\n              <ion-row radio-group [(ngModel)]="Gender">\n  \n                <ion-col>\n                  <ion-item>\n                    <ion-label>Male <ion-icon name="man"></ion-icon>\n                    </ion-label>\n  \n                    <ion-radio value="male">\n  \n                    </ion-radio>\n                  </ion-item>\n                </ion-col>\n                <ion-col>\n                  <ion-item>\n                    <ion-label>Female <ion-icon name="woman"></ion-icon>\n                    </ion-label>\n                    <ion-radio value="female"></ion-radio>\n                  </ion-item>\n                </ion-col>\n              </ion-row>\n  \n            </ion-col>\n          </ion-row>\n          <ion-row>\n            <ion-col>\n              <ion-row radio-group [(ngModel)]="AgeGroup">\n  \n                <ion-col col-12>\n                  <ion-label>Age Group</ion-label>\n                </ion-col>\n                <ion-col col-6>\n                  <ion-item>\n                    <ion-label>0-18</ion-label>\n                    <ion-radio value="18"></ion-radio>\n                  </ion-item>\n                </ion-col>\n                <ion-col col-6>\n                  <ion-item>\n                    <ion-label>19-30</ion-label>\n                    <ion-radio value="30"></ion-radio>\n                  </ion-item>\n                </ion-col>\n  \n                <ion-col col-6>\n                  <ion-item>\n                    <ion-label>31-60</ion-label>\n                    <ion-radio value="60"></ion-radio>\n                  </ion-item>\n                </ion-col>\n                <ion-col col-6>\n                  <ion-item>\n                    <ion-label>61+</ion-label>\n                    <ion-radio value="60plus"></ion-radio>\n                  </ion-item>\n                </ion-col>\n              </ion-row>\n            </ion-col>\n          </ion-row>\n          <ion-row>\n            <ion-col col-10>\n              <p>Country</p>\n            </ion-col>\n            <ion-col col-2>\n              <button *ngIf="isImage" ion-fab>\n                <ion-icon name="locate"></ion-icon>\n              </button>\n            </ion-col>\n          </ion-row>\n          <ion-row>\n            <ion-col>\n                <ion-item>\n                     <ion-textarea rows="1" id="messageInputBox" placeholder="Send message" (input)="change()" required></ion-textarea>\n                  </ion-item>\n            </ion-col>\n          </ion-row>\n  \n          <ion-row>\n            <ion-col>\n              <p class="userid">userid</p>\n            </ion-col>\n          </ion-row>\n          <ion-row>\n            <ion-col col-12>\n              <button ion-button color="light" round full>Continue</button>\n            </ion-col>\n  \n          </ion-row>\n        </ion-grid>\n      <!-- </ion-card-content>\n    </ion-card> -->\n  </ion-content>'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/basic-detail/basic-detail.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]])
     ], BasicDetailPage);
     return BasicDetailPage;
 }());
@@ -1190,13 +1663,13 @@ var BasicDetailPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 313:
+/***/ 691:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AddBlogPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(14);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1223,10 +1696,10 @@ var AddBlogPage = /** @class */ (function () {
         console.log('ionViewDidLoad AddBlogPage');
     };
     AddBlogPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-add-blog',template:/*ion-inline-start:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/add-blog/add-blog.html"*/'<ion-content class="page-add-post">\n    <div class="container">\n      <img class="post_image" src="../assets/imgs/397.jpg" />\n      <ion-row class="btn" align-items-center>\n        <ion-col offset-10 col-2>\n          <button class="dp_button" margin ion-button icon-only clear>\n            <ion-icon name="heart"></ion-icon>\n          </button>\n        </ion-col>\n      </ion-row>\n  \n      <ion-fab center middle>\n        <button *ngIf="!isImage" ion-fab>\n          <ion-icon name="md-add"></ion-icon>\n        </button>\n      </ion-fab>\n    </div>\n  \n  \n    <div id="container">\n      <ion-list>\n  \n        <ion-item class="rounded" id="question">\n          <ion-textarea rows="1" id="messageInputBox1" maxlength="500" placeholder="Blog Name" (input)="change(1)" required></ion-textarea>\n        </ion-item>\n  \n       \n        <ion-item class="rounded" id="question">\n            <ion-textarea rows="1" maxlength="500" id="messageInputBox2" placeholder="Add Description" (input)="change(2)" required></ion-textarea>\n          </ion-item>\n          <ion-item class="rounded" id="option">\n              <ion-textarea rows="1" maxlength="50" id="messageInputBox" placeholder="Choose Blog Category"  [(ngModel)]="option"\n                required></ion-textarea>\n            </ion-item>\n      </ion-list>\n  \n      <ion-row justify-content-center>\n        <ion-col>\n            <button ion-button color="dark" round full>Add Blog</button>\n        </ion-col>\n      </ion-row>\n  \n    </div>\n  \n  \n  </ion-content>'/*ion-inline-end:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/add-blog/add-blog.html"*/,
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-add-blog',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/add-blog/add-blog.html"*/'<ion-content class="page-add-post">\n    <div class="container">\n      <img class="post_image" src="../assets/imgs/397.jpg" />\n      <ion-row class="btn" align-items-center>\n        <ion-col offset-10 col-2>\n          <button class="dp_button" margin ion-button icon-only clear>\n            <ion-icon name="heart"></ion-icon>\n          </button>\n        </ion-col>\n      </ion-row>\n  \n      <ion-fab center middle>\n        <button *ngIf="!isImage" ion-fab>\n          <ion-icon name="md-add"></ion-icon>\n        </button>\n      </ion-fab>\n    </div>\n  \n  \n    <div id="container">\n      <ion-list>\n  \n        <ion-item class="rounded" id="question">\n          <ion-textarea rows="1" id="messageInputBox1" maxlength="500" placeholder="Blog Name" (input)="change(1)" required></ion-textarea>\n        </ion-item>\n  \n       \n        <ion-item class="rounded" id="question">\n            <ion-textarea rows="1" maxlength="500" id="messageInputBox2" placeholder="Add Description" (input)="change(2)" required></ion-textarea>\n          </ion-item>\n          <ion-item class="rounded" id="option">\n              <ion-textarea rows="1" maxlength="50" id="messageInputBox" placeholder="Choose Blog Category"  [(ngModel)]="option"\n                required></ion-textarea>\n            </ion-item>\n      </ion-list>\n  \n      <ion-row justify-content-center>\n        <ion-col>\n            <button ion-button color="dark" round full>Add Blog</button>\n        </ion-col>\n      </ion-row>\n  \n    </div>\n  \n  \n  </ion-content>'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/add-blog/add-blog.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]])
     ], AddBlogPage);
     return AddBlogPage;
 }());
@@ -1235,13 +1708,13 @@ var AddBlogPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 314:
+/***/ 692:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChatMainPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(14);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1265,13 +1738,13 @@ var ChatMainPage = /** @class */ (function () {
         this.navParams = navParams;
     }
     ChatMainPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad ChatmainPage');
+        console.log('ionViewDidLoad ChatMainPage');
     };
     ChatMainPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-chat-main',template:/*ion-inline-start:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/chat-main/chat-main.html"*/'<ion-header>\n    <ion-navbar style="min-height:80px">\n     <ion-grid>\n       <ion-row>\n          <ion-col>         \n              <img src="images/profile.jpeg" style="width:60px;height:60px;border-radius:50%">         \n          </ion-col>\n          <ion-col style="margin-top:10px">\n              <div class="can-toggle" >\n                <div class="can-toggle demo-rebrand-2" >                 \n                      <input id="e" type="checkbox" >                \n                      <label for="e">                \n                        <div class="can-toggle__switch" data-checked="On" data-unchecked="No" style="max-width:150px; max-height:50px"></div>             \n                      </label>\n                    </div>\n                    </div>\n                  </ion-col>\n          <ion-col text-right style="margin-top:-5px">\n            <button ion-button icon-only large clear color="dark" >\n              <ion-icon name="ios-text"></ion-icon>\n            </button>\n          </ion-col>\n       </ion-row>\n     </ion-grid>    \n     </ion-navbar>\n  </ion-header>\n\n<ion-content>\n    <div >\n        <ion-segment [(ngModel)]="chats" style="background: linear-gradient(to right, #3A1C71 , #D76D77, #FFAF7B)">\n          <ion-segment-button value="heart" style="color:white">\n              <ion-icon name="heart"></ion-icon>\n          </ion-segment-button>\n          <ion-segment-button value="chat" style="color:white">\n              <ion-icon name="chatboxes"></ion-icon>\n          </ion-segment-button>\n          <ion-segment-button value="star" style="color:white">\n              <ion-icon name="star"></ion-icon>\n          </ion-segment-button>\n        </ion-segment>\n      </div>\n      \n      <div [ngSwitch]="chats">\n        <ion-list *ngSwitchCase="\'heart\'">\n          <ion-item>\n            <ion-thumbnail item-start>\n              <img src="images/disha.jpg" style="border-radius:50%">\n            </ion-thumbnail>\n            <h2>Disha</h2> <br>\n            <p>This is text message</p>\n            <ion-badge item-end>2</ion-badge>\n\n          </ion-item>\n          <ion-item>\n              <ion-thumbnail item-start>\n                <img src="images/disha.jpg" style="border-radius:50%">\n              </ion-thumbnail>\n              <h2>Disha</h2>\n              <ion-badge item-end>2</ion-badge>\n            </ion-item>\n            <ion-item>\n                <ion-thumbnail item-start>\n                  <img src="images/disha.jpg" style="border-radius:50%">\n                </ion-thumbnail>\n                <h2>Disha</h2>\n                <ion-badge item-end>2</ion-badge>\n              </ion-item>\n              <ion-item>\n                  <ion-thumbnail item-start>\n                    <img src="images/disha.jpg" style="border-radius:50%">\n                  </ion-thumbnail>\n                  <h2>Disha</h2>\n                  <ion-badge item-end>2</ion-badge>\n                </ion-item>\n                <ion-item>\n                    <ion-thumbnail item-start>\n                      <img src="images/disha.jpg" style="border-radius:50%">\n                    </ion-thumbnail>\n                    <h2>Disha</h2>\n                    <ion-badge item-end>2</ion-badge>\n                  </ion-item>\n         \n        </ion-list>\n      \n        <ion-list *ngSwitchCase="\'chat\'">\n            <ion-item>\n                <ion-thumbnail item-start>\n                  <img src="images/disha.jpg" style="border-radius:50%">\n                </ion-thumbnail>\n                <h2>Disha</h2>\n                <ion-badge item-end>2</ion-badge>\n              </ion-item>\n              <ion-item>\n                  <ion-thumbnail item-start>\n                    <img src="images/disha.jpg" style="border-radius:50%">\n                  </ion-thumbnail>\n                  <h2>Disha</h2>\n                  <ion-badge item-end>2</ion-badge>\n                </ion-item>\n                <ion-item>\n                    <ion-thumbnail item-start>\n                      <img src="images/disha.jpg" style="border-radius:50%">\n                    </ion-thumbnail>\n                    <h2>Disha</h2>\n                    <ion-badge item-end>2</ion-badge>\n                  </ion-item>\n                  <ion-item>\n                      <ion-thumbnail item-start>\n                        <img src="images/disha.jpg" style="border-radius:50%">\n                      </ion-thumbnail>\n                      <h2>Disha</h2>\n                      <ion-badge item-end>2</ion-badge>\n                    </ion-item>\n                    <ion-item>\n                        <ion-thumbnail item-start>\n                          <img src="images/disha.jpg" style="border-radius:50%">\n                        </ion-thumbnail>\n                        <h2>Disha</h2>\n                        <ion-badge item-end>2</ion-badge>\n                      </ion-item>\n       \n        </ion-list>\n        <ion-list *ngSwitchCase="\'star\'">\n            <ion-item>\n                <ion-thumbnail item-start>\n                  <img src="images/disha.jpg" style="border-radius:50%">\n                </ion-thumbnail>\n                <h2>Disha</h2>\n                <ion-badge item-end>2</ion-badge>\n              </ion-item>\n              <ion-item>\n                  <ion-thumbnail item-start>\n                    <img src="images/disha.jpg" style="border-radius:50%">\n                  </ion-thumbnail>\n                  <h2>Disha</h2>\n                  <ion-badge item-end>2</ion-badge>\n                </ion-item>\n                <ion-item>\n                    <ion-thumbnail item-start>\n                      <img src="images/disha.jpg" style="border-radius:50%">\n                    </ion-thumbnail>\n                    <h2>Disha</h2>\n                    <ion-badge item-end>2</ion-badge>\n                  </ion-item>\n                  <ion-item>\n                      <ion-thumbnail item-start>\n                        <img src="images/disha.jpg" style="border-radius:50%">\n                      </ion-thumbnail>\n                      <h2>Disha</h2>\n                      <ion-badge item-end>2</ion-badge>\n                    </ion-item>\n                    <ion-item>\n                        <ion-thumbnail item-start>\n                          <img src="images/disha.jpg" style="border-radius:50%">\n                        </ion-thumbnail>\n                        <h2>Disha</h2>\n                        <ion-badge item-end>2</ion-badge>\n                      </ion-item>\n         \n          </ion-list>\n      </div>\n</ion-content>\n'/*ion-inline-end:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/chat-main/chat-main.html"*/,
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-chat-main',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/chat-main/chat-main.html"*/'<!--\n  Generated template for the ChatMainPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>chat-main</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/chat-main/chat-main.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]])
     ], ChatMainPage);
     return ChatMainPage;
 }());
@@ -1280,13 +1753,13 @@ var ChatMainPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 315:
+/***/ 693:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChatListPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(14);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1313,10 +1786,10 @@ var ChatListPage = /** @class */ (function () {
         console.log('ionViewDidLoad ChatListPage');
     };
     ChatListPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-chat-list',template:/*ion-inline-start:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/chat-list/chat-list.html"*/'<ion-header>\n\n    <ion-navbar>\n    <ion-row>\n        <ion-col>         \n            <img src="../../assets/imgs/397.jpg" style="width:60px;height:60px;border-radius:50%">         \n        </ion-col>\n        <ion-col style="margin-top:15px">\n          Tiger\n        </ion-col>\n        <ion-col text-right>\n          <button ion-button icon-only clear>\n              <ion-icon name="more"></ion-icon>\n          </button>\n        </ion-col>\n    </ion-row>\n    </ion-navbar>\n  \n  </ion-header>\n  <ion-content>\n    <ion-row style="margin-top:5px">\n      <ion-col col-3>\n        &nbsp;\n      </ion-col>\n      <ion-col col-7 style="background-color:green; min-height:50px;border-radius:10px;" >\n        <p style=" padding:5px; color:white">Hi this is message. </p>\n      </ion-col>\n      <ion-col text-right style="    margin-top: 12px">\n          <img src="../../assets/imgs/397.jpg" style="width:50px;height:50px;border-radius:50%">\n      </ion-col>\n    </ion-row>\n    <ion-row style="margin-top:5px">\n        <ion-col text-left style="    margin-top: 12px">\n            <img src="../../assets/imgs/397.jpg" style="width:50px;height:50px;border-radius:50%">\n        </ion-col>\n        <ion-col col-7  style="background-color:#d3d3d3; min-height:50px;border-radius:10px;" >\n          <p style="padding:5px; color:black">Hi this is message. Hi this is message.Hi this is message.</p>\n        </ion-col>\n       \n        <ion-col col-3>\n            &nbsp;\n          </ion-col>\n      </ion-row>\n      <ion-row style="margin-top:5px">\n          <ion-col col-3>\n            &nbsp;\n          </ion-col>\n          <ion-col col-7 style="background-color:green; min-height:50px;border-radius:10px;" >\n            <p style=" padding:5px; color:white">Hi this is message. </p>\n          </ion-col>\n          <ion-col text-right style="    margin-top: 12px">\n              <img src="../../assets/imgs/397.jpg" style="width:50px;height:50px;border-radius:50%">\n          </ion-col>\n        </ion-row>\n        <ion-row style="margin-top:5px">\n            <ion-col text-left style="    margin-top: 12px">\n                <img src="../../assets/imgs/397.jpg" style="width:50px;height:50px;border-radius:50%">\n            </ion-col>\n            <ion-col col-7  style="background-color:#d3d3d3; min-height:50px;border-radius:10px;" >\n              <p style="padding:5px; color:black">Hi this is message. Hi this is message.Hi this is message.</p>\n            </ion-col>\n           \n            <ion-col col-3>\n                &nbsp;\n              </ion-col>\n          </ion-row>\n          <ion-footer>\n              <ion-toolbar>\n                <ion-row>\n                <ion-col col-1>\n                    <p>\n                        <button ion-button icon-right icon-only clear color="dark">                  \n                          <ion-icon name="camera"></ion-icon>\n                        </button>                \n                      </p>\n                </ion-col>\n                <ion-col col-9>\n                    <ion-item style="margin-top:15px; margin-left:18px">                    \n                        <ion-input type="text" value=""></ion-input>\n                      </ion-item>\n                </ion-col>\n                <ion-col col-1>\n                    <p text-right>\n                        <button ion-button icon-right icon-only clear color="dark">                  \n                          <ion-icon name="send"></ion-icon>\n                        </button>                \n                      </p>\n              </ion-col>\n            </ion-row>\n              </ion-toolbar>\n            </ion-footer>\n  </ion-content>\n  '/*ion-inline-end:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/chat-list/chat-list.html"*/,
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-chat-list',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/chat-list/chat-list.html"*/'<!--\n  Generated template for the ChatListPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>chat-list</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/chat-list/chat-list.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]])
     ], ChatListPage);
     return ChatListPage;
 }());
@@ -1325,13 +1798,13 @@ var ChatListPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 316:
+/***/ 694:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CommentPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(14);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1358,10 +1831,10 @@ var CommentPage = /** @class */ (function () {
         console.log('ionViewDidLoad CommentPage');
     };
     CommentPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-comment',template:/*ion-inline-start:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/comment/comment.html"*/'<!--\n  Generated template for the CommentPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>comment</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/comment/comment.html"*/,
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-comment',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/comment/comment.html"*/'<!--\n  Generated template for the CommentPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>comment</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/comment/comment.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]])
     ], CommentPage);
     return CommentPage;
 }());
@@ -1370,13 +1843,13 @@ var CommentPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 317:
+/***/ 695:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MatchupPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(14);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1403,10 +1876,10 @@ var MatchupPage = /** @class */ (function () {
         console.log('ionViewDidLoad MatchupPage');
     };
     MatchupPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-matchup',template:/*ion-inline-start:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/matchup/matchup.html"*/'<!--\n  Generated template for the MatchupPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>matchup</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/matchup/matchup.html"*/,
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-matchup',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/matchup/matchup.html"*/'<!--\n  Generated template for the MatchupPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>matchup</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/matchup/matchup.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]])
     ], MatchupPage);
     return MatchupPage;
 }());
@@ -1415,13 +1888,13 @@ var MatchupPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 318:
+/***/ 696:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NotificationPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(14);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1448,10 +1921,10 @@ var NotificationPage = /** @class */ (function () {
         console.log('ionViewDidLoad NotificationPage');
     };
     NotificationPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-notification',template:/*ion-inline-start:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/notification/notification.html"*/'<!--\n  Generated template for the NotificationPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>notification</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/notification/notification.html"*/,
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-notification',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/notification/notification.html"*/'<!--\n  Generated template for the NotificationPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>notification</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/notification/notification.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]])
     ], NotificationPage);
     return NotificationPage;
 }());
@@ -1460,13 +1933,13 @@ var NotificationPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 319:
+/***/ 697:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SearchPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(14);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1493,10 +1966,10 @@ var SearchPage = /** @class */ (function () {
         console.log('ionViewDidLoad SearchPage');
     };
     SearchPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-search',template:/*ion-inline-start:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/search/search.html"*/'<!--\n  Generated template for the SearchPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>search</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/search/search.html"*/,
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-search',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/search/search.html"*/'<!--\n  Generated template for the SearchPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>search</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/search/search.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]])
     ], SearchPage);
     return SearchPage;
 }());
@@ -1505,14 +1978,13 @@ var SearchPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 320:
+/***/ 698:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ViewBlogPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ionic_native_streaming_media__ = __webpack_require__(215);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ngx_facebook__ = __webpack_require__(216);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(14);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1524,67 +1996,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-
+/**
+ * Generated class for the ViewBlogPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
 var ViewBlogPage = /** @class */ (function () {
-    function ViewBlogPage(streamingMedia, fb) {
-        this.streamingMedia = streamingMedia;
-        this.fb = fb;
-        this.items = [{ "url": "https://www.facebook.com/FunniestFamilyMoments/videos/251699442185029/UzpfSTYxMjk1NjM2NDoxMDE1NTk0NDQ2Nzk4NjM2NQ/" },
-            { "url": "https://www.facebook.com/ViralBox.pk/videos/241889196494491/" }
-        ];
-        console.log('Initializing Facebook');
-        fb.init({
-            appId: '1927971220769787',
-            version: 'v2.9'
-        });
+    function ViewBlogPage(navCtrl, navParams) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
     }
-    ViewBlogPage.prototype.playVideo = function () {
-        this.video.href = "https://www.facebook.com/FunniestFamilyMoments/videos/251699442185029/UzpfSTYxMjk1NjM2NDoxMDE1NTk0NDQ2Nzk4NjM2NQ/";
-        this.video.play();
+    ViewBlogPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad ViewBlogPage');
     };
-    ViewBlogPage.prototype.onVideoEvent = function (ev) {
-        // if (this.video.finishedPlaying) {
-        //   this.href= "https://www.facebook.com/ViralBox.pk/videos/241889196494491/";
-        //   this.video.play();
-        // }
-        console.log('Video event fired: ' + ev);
-    };
-    ViewBlogPage.prototype.pauseVideo = function () {
-        this.video.pause();
-    };
-    ViewBlogPage.prototype.stopVideo = function () {
-        this.video.autoplay = true;
-    };
-    ViewBlogPage.prototype.startVideo = function () {
-        var options = {
-            successCallback: function () { console.log('Finished Video'); },
-            errorCallback: function (e) { console.log('Error: ', e); },
-            orientation: 'portrait'
-        };
-        // http://www.sample-videos.com/
-        this.streamingMedia.playVideo('https://www.youtube.com/watch?v=oy53KAKHpts&index=6&list=PLhW3qG5bs-L-zox1h3eIL7CZh5zJmci4c', options);
-    };
-    ViewBlogPage.prototype.startAudio = function () {
-        var options = {
-            successCallback: function () { console.log('Finished Audio'); },
-            errorCallback: function (e) { console.log('Error: ', e); },
-            initFullscreen: false // iOS only!
-        };
-        //http://soundbible.com/2196-Baby-Music-Box.html
-        this.streamingMedia.playAudio('http://soundbible.com/grab.php?id=2196&type=mp3', options);
-    };
-    ViewBlogPage.prototype.stopAudio = function () {
-        this.streamingMedia.stopAudio();
-    };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])(__WEBPACK_IMPORTED_MODULE_2_ngx_facebook__["a" /* FBVideoComponent */]),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_2_ngx_facebook__["a" /* FBVideoComponent */])
-    ], ViewBlogPage.prototype, "video", void 0);
     ViewBlogPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-view-blog',template:/*ion-inline-start:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/view-blog/view-blog.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>\n      Media Streaming\n    </ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <button ion-button full (click)="startVideo()">Start Video</button>\n  <button ion-button full (click)="startAudio()">Start Audio</button>\n  <button ion-button full (click)="stopAudio()" color="danger">Stop Audio</button>\n  <h4>fb-video</h4>\n  <ion-grid>\n    <ion-row>\n      <ion-col   col-12>\n        <fb-video *ngFor="let item of items" href={{item.url}} (startPlaying)="onVideoEvent(\'startedPlaying\')" (paused)="onVideoEvent(\'paused\')"\n          (finishedPlaying)="onVideoEvent(\'finishedPlaying\')" (startedBuffering)="onVideoEvent(\'startedBuffering\')"\n          (finishedBuffering)="onVideoEvent(\'finishedBuffering\')" (error)="onVideoEvent(\'error\')"></fb-video>\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n\n\n  <br>\n  <button class="btn btn-primary" (click)="playVideo()">Play</button>\n  <button class="btn btn-primary" (click)="pauseVideo()">Pause</button>\n  <h4>fb-share</h4>\n  <fb-share href="https://www.facebook.com/FunniestFamilyMoments/videos/251699442185029/UzpfSTYxMjk1NjM2NDoxMDE1NTk0NDQ2Nzk4NjM2NQ/"></fb-share>\n\n</ion-content>'/*ion-inline-end:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/view-blog/view-blog.html"*/,
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-view-blog',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/view-blog/view-blog.html"*/'<!--\n  Generated template for the ViewBlogPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>view-blog</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/view-blog/view-blog.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__ionic_native_streaming_media__["a" /* StreamingMedia */], __WEBPACK_IMPORTED_MODULE_2_ngx_facebook__["c" /* FacebookService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]])
     ], ViewBlogPage);
     return ViewBlogPage;
 }());
@@ -1593,7 +2023,7 @@ var ViewBlogPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 322:
+/***/ 699:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1639,7 +2069,7 @@ var ViewPostPage = /** @class */ (function () {
     ViewPostPage.prototype.ngAfterViewInit = function () {
     };
     ViewPostPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({template:/*ion-inline-start:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/view-post/view-post.html"*/'<ion-content>\n  <div class="container">\n    <img src="../assets/imgs/397.jpg"/> \n    <ion-row class="btn" align-items-center>\n      <ion-col col-2>\n        <ion-avatar class="avatar">\n          <img id="blog_image" src="http://www.precision-spine.com/wp-content/uploads/2015/09/person-icon.png">\n        </ion-avatar>\n      </ion-col>\n      <ion-col col-8 text-start>\n        <div margin class="card-title">Madison</div>\n      </ion-col>\n\n      <ion-col col-2>\n        <button class="dp_button" margin ion-button icon-only clear>\n          <ion-icon name="heart"></ion-icon>\n        </button>\n      </ion-col>\n    </ion-row>\n \n  </div>\n    \n   \n\n  <ion-row>\n    <ion-col col-10 text-start>\n      <div class="participants">Participants:</div>\n    </ion-col>\n    <ion-col col-2>\n      <ion-avatar class="avatar">\n        <img id="poll_result" src="http://www.precision-spine.com/wp-content/uploads/2015/09/person-icon.png">\n      </ion-avatar>\n    </ion-col>\n  </ion-row>\n  <ion-row>\n    <ion-col text-center>\n      <div class="question">Question</div>\n    </ion-col>\n  </ion-row>\n\n  <ion-row class="card" justify-content-center>\n    <ion-col col-auto class="item-text-wrap"  *ngFor="let item of items" >\n      <p  >\n       Ahdglcjdcerhiehil</p>\n    </ion-col>\n  </ion-row>\n  <ion-row>\n    <ion-col>\n      <div class="description">Description</div>\n    </ion-col>\n  </ion-row>\n  <ion-row no-padding>\n    <ion-col>\n      <button ion-button clear small color="danger" icon-start>\n        <ion-icon name=\'star\'></ion-icon>\n        Favorite\n      </button>\n    </ion-col>\n    <ion-col text-center>\n      <button ion-button clear small color="danger" icon-start>\n        <ion-icon name=\'musical-notes\'></ion-icon>\n        Listen\n      </button>\n    </ion-col>\n    <ion-col text-right>\n      <button ion-button clear small color="danger" icon-start>\n        <ion-icon name=\'share-alt\'></ion-icon>\n        Share\n      </button>\n    </ion-col>\n  </ion-row>\n\n</ion-content>'/*ion-inline-end:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/view-post/view-post.html"*/
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/view-post/view-post.html"*/'<ion-content>\n    <div class="container">\n      <img src="../assets/imgs/397.jpg"/> \n      <ion-row class="btn" align-items-center>\n        <ion-col col-2>\n          <ion-avatar class="avatar">\n            <img id="blog_image" src="http://www.precision-spine.com/wp-content/uploads/2015/09/person-icon.png">\n          </ion-avatar>\n        </ion-col>\n        <ion-col col-8 text-start>\n          <div margin class="card-title">Madison</div>\n        </ion-col>\n  \n        <ion-col col-2>\n          <button class="dp_button" margin ion-button icon-only clear>\n            <ion-icon name="heart"></ion-icon>\n          </button>\n        </ion-col>\n      </ion-row>\n   \n    </div>\n      \n     \n  \n    <ion-row>\n      <ion-col col-10 text-start>\n        <div class="participants">Participants:</div>\n      </ion-col>\n      <ion-col col-2>\n        <ion-avatar class="avatar">\n          <img id="poll_result" src="http://www.precision-spine.com/wp-content/uploads/2015/09/person-icon.png">\n        </ion-avatar>\n      </ion-col>\n    </ion-row>\n    <ion-row>\n      <ion-col text-center>\n        <div class="question">Question</div>\n      </ion-col>\n    </ion-row>\n  \n    <ion-row class="card" justify-content-center>\n      <ion-col col-auto class="item-text-wrap"  *ngFor="let item of items" >\n        <p  >\n         Ahdglcjdcerhiehil</p>\n      </ion-col>\n    </ion-row>\n    <ion-row>\n      <ion-col>\n        <div class="description">Description</div>\n      </ion-col>\n    </ion-row>\n    <ion-row no-padding>\n      <ion-col>\n        <button ion-button clear small color="danger" icon-start>\n          <ion-icon name=\'star\'></ion-icon>\n          Favorite\n        </button>\n      </ion-col>\n      <ion-col text-center>\n        <button ion-button clear small color="danger" icon-start>\n          <ion-icon name=\'musical-notes\'></ion-icon>\n          Listen\n        </button>\n      </ion-col>\n      <ion-col text-right>\n        <button ion-button clear small color="danger" icon-start>\n          <ion-icon name=\'share-alt\'></ion-icon>\n          Share\n        </button>\n      </ion-col>\n    </ion-row>\n  \n  </ion-content>'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/view-post/view-post.html"*/
         }),
         __metadata("design:paramtypes", [])
     ], ViewPostPage);
@@ -1650,13 +2080,13 @@ var ViewPostPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 323:
+/***/ 700:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MatchupPlayPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(14);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1683,10 +2113,10 @@ var MatchupPlayPage = /** @class */ (function () {
         console.log('ionViewDidLoad MatchupPlayPage');
     };
     MatchupPlayPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-matchup-play',template:/*ion-inline-start:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/matchup-play/matchup-play.html"*/'<!--\n  Generated template for the MatchupPlayPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>matchup-play</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/src/pages/matchup-play/matchup-play.html"*/,
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-matchup-play',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/matchup-play/matchup-play.html"*/'<!--\n  Generated template for the MatchupPlayPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>matchup-play</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/matchup-play/matchup-play.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]])
     ], MatchupPlayPage);
     return MatchupPlayPage;
 }());
@@ -1695,7 +2125,7 @@ var MatchupPlayPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 336:
+/***/ 701:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1729,5 +2159,5 @@ var EmojiProvider = /** @class */ (function () {
 
 /***/ })
 
-},[235]);
+},[393]);
 //# sourceMappingURL=main.js.map

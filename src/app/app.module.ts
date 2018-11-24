@@ -42,6 +42,24 @@ import { IonicStorageModule } from '@ionic/storage';
 import { StorageUtilProvider } from '../providers/storage-util/storage-util';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { SessionUtilProvider } from '../providers/session-util/session-util';
+import { ImagePicker } from '@ionic-native/image-picker';
+
+import { Camera, CameraOptions } from '@ionic-native/camera';
+
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireStorageModule } from 'angularfire2/storage';
+import { DataProvider } from '../providers/firebaseDataProvider';
+import { Context } from '../providers/context';
+
+var firebaseConfig = {
+  apiKey: "AIzaSyAh1EyYPn6Uhn8R9e9AT7wqfPA4aWp8IB4",
+  authDomain: "quizator-be795.firebaseapp.com",
+  databaseURL: "https://quizator-be795.firebaseio.com",
+  projectId: "quizator-be795",
+  storageBucket: "quizator-be795.appspot.com",
+  messagingSenderId: "556459777006"
+};
 @NgModule({
   declarations: [
     MyApp,
@@ -68,6 +86,9 @@ import { SessionUtilProvider } from '../providers/session-util/session-util';
   imports: [
     HttpModule,
     BrowserModule,
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireDatabaseModule,
+    AngularFireStorageModule,
     IonicStorageModule.forRoot({
       name: 'quizator',
          driverOrder: ['indexeddb','sqlite', 'websql']
@@ -136,6 +157,10 @@ import { SessionUtilProvider } from '../providers/session-util/session-util';
     StorageUtilProvider,
     SessionUtilProvider,
     ServerUtil,
+    ImagePicker,
+    Camera,
+    DataProvider,
+    Context,
    // { provide: LocationStrategy, useClass: PathLocationStrategy },
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
