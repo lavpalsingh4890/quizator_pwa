@@ -54,7 +54,10 @@ import { Context } from '../providers/context';
 import { Crop } from '@ionic-native/crop';
 import { ImageUtil } from '../providers/ImageUtil';
 import { FirebaseService } from '../providers/firebase.service';
-
+import { PostClientApiProvider } from '../providers/post-client-api/post-client-api';
+import { HttpClientModule } from '@angular/common/http';
+import { TagnameClientApiProvider } from '../providers/tagname-client-api/tagname-client-api'; 
+import { TagnamePage } from '../pages/add-post/tagname/tagname';
 var firebaseConfig = {
   apiKey: "AIzaSyAh1EyYPn6Uhn8R9e9AT7wqfPA4aWp8IB4",
   authDomain: "quizator-be795.firebaseapp.com",
@@ -84,11 +87,13 @@ var firebaseConfig = {
     ViewPostPage,
     MatchupPlayPage,
     SubcategoryPage,
-    CategoryPage
+    CategoryPage,
+    TagnamePage
   ],
   imports: [
     HttpModule,
     BrowserModule,
+    HttpClientModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireStorageModule,
@@ -143,7 +148,8 @@ var firebaseConfig = {
     ViewPostPage,
     MatchupPlayPage,
     CategoryPage,
-    SubcategoryPage
+    SubcategoryPage,
+    TagnamePage
   ],
   providers: [
     StatusBar,
@@ -168,7 +174,9 @@ var firebaseConfig = {
     Crop,
     ImageUtil,
    // { provide: LocationStrategy, useClass: PathLocationStrategy },
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    PostClientApiProvider,
+    TagnameClientApiProvider
   ]
 })
 export class AppModule {}

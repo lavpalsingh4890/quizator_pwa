@@ -1,19 +1,15 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform, ToastController, AlertController } from 'ionic-angular';
-import { Post_Option } from '../../pojo/post_option';
-import { Post } from '../../pojo/post';
-import { ServerUtil } from '../../providers/server-util/serverUtil';
+import { IonicPage, NavController, Platform, ToastController, AlertController } from 'ionic-angular';
 import { TextUtilProvider } from '../../providers/text-util/text-util';
-import { Http } from '@angular/http';
-
-import { Camera, CameraOptions } from '@ionic-native/camera';
 import { normalizeURL } from 'ionic-angular';
 import { CategoryPage } from '../category/category';
-
-import { DataProvider } from '../../providers/firebaseDataProvider';
 import { ImageUtil } from '../../providers/ImageUtil';
-import { Crop } from '@ionic-native/crop';
 import { Context } from '../../providers/context';
+import { Storage } from '@ionic/storage';
+import { PostClientApiProvider } from '../../providers/post-client-api/post-client-api';
+import { SubcategoryPage } from '../category/subcategory/subcategory';
+import { TagnamePage } from './tagname/tagname';
+import { Tag } from '../../pojo/tag';
 
 @IonicPage()
 @Component({
@@ -21,118 +17,100 @@ import { Context } from '../../providers/context';
   templateUrl: 'add-post.html',
 })
 export class AddPostPage {
-  option: string = "Test";
-  items = [
+  private option: string = "";
+  private items = [
   ];
-  post_type = "quiz";
-  question;
-  description;
-  isImage: boolean = false;
-  image;
-  correct_option;
-  data: any = {};
-  isquiz: boolean = true;
-  imageSrc;
-  isImageUploading: boolean = false;
-  constructor(public cropService: Crop, private imageUtil: ImageUtil, private alertCtrl: AlertController, private toastCtrl: ToastController, private dataProvider: DataProvider, private platform: Platform, private camera: Camera, public server: ServerUtil, public navCtrl: NavController, public navParams: NavParams, public textUtil: TextUtilProvider, public http: Http) {
-    this.image = "../assets/imgs/397.jpg";
 
-    this.data.username = 'Love';
-    this.data.response = '';
+  private question;
+  private description;
+  private media_tag: string;
+  private media_source: string;
+  private post_type = "quiz";
+  private image: any;
+  private correct_option: string;
+  private data: any = {};
+  private categoryId: number;
+  private category: string = "Select Category";
+  private isImage: boolean = false;
+  private isquiz: boolean = true;
+  private isImageUploaded: boolean = false;
+  private isTagPicked: boolean = false;
+  private errors: string = '';
 
-    this.http = http;
+  constructor(public alertCtrl: AlertController, private postClient: PostClientApiProvider, private storage: Storage,
+    private toastCtrl: ToastController, private imageUtil: ImageUtil, private platform: Platform, private navCtrl: NavController, private textUtil: TextUtilProvider) {
 
   }
-
-  getInfo() {
-
-    this.dataProvider.getPath("files2/1543066535346.txt").subscribe(data => console.log(data));
-  }
-
-  addFile() {
-    let inputAlert = this.alertCtrl.create({
-      title: 'Store new information',
-      inputs: [
-        {
-          name: 'info',
-          placeholder: 'Lorem ipsum dolor...'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel'
-        },
-        {
-          text: 'Store',
-          handler: data => {
-            this.uploadInformation(data.info);
-          }
-        }
-      ]
-    });
-    inputAlert.present();
-  }
-  uploadInformation(text) {
-    let upload = this.dataProvider.uploadToStorage(text);
-
-    // Perhaps this syntax might change, it's no error here!
-    upload.then().then(res => {
-      this.dataProvider.storeInfoToDatabase(res.metadata).then(() => {
-        console.log(res);
-        let toast = this.toastCtrl.create({
-          message: 'New File added!' + res,
-          duration: 3000
-        });
-        toast.present();
-      });
-    });
-  }
-
   removeImage() {
-
     this.isImage = false;
     this.image = null;
-   
+    if(! this.isTagPicked)
     this.imageUtil.removeImage();
+    Context.set("photoURL", null);
+    
+    this.isImageUploaded = false;
+
+    this.media_tag = null;
+    this.media_source = null;
+    this.isTagPicked = false;
   }
   getImage() {
-
-    let options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-      targetWidth: 1024,
-      targetHeight: 768,
-      saveToPhotoAlbum: true,
-      correctOrientation: true,
-      mediaType: this.camera.MediaType.PICTURE
-    };
-    this.camera.getPicture(options).then(imageData => {
+    this.imageUtil.getImage().then(imageData => {
       this.isImage = true;
       if (this.platform.is('ios'))
         this.image = normalizeURL(imageData);
-      // IF problem only occur in ios and normalizeURL 
-      //not work for you then you can also use 
-      //this.base64Image= imageData.replace(/^file:\/\//, '');
       else
         this.image = "data:image/jpeg;base64," + imageData;
     }, error => {
       console.log('ERROR -> ' + JSON.stringify(error));
     });
-
-
   }
-  submit() {
-    var link = 'http://localhost/api.php';
-    var myData = JSON.stringify({ username: this.data.username });
-    this.http.post(link, myData)
-      .subscribe(data => {
-        this.data.response = data["_body"];
-        console.log(this.data.response);
-      }, error => {
-        console.log("Oooops!");
-      });
+  cancel() {
+    this.navCtrl.pop();
+  }
+  draft() {
+    this.storage.set("isDraft", true);
+    if (this.question != null) this.storage.set("question", this.question);
+    if (this.description != null) this.storage.set("description", this.description);
+    if (this.image != null) this.storage.set("image", this.image);
+    if (this.post_type != null) this.storage.set("post_type", this.post_type);
+    if (this.correct_option != null) this.storage.set("correct_option", this.correct_option);
+    if (this.items != null) this.storage.set("items", this.items);
+    if (this.categoryId != null) this.storage.set("categoryId", this.categoryId);
+    if (this.media_tag != null) this.storage.set("media_tag", this.media_tag);
+
+    this.cancel();
+  }
+
+  validateFields() {
+    var is_error: boolean;
+    this.errors = '';
+    if (this.question == null || this.question.length < 10) {
+      this.errors += 'Question field - minimum 10 characters required \r\n ';
+      is_error = true;
+    }
+    if (this.categoryId == null || this.categoryId == 0) {
+      this.errors += 'Please select valid category \r\n ';
+      is_error = true;
+    }
+    if (this.post_type == "quiz" && this.correct_option == null) {
+      this.errors += 'Please select correct option \r\n ';
+      is_error = true;
+    }
+    if (this.post_type != "fact" && (this.items == null || this.items.length < 2)) {
+      this.errors += 'Please add more than one option(s) \r\n ';
+      is_error = true;
+    }
+    console.log(this.errors)
+    if (is_error) {
+      return false;
+    }
+    return true;
+  }
+  post() {
+    if (this.validateFields()) {
+      this.postClient.post(this.question, this.description, this.image, this.media_tag, this.post_type, this.categoryId, this.category, this.correct_option, this.items);
+    }
   }
 
   chooseCategory() {
@@ -153,6 +131,24 @@ export class AddPostPage {
       console.log("item empty");
     }
   }
+  trackByFn(index: any, item: any) {
+    return index;
+  }
+  onEnter(index) {
+    this.addOption();
+  }
+  optionChange(it, index) {
+    var elem = <HTMLInputElement>document.getElementById("option" + index);
+
+    console.log(elem.value + " " + index);
+  }
+
+  updateOption(it, index) {
+    console.log(it + " " + index);
+    let itemIndex = this.items.findIndex(item => item.id == it.id);
+    this.items[index] = it;
+  }
+
   deleteOption(item) {
     if (this.items.indexOf(item) != -1) {
       this.items.splice(this.items.indexOf(item), 1);
@@ -163,66 +159,71 @@ export class AddPostPage {
     }
   }
   change(index) {
-    this.textUtil.change(index);
+
+    // get elements
+    // var element = document.getElementById('messageInputBox'+index);
+    // var textarea = element.getElementsByTagName('textarea')[0];
+
+    // // set default style for textarea
+    // textarea.style.minHeight = '0';
+    // textarea.style.height = '0';
+
+    // // limit size to 96 pixels (6 lines of text)
+    // var scroll_height = textarea.scrollHeight;
+    // if (scroll_height > 96)
+    //   scroll_height = 96;
+
+    // // apply new style
+    // element.style.height = scroll_height + "px";
+    // textarea.style.minHeight = scroll_height + "px";
+    // textarea.style.height = scroll_height + "px";
+
   }
 
-  post() {
-    var post_type = this.post_type;
-    var question = this.question;
-    var options = this.items;
-    var description = this.description;
-    var image = this.image;
-    var correct_option = this.correct_option;
-    var post = {
-      "post_type": post_type,
-      "question": question,
-      "options": options,
-      "description": description,
-      "image": image,
-      "correct_option": correct_option
-    }
-    console.log(post);
-  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddPostPage');
-
-    var opt1 = this.createOption(1, "option1", true);
-    var opt2 = this.createOption(2, "option2", false);
-    var opt3 = this.createOption(3, "option3", false);
-    var opts = [opt1, opt2, opt3];
-    var post = this.createPost("My title", "My description", "My media path", 1, 1, "My post category", 1, opts);
-
-    // this.server.addPost(post);
-    console.log(post);
   }
 
-  createPost(title: string, description: string, media_path: string, post_type: number, post_category_id: number, post_category: string, blogger_id: number, options: Post_Option[]) {
-    var post_data: Post = {
-      "title": title,
-      "options": options,
-      "post_type": post_type,
-      "post_desc": description,
-      "post_category_id": post_category_id,
-      "category_name": post_category,
-      "post_media_url": media_path,
-      "blogger_id": blogger_id
-    };
-    return post_data;
-  }
-  createOption(id: number, data: string, is_true: boolean) {
-    var post_opt: Post_Option = {
-      "post_option": data,
-      "id": id,
-      "is_correct": is_true,
-      "poll_count": 0
-    };
-    return post_opt;
-  }
+  ionViewDidEnter() {
+    console.log('ionViewDidEnter AddPostPage');
+    var t: Tag = <Tag>Context.get("Tag");
+    if (t != null) {
+      console.log(t.tag);
+      this.media_tag = t.tag;
+      this.media_source = t.imageCredits;
+      this.image = t.mediaUrl;
+      this.isTagPicked = true;
+    }
 
-  test() {
-    if (!Context.get("isImageUploading")) {
-      Context.set("isImageUploading", true);
-      this.imageUtil.uploadImageToFirebase(this.image);
+
+    if (SubcategoryPage.is_sub1_selected) {
+      console.log(SubcategoryPage.main_option2.id + " " + SubcategoryPage.main_option2.category + " " + SubcategoryPage.sub_option1.id + " " + SubcategoryPage.sub_option1.category);
+      this.categoryId = SubcategoryPage.sub_option1.id;
+      this.category = SubcategoryPage.sub_option1.category;
     }
   }
+  upload() {
+    if (!Context.get("isImageUploading")) {
+      Context.set("isImageUploading", true);
+      this.imageUtil.uploadImageToFirebase(this.image).then(photoURL => {
+        Context.set("isImageUploading", false);
+        Context.set("photoURL", photoURL);
+        this.image = photoURL;
+
+        this.isImageUploaded = true;
+        console.log(photoURL);
+        let toast = this.toastCtrl.create({
+          message: 'Image was uploaded successfully',
+          duration: 3000
+        });
+        toast.present();
+      })
+    }
+  }
+
+  getTags() {
+    this.navCtrl.push(TagnamePage, { "keyword": this.media_tag });
+  }
+
+
 }

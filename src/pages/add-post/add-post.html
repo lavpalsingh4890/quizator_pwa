@@ -1,44 +1,81 @@
 <ion-content class="page-add-post">
-    <div class="container">
-      <div id="post_image_container" >
-        
-          <img  id="post_image" *ngIf="isImage" src="{{image}}" />
-      </div>
-      <ion-row  *ngIf="isImage" class="btn" align-items-center >  
-          <ion-col col-2>
-              <button class="dp_button" (click)="getImage()" margin ion-button icon-only clear>
-                <ion-icon name="add-circle"></ion-icon>
-              </button>
-            </ion-col>
-        <ion-col offset-7 col-2>
-          <button class="dp_button" (click)="removeImage()" margin ion-button icon-only clear>
-            <ion-icon name="close"></ion-icon>
-          </button>
-        </ion-col>
-      </ion-row>
-  
-      <ion-fab id="post_image_fab" *ngIf="!isImage" end middle>
-          <button (click)="getImage()"  ion-fab>
-            <ion-icon name="md-add"></ion-icon>
-          </button>
-        </ion-fab>
+  <div class="container">
+    <div id="post_image_container">
+
+      <img id="post_image" *ngIf="isImage||isTagPicked" src="{{image}}" />
     </div>
-  <div id="post_detail"> 
+    <ion-row *ngIf="isImage||isTagPicked" class="btn" align-items-center>
+      <ion-col col-2>
+        <button *ngIf="!isTagPicked" class="dp_button" (click)="getImage()" margin ion-button icon-only>
+          <ion-icon name="add-circle"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col offset-7 col-2>
+        <button class="dp_button" (click)="removeImage()" margin ion-button icon-only>
+          <ion-icon name="close"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+
+    <ion-fab id="post_image_fab" *ngIf="!isImage&&!isTagPicked" end middle>
+      <button (click)="getImage()" ion-fab>
+        <ion-icon name="md-add"></ion-icon>
+      </button>
+    </ion-fab>
+  </div>
+  <div id="post_detail">
 
 
     <ion-row *ngIf="isImage">
-        <button ion-button  (click)="test()"  full clear light>
-           Upload Image
-          </button>
+      <button ion-button (click)="upload()" full clear light>
+        Upload Image
+      </button>
+    </ion-row>
+
+    <ion-row *ngIf="isImageUploaded">
+      <ion-col col-2>
+        <img id="uploaded_image" src="{{image}}" />
+      </ion-col>
+      <ion-col col-8>
+        <ion-label>
+          {{image}}
+        </ion-label>
+      </ion-col>
+      <ion-col col-2>
+        <button ion-button icon-only (click)="removeImage()">
+          <ion-icon name="close"></ion-icon>
+        </button>
+      </ion-col>
     </ion-row>
     <ion-row *ngIf="!isImage">
-        <ion-item>
-            <ion-label floating>Add Media Url</ion-label>
-            <ion-input type="text"></ion-input>
-          </ion-item>
+      <ion-item>
+        <ion-label floating>Add Media Url</ion-label>
+        <ion-input type="text" [(ngModel)]="image"></ion-input>
+      </ion-item>
+    </ion-row>
+    <ion-row align-items-center>
+      <ion-col col-10>
+      <ion-item>
+        <ion-label floating>Add Media Tag Name</ion-label>
+        <ion-input type="text" [(ngModel)]="media_tag"></ion-input>
+      </ion-item>
+    </ion-col>
+    <ion-col col-2>
+        <button ion-button icon-only (click)="getTags()">
+            <ion-icon name="search"></ion-icon>
+          </button>
+    </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col>
+            <ion-item>
+              <ion-label floating>Add Media Credits Source</ion-label>
+              <ion-input type="text" [(ngModel)]="media_source"></ion-input>
+            </ion-item>
+          </ion-col>
     </ion-row>
     <ion-row radio-group [(ngModel)]="post_type">
-  
+
       <ion-col>
         <ion-item>
           <ion-label>Quiz
@@ -63,25 +100,25 @@
       </ion-col>
     </ion-row>
   </div>
-    <div id="container">
-      <ion-list >
-  
-        <ion-item class="rounded" id="question">
-          <ion-textarea rows="1" id="messageInputBox1" maxlength="500" placeholder="Add Question" (input)="change(1)" [(ngModel)]="question" required></ion-textarea>
-        </ion-item>
-        <div *ngIf="post_type!='fact'" >
-          
-        
-        <div *ngFor="let item of items">
+  <div id="container">
+    <ion-list>
+
+      <ion-item class="rounded" id="question">
+        <ion-textarea rows="1" id="messageInputBox1" maxlength="500" placeholder="Add Question" (input)="change(1)"
+          [(ngModel)]="question" required></ion-textarea>
+      </ion-item>
+      <div *ngIf="post_type!='fact'">
+
+
+        <div *ngFor="let item of items ; let i = index trackBy:trackByFn">
           <ion-row>
-            <ion-col col-8>
+            <ion-col col-10>
               <ion-item>
-                <ion-textarea rows="1" id="messageInputBox" value={{item}} (input)="change()" required></ion-textarea>
+                  <input type="text" id="option{{i}}" [(ngModel)]="items[i]"/>
+                <!-- <ion-textarea rows="1" id="option{{i}}" value={{item}} (input)="optionChange(this,i)" required></ion-textarea> -->
               </ion-item>
             </ion-col>
-            <ion-col  col-2>
-            
-            </ion-col>
+           
             <ion-col col-2>
               <button ion-button icon-only (click)="deleteOption(item)">
                 <ion-icon name="close"></ion-icon>
@@ -89,49 +126,55 @@
             </ion-col>
           </ion-row>
         </div>
-  
+
         <ion-item class="rounded" id="option">
-          <ion-textarea rows="1" maxlength="50" id="messageInputBox" placeholder="Add Option"  [(ngModel)]="option"
+          <ion-textarea rows="1" maxlength="50" id="messageInputBox" placeholder="Add Option" [(ngModel)]="option" (keyup.enter)="addOption()"
             required></ion-textarea>
         </ion-item>
-       
+
         <ion-item>
           <button ion-button icon-start full (click)="addOption()">
             <ion-icon name="md-add"></ion-icon>
             Add Option
           </button>
         </ion-item>
-      
-          <ion-row *ngIf="items.length>1&&isquiz" justify-content-center> 
-            <ion-col>
-                <ion-select [(ngModel)]="correct_option" multiple="false" placeholder="Choose correct option" style="width:100%">  
-                    <ion-option *ngFor="let item of items" value="{{item}}" selected="{{item}}">{{item}}</ion-option>
-                </ion-select>
-            </ion-col>
-          </ion-row>
-        
-        <ion-item class="rounded" id="question">
-            <ion-textarea rows="1" maxlength="500" id="messageInputBox2" placeholder="Add Description" (input)="change(2)" [(ngModel)]="description" required></ion-textarea>
-          </ion-item>
-        </div>
-      </ion-list>
-  
-      <ion-row>
-          <button (click)="chooseCategory()" ion-button color="light" full>Select Category</button>
-      </ion-row>
-      <ion-row justify-content-center>
+
+        <ion-row *ngIf="items.length>1&&isquiz" justify-content-center>
           <ion-col>
-              <button ion-button color="dark" round full (click)="submit()">Cancel</button>
+            <ion-select [(ngModel)]="correct_option" multiple="false" placeholder="Choose correct option" style=" max-width: 100% !important;">
+              <ion-option *ngFor="let item of items" value="{{item}}" selected="{{item}}">{{item}}</ion-option>
+            </ion-select>
           </ion-col>
-        <ion-col>
-            <button ion-button color="dark" round full (click)="submit()">Draft</button>
-        </ion-col>
-        <ion-col>
-            <button ion-button color="dark" round full (click)="post()">Post</button>
-        </ion-col>
-      </ion-row>
-  
+        </ion-row>
+
+        <ion-item class="rounded" id="question">
+          <ion-textarea rows="1" maxlength="500" id="messageInputBox2" placeholder="Add Description" (input)="change(2)"
+            [(ngModel)]="description" required></ion-textarea>
+        </ion-item>
+      </div>
+    </ion-list>
+
+
+    <div>
+      {{errors}}
     </div>
-  
-  
-  </ion-content>
+
+    <ion-row>
+      <button (click)="chooseCategory()" ion-button color="light" full>{{category}}</button>
+    </ion-row>
+    <ion-row justify-content-center>
+      <ion-col>
+        <button ion-button color="dark" round full (click)="cancel()">Cancel</button>
+      </ion-col>
+      <ion-col>
+        <button ion-button color="dark" round full (click)="submit()">Draft</button>
+      </ion-col>
+      <ion-col>
+        <button ion-button color="dark" round full (click)="post()">Post</button>
+      </ion-col>
+    </ion-row>
+
+  </div>
+
+
+</ion-content>

@@ -63,7 +63,7 @@ export class SubcategoryPage {
         break;
     }
 
-    this.navCtrl.push(CategoryPage);
+    this.navCtrl.pop();
   }
 back(){
   this.navCtrl.pop();

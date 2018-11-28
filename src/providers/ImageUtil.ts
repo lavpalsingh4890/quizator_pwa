@@ -1,34 +1,23 @@
 import { ImagePicker } from "@ionic-native/image-picker";
-import { ToastController, normalizeURL } from "ionic-angular";
+import { ToastController, normalizeURL, Platform } from "ionic-angular";
 import { FirebaseService } from "./firebase.service";
 import { Crop } from '@ionic-native/crop';
 import { Injectable } from "@angular/core";
 import { Context } from "./context";
+import { AddPostPage } from "../pages/add-post/add-post";
+import { CameraOptions, Camera } from "@ionic-native/camera";
 
 @Injectable()
 export class ImageUtil {
 
   constructor(private imagePicker: ImagePicker,
     public cropService: Crop,
-    public toastCtrl: ToastController,
-    public firebaseService: FirebaseService) {
-
+    public firebaseService: FirebaseService, private camera: Camera) {
   }
   uploadImageToFirebase(image) {
     image = normalizeURL(image);
-
-    //uploads img to firebase storage
-    this.firebaseService.uploadImage(image)
-      .then(photoURL => {
-        Context.set("isImageUploading", false);
-        Context.set("photoURL", photoURL);
-        console.log(photoURL);
-        let toast = this.toastCtrl.create({
-          message: 'Image was uploaded successfully',
-          duration: 3000
-        });
-        toast.present();
-      })
+    return this.firebaseService.uploadImage(image);
+      
   }
   removeImage() {
     var image_name = Context.get("uploaded_image_key");
@@ -84,5 +73,21 @@ export class ImageUtil {
       }, (err) => {
         console.log(err);
       });
+  }
+  getImage() {
+
+    let options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      targetWidth: 1024,
+      targetHeight: 768,
+      saveToPhotoAlbum: true,
+      correctOrientation: true,
+      mediaType: this.camera.MediaType.PICTURE
+    };
+    return this.camera.getPicture(options);
+
+
   }
 }

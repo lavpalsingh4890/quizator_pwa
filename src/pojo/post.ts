@@ -9,4 +9,5 @@ export interface Post {
     post_category_id:number;
     category_name:string;
     post_media_url:string;
+    media_tag:string;
   }

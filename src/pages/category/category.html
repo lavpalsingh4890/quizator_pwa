@@ -64,7 +64,7 @@
   <ion-label *ngIf="is_error" class="error_text">
     {{error_text}}
   </ion-label>
-  <button ion-button color="light" round full>Done
+  <button ion-button color="light" (click)="done()" round full>Done
     </button>
     <!-- <input type="file" (change)="onFileChanged($event)"> -->
 </ion-content>

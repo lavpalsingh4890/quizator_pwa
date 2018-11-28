@@ -20,19 +20,21 @@ export class CategoryPage {
   error_text:string ="This is sample error";
   image = "../assets/imgs/397.jpg";
   constructor(private imagePicker: ImagePicker,public navCtrl: NavController, public navParams: NavParams,public modalCtrl: ModalController) {
-    if(SubcategoryPage.is_main_selected){
-     this.main_category =SubcategoryPage.main_option.category;
-     this.is_main_selected =true;
-    }
-    if(SubcategoryPage.is_sub1_selected){
-      this.sub_category1 = SubcategoryPage.sub_option1.category;
-      this.is_sub_selected =true;
-      console.log(SubcategoryPage.main_option2.id+" "+SubcategoryPage.main_option2.category+" "+SubcategoryPage.sub_option1.id+" "+SubcategoryPage.sub_option1.category);
-
-    }
+    
 
      }
 
+     ionViewDidEnter(){
+      if(SubcategoryPage.is_main_selected){
+        this.main_category =SubcategoryPage.main_option.category;
+        this.is_main_selected =true;
+       }
+       if(SubcategoryPage.is_sub1_selected){
+         this.sub_category1 = SubcategoryPage.sub_option1.category;
+         this.is_sub_selected =true;
+         console.log(SubcategoryPage.main_option2.id+" "+SubcategoryPage.main_option2.category+" "+SubcategoryPage.sub_option1.id+" "+SubcategoryPage.sub_option1.category);
+       }
+     }
      pickImage(){
       var options ={
          
@@ -70,8 +72,11 @@ export class CategoryPage {
   getSubCategory(type:number){
    this.navCtrl.push(SubcategoryPage,type);
     console.log('ionViewDidLoad CategoryPage');
-
- 
   }
+
+  done(){
+    this.navCtrl.pop();
+  }
+  
 
 }
