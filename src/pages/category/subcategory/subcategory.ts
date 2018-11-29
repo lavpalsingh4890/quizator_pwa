@@ -5,7 +5,7 @@ import { ServerUtil } from '../../../providers/server-util/serverUtil';
 
 import { environment as ENV } from "../../../environments/environment";
 import { Http, Headers, RequestOptions } from '@angular/http';
-import { Category } from '../../../pojo/category';
+import { Category } from '../../../entityModel/category';
 
 @IonicPage()
 @Component({

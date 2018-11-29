@@ -31,7 +31,7 @@
     <ion-card-header>
         <ion-item>
             <ion-label floating>Enter new category name</ion-label>
-            <ion-input type="text"></ion-input>
+            <ion-input type="text" [(ngModel)]="category_name"></ion-input>
           </ion-item>
     </ion-card-header>
 
@@ -55,9 +55,33 @@
         </div>
       </ion-row>
       <ion-row>
-          <button (click)="pickImage()" ion-button color="light" round icon-end full>Add Category image
-            <ion-icon name="add"></ion-icon>
-          </button>
+          <div class="container">
+              <div id="post_image_container">
+          
+                <img id="post_image" *ngIf="isImage" src="{{image}}" />
+              </div>
+              <ion-row *ngIf="isImage" class="btn" align-items-center>
+                <ion-col col-2>
+                  <button  class="dp_button" (click)="getImage()" margin ion-button icon-only>
+                    <ion-icon name="add-circle"></ion-icon>
+                  </button>
+                </ion-col>
+                <ion-col offset-7 col-2>
+                  <button class="dp_button" (click)="removeImage()" margin ion-button icon-only>
+                    <ion-icon name="close"></ion-icon>
+                  </button>
+                </ion-col>
+              </ion-row>
+          
+              <button *ngIf="!isImage" (click)="getImage()" ion-button color="light" round icon-end full>Add Category image
+                  <ion-icon name="add"></ion-icon>
+                </button>
+              
+                <button *ngIf="isImage" (click)="upload()" ion-button color="light" round icon-end full>Add Category
+                  <ion-icon name="add"></ion-icon>
+                </button>
+            </div>
+       
         </ion-row>
     </ion-card-content>
   </ion-card>

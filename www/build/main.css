@@ -25785,6 +25785,18 @@ page-category img.post_image {
   z-index: -1;
 }
 
+page-category #post_image_container {
+  height: 50%;
+  width: 100%;
+}
+
+page-category #post_image {
+  height: 100%;
+  width: 100%;
+  -o-object-fit: contain;
+  object-fit: contain;
+}
+
 page-category .container {
   position: relative;
   width: 100%;
