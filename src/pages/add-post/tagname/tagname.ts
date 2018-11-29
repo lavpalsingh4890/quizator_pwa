@@ -16,13 +16,13 @@ import { Context } from '../../../providers/context';
 export class TagnamePage {
   private items: Tag[];
   private tagData: Tag[];
-   keyword:string;
+  keyword: string;
   private data: any = {};
 
-  constructor(public http: Http,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public http: Http, public navCtrl: NavController, public navParams: NavParams) {
     this.keyword = this.navParams.get("keyword");
     console.log(this.keyword);
-    this. initializeItems();
+    this.initializeItems();
     this.getTags();
   }
 
@@ -35,29 +35,23 @@ export class TagnamePage {
   }
   getTags() {
     var link = ENV.BASE_URL + ENV.TAG_FIND_API + this.keyword;
-  
-    
-    
     this.http.get(link, ServerUtil.getHeaders())
       .subscribe(d => {
         this.data.response = d["_body"];
         console.log(this.data.response);
         let data_array = JSON.stringify(d.json());
-        let tags = JSON.parse(data_array);  
+        let tags = JSON.parse(data_array);
         this.items = tags.data;
-       
-       
-        
       }, error => {
         console.log("Oooops!");
       });
   }
 
-  log(item){
-    Context.set("Tag",item);
+  log(item) {
+    Context.set("Tag", item);
     this.navCtrl.pop();
   }
- 
+
   getItems(ev: any) {
     // Reset items back to all of the items
     this.initializeItems();
@@ -73,7 +67,7 @@ export class TagnamePage {
     }
   }
 
-  back(){
+  back() {
     this.navCtrl.pop();
   }
 }

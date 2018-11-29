@@ -7,7 +7,6 @@ export interface Post {
     post_type: number;
     options:Post_Option[];
     post_category_id:number;
-    category_name:string;
-    post_media_url:string;
-    media_tag:string;
+    post_media_id:number;
+   
   }

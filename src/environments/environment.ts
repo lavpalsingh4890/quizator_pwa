@@ -3,6 +3,6 @@ export var environment = {
     POST_API:"post",
     CATEGORY_API:"category",
     PARENT_CATEGORY_PARAMS:"?type=main&parent=0",
-    TAG_FIND_API:"media/find?media_keyword="
-    
+    TAG_FIND_API:"media/find?media_keyword=",
+    TAGNAME_API: "media"
 }

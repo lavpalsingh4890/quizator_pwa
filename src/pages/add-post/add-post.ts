@@ -78,6 +78,7 @@ export class AddPostPage {
     if (this.items != null) this.storage.set("items", this.items);
     if (this.categoryId != null) this.storage.set("categoryId", this.categoryId);
     if (this.media_tag != null) this.storage.set("media_tag", this.media_tag);
+    if (this.media_source != null) this.storage.set("media_source", this.media_source);
 
     this.cancel();
   }
@@ -109,7 +110,7 @@ export class AddPostPage {
   }
   post() {
     if (this.validateFields()) {
-      this.postClient.post(this.question, this.description, this.image, this.media_tag, this.post_type, this.categoryId, this.category, this.correct_option, this.items);
+      this.postClient.post(this.question, this.image, this.media_tag, this.media_source, this.post_type, this.categoryId, this.correct_option, this.items, this.description);
     }
   }
 
