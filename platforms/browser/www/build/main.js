@@ -511,21 +511,28 @@ var AddPostPage = /** @class */ (function () {
         this.isquiz = true;
         this.isImageUploaded = false;
         this.isTagPicked = false;
+        this.isImageURL = false;
         this.errors = '';
     }
-    AddPostPage.prototype.removeImage = function () {
+    AddPostPage.prototype.removeImage = function (type) {
         this.isImage = false;
         this.image = null;
-        if (!this.isTagPicked)
-            this.imageUtil.removeImage();
+        if (type) {
+            if (!this.isTagPicked && this.isImageUploaded)
+                this.imageUtil.removeImage();
+        }
         __WEBPACK_IMPORTED_MODULE_5__providers_context__["a" /* Context */].set("photoURL", null);
+        __WEBPACK_IMPORTED_MODULE_5__providers_context__["a" /* Context */].set("Tag", null);
         this.isImageUploaded = false;
         this.media_tag = null;
         this.media_source = null;
+        this.question = null;
         this.isTagPicked = false;
+        this.isImageURL = false;
     };
     AddPostPage.prototype.getImage = function () {
         var _this = this;
+        this.isImageURL = false;
         this.imageUtil.getImage().then(function (imageData) {
             _this.isImage = true;
             if (_this.platform.is('ios'))
@@ -562,33 +569,68 @@ var AddPostPage = /** @class */ (function () {
         this.cancel();
     };
     AddPostPage.prototype.validateFields = function () {
-        var is_error;
         this.errors = '';
         if (this.question == null || this.question.length < 10) {
             this.errors += 'Question field - minimum 10 characters required \r\n ';
-            is_error = true;
+            this.is_error = true;
         }
         if (this.categoryId == null || this.categoryId == 0) {
             this.errors += 'Please select valid category \r\n ';
-            is_error = true;
+            this.is_error = true;
         }
         if (this.post_type == "quiz" && this.correct_option == null) {
             this.errors += 'Please select correct option \r\n ';
-            is_error = true;
+            this.is_error = true;
         }
         if (this.post_type != "fact" && (this.items == null || this.items.length < 2)) {
             this.errors += 'Please add more than one option(s) \r\n ';
-            is_error = true;
+            this.is_error = true;
         }
         console.log(this.errors);
-        if (is_error) {
+        if (this.is_error) {
             return false;
         }
         return true;
     };
     AddPostPage.prototype.post = function () {
+        var _this = this;
         if (this.validateFields()) {
-            this.postClient.post(this.question, this.image, this.media_tag, this.media_source, this.post_type, this.categoryId, this.correct_option, this.items, this.description);
+            this.postClient.post(this.isTagPicked, this.isImageUploaded, this.mediaId, this.question, this.image, this.media_tag, this.media_source, this.post_type, this.categoryId, this.correct_option, this.items, this.description).subscribe(function (d) {
+                console.log(_this.isTagPicked);
+                console.log(_this.isImageUploaded);
+                if (!_this.isTagPicked || _this.isImageUploaded) {
+                    _this.data.response = d["_body"];
+                    var data_array = JSON.stringify(d.json());
+                    var data_parsed = JSON.parse(data_array);
+                    var data_ = data_parsed.data;
+                    var media_id = data_.media_id;
+                    var opts = _this.postClient.getOptions(_this.correct_option, _this.items);
+                    var post = _this.postClient.createPost(_this.question, _this.description, _this.postClient.getPostType(_this.post_type), _this.categoryId, 1, opts, media_id);
+                    console.log(post);
+                    _this.postClient.addPost(post).subscribe(function (data) {
+                        _this.data.response = data["_body"];
+                        console.log(_this.data.response);
+                        _this.removeImage(false);
+                    }, function (error) {
+                        console.log("Oooops!");
+                        _this.removeImage(false);
+                    });
+                }
+                _this.data.response = d["_body"];
+                console.log(_this.data.response);
+                _this.removeImage(false);
+            }, function (error) {
+                switch (error.status) {
+                    case 409:
+                        _this.errors += 'Duplicate TagName \r\n ';
+                        break;
+                    default:
+                        _this.errors += 'Something Went Wrong \r\n ';
+                        break;
+                }
+                _this.removeImage(false);
+            });
+            // 
         }
     };
     AddPostPage.prototype.chooseCategory = function () {
@@ -661,6 +703,7 @@ var AddPostPage = /** @class */ (function () {
             this.media_source = t.imageCredits;
             this.image = t.mediaUrl;
             this.isTagPicked = true;
+            this.mediaId = t.id;
         }
         if (__WEBPACK_IMPORTED_MODULE_8__category_subcategory_subcategory__["a" /* SubcategoryPage */].is_sub1_selected) {
             console.log(__WEBPACK_IMPORTED_MODULE_8__category_subcategory_subcategory__["a" /* SubcategoryPage */].main_option2.id + " " + __WEBPACK_IMPORTED_MODULE_8__category_subcategory_subcategory__["a" /* SubcategoryPage */].main_option2.category + " " + __WEBPACK_IMPORTED_MODULE_8__category_subcategory_subcategory__["a" /* SubcategoryPage */].sub_option1.id + " " + __WEBPACK_IMPORTED_MODULE_8__category_subcategory_subcategory__["a" /* SubcategoryPage */].sub_option1.category);
@@ -691,7 +734,7 @@ var AddPostPage = /** @class */ (function () {
     };
     AddPostPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-add-post',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/add-post/add-post.html"*/'<ion-content class="page-add-post">\n  <div class="container">\n    <div id="post_image_container">\n\n      <img id="post_image" *ngIf="isImage||isTagPicked" src="{{image}}" />\n    </div>\n    <ion-row *ngIf="isImage||isTagPicked" class="btn" align-items-center>\n      <ion-col col-2>\n        <button *ngIf="!isTagPicked" class="dp_button" (click)="getImage()" margin ion-button icon-only>\n          <ion-icon name="add-circle"></ion-icon>\n        </button>\n      </ion-col>\n      <ion-col offset-7 col-2>\n        <button class="dp_button" (click)="removeImage()" margin ion-button icon-only>\n          <ion-icon name="close"></ion-icon>\n        </button>\n      </ion-col>\n    </ion-row>\n\n    <ion-fab id="post_image_fab" *ngIf="!isImage&&!isTagPicked" end middle>\n      <button (click)="getImage()" ion-fab>\n        <ion-icon name="md-add"></ion-icon>\n      </button>\n    </ion-fab>\n  </div>\n  <div id="post_detail">\n\n\n    <ion-row *ngIf="isImage">\n      <button ion-button (click)="upload()" full clear light>\n        Upload Image\n      </button>\n    </ion-row>\n\n    <ion-row *ngIf="isImageUploaded">\n      <ion-col col-2>\n        <img id="uploaded_image" src="{{image}}" />\n      </ion-col>\n      <ion-col col-8>\n        <ion-label>\n          {{image}}\n        </ion-label>\n      </ion-col>\n      <ion-col col-2>\n        <button ion-button icon-only (click)="removeImage()">\n          <ion-icon name="close"></ion-icon>\n        </button>\n      </ion-col>\n    </ion-row>\n    <ion-row *ngIf="!isImage">\n      <ion-item>\n        <ion-label floating>Add Media Url</ion-label>\n        <ion-input type="text" [(ngModel)]="image"></ion-input>\n      </ion-item>\n    </ion-row>\n    <ion-row align-items-center>\n      <ion-col col-10>\n      <ion-item>\n        <ion-label floating>Add Media Tag Name</ion-label>\n        <ion-input type="text" [(ngModel)]="media_tag"></ion-input>\n      </ion-item>\n    </ion-col>\n    <ion-col col-2>\n        <button ion-button icon-only (click)="getTags()">\n            <ion-icon name="search"></ion-icon>\n          </button>\n    </ion-col>\n    </ion-row>\n    <ion-row>\n        <ion-col>\n            <ion-item>\n              <ion-label floating>Add Media Credits Source</ion-label>\n              <ion-input type="text" [(ngModel)]="media_source"></ion-input>\n            </ion-item>\n          </ion-col>\n    </ion-row>\n    <ion-row radio-group [(ngModel)]="post_type">\n\n      <ion-col>\n        <ion-item>\n          <ion-label>Quiz\n          </ion-label>\n          <ion-radio value="quiz" (click)="isquiz=true; post_type=\'quiz\';">\n          </ion-radio>\n        </ion-item>\n      </ion-col>\n      <ion-col>\n        <ion-item>\n          <ion-label>Poll<ion-icon name="poll"></ion-icon>\n          </ion-label>\n          <ion-radio value="poll" (click)="isquiz=false; post_type=\'poll\';"></ion-radio>\n        </ion-item>\n      </ion-col>\n      <ion-col>\n        <ion-item>\n          <ion-label>Fact<ion-icon name="poll"></ion-icon>\n          </ion-label>\n          <ion-radio value="fact" (click)="isquiz=false; post_type=\'fact\';"></ion-radio>\n        </ion-item>\n      </ion-col>\n    </ion-row>\n  </div>\n  <div id="container">\n    <ion-list>\n\n      <ion-item class="rounded" id="question">\n        <ion-textarea rows="1" id="messageInputBox1" maxlength="500" placeholder="Add Question" (input)="change(1)"\n          [(ngModel)]="question" required></ion-textarea>\n      </ion-item>\n      <div *ngIf="post_type!=\'fact\'">\n\n\n        <div *ngFor="let item of items ; let i = index trackBy:trackByFn">\n          <ion-row>\n            <ion-col col-10>\n              <ion-item>\n                  <input type="text" id="option{{i}}" [(ngModel)]="items[i]"/>\n                <!-- <ion-textarea rows="1" id="option{{i}}" value={{item}} (input)="optionChange(this,i)" required></ion-textarea> -->\n              </ion-item>\n            </ion-col>\n           \n            <ion-col col-2>\n              <button ion-button icon-only (click)="deleteOption(item)">\n                <ion-icon name="close"></ion-icon>\n              </button>\n            </ion-col>\n          </ion-row>\n        </div>\n\n        <ion-item class="rounded" id="option">\n          <ion-textarea rows="1" maxlength="50" id="messageInputBox" placeholder="Add Option" [(ngModel)]="option" (keyup.enter)="addOption()"\n            required></ion-textarea>\n        </ion-item>\n\n        <ion-item>\n          <button ion-button icon-start full (click)="addOption()">\n            <ion-icon name="md-add"></ion-icon>\n            Add Option\n          </button>\n        </ion-item>\n\n        <ion-row *ngIf="items.length>1&&isquiz" justify-content-center>\n          <ion-col>\n            <ion-select [(ngModel)]="correct_option" multiple="false" placeholder="Choose correct option" style=" max-width: 100% !important;">\n              <ion-option *ngFor="let item of items" value="{{item}}" selected="{{item}}">{{item}}</ion-option>\n            </ion-select>\n          </ion-col>\n        </ion-row>\n\n        <ion-item class="rounded" id="question">\n          <ion-textarea rows="1" maxlength="500" id="messageInputBox2" placeholder="Add Description" (input)="change(2)"\n            [(ngModel)]="description" required></ion-textarea>\n        </ion-item>\n      </div>\n    </ion-list>\n\n\n    <div>\n      {{errors}}\n    </div>\n\n    <ion-row>\n      <button (click)="chooseCategory()" ion-button color="light" full>{{category}}</button>\n    </ion-row>\n    <ion-row justify-content-center>\n      <ion-col>\n        <button ion-button color="dark" round full (click)="cancel()">Cancel</button>\n      </ion-col>\n      <ion-col>\n        <button ion-button color="dark" round full (click)="submit()">Draft</button>\n      </ion-col>\n      <ion-col>\n        <button ion-button color="dark" round full (click)="post()">Post</button>\n      </ion-col>\n    </ion-row>\n\n  </div>\n\n\n</ion-content>'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/add-post/add-post.html"*/,
+            selector: 'page-add-post',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/add-post/add-post.html"*/'<ion-content class="page-add-post">\n  <div class="container">\n    <div id="post_image_container">\n\n      <img id="post_image" *ngIf="isImage||isTagPicked" src="{{image}}" />\n    </div>\n    <ion-row *ngIf="isImage||isTagPicked" class="btn" align-items-center>\n      <ion-col col-2>\n        <button class="dp_button" (click)="getImage()" margin ion-button icon-only>\n          <ion-icon name="add-circle"></ion-icon>\n        </button>\n      </ion-col>\n      <ion-col offset-7 col-2>\n        <button class="dp_button" (click)="removeImage(true)" margin ion-button icon-only>\n          <ion-icon name="close"></ion-icon>\n        </button>\n      </ion-col>\n    </ion-row>\n\n    <ion-fab id="post_image_fab" *ngIf="!isImage&&!isTagPicked" end middle>\n      <button (click)="getImage()" ion-fab>\n        <ion-icon name="md-add"></ion-icon>\n      </button>\n    </ion-fab>\n  </div>\n  <div id="post_detail">\n\n\n    <ion-row *ngIf="isImage&&!isImageURL">\n      <button ion-button (click)="upload()" full clear light>\n        Upload Image\n      </button>\n    </ion-row>\n\n    <ion-row *ngIf="isImageUploaded">\n      <ion-col col-2>\n        <img id="uploaded_image" src="{{image}}" />\n      </ion-col>\n      <ion-col col-8>\n        <ion-label>\n          {{image}}\n        </ion-label>\n      </ion-col>\n      <ion-col col-2>\n        <button ion-button icon-only (click)="removeImage(true)">\n          <ion-icon name="close"></ion-icon>\n        </button>\n      </ion-col>\n    </ion-row>\n    <ion-row>\n      <ion-item>\n        <ion-label floating>Add Media Url</ion-label>\n        <ion-input type="text" (input)="isImage=true;isImageURL=true;" [(ngModel)]="image"></ion-input>\n      </ion-item>\n    </ion-row>\n    <ion-row align-items-center>\n      <ion-col col-10>\n      <ion-item>\n        <ion-label floating>Add Media Tag Name</ion-label>\n        <ion-input type="text" [(ngModel)]="media_tag"></ion-input>\n      </ion-item>\n    </ion-col>\n    <ion-col col-2>\n        <button ion-button icon-only (click)="getTags()">\n            <ion-icon name="search"></ion-icon>\n          </button>\n    </ion-col>\n    </ion-row>\n    <ion-row>\n        <ion-col>\n            <ion-item>\n              <ion-label floating>Add Media Credits Source</ion-label>\n              <ion-input type="text" [(ngModel)]="media_source"></ion-input>\n            </ion-item>\n          </ion-col>\n    </ion-row>\n    <ion-row radio-group [(ngModel)]="post_type">\n\n      <ion-col>\n        <ion-item>\n          <ion-label>Quiz\n          </ion-label>\n          <ion-radio value="quiz" (click)="isquiz=true; post_type=\'quiz\';">\n          </ion-radio>\n        </ion-item>\n      </ion-col>\n      <ion-col>\n        <ion-item>\n          <ion-label>Poll<ion-icon name="poll"></ion-icon>\n          </ion-label>\n          <ion-radio value="poll" (click)="isquiz=false; post_type=\'poll\';"></ion-radio>\n        </ion-item>\n      </ion-col>\n      <ion-col>\n        <ion-item>\n          <ion-label>Fact<ion-icon name="poll"></ion-icon>\n          </ion-label>\n          <ion-radio value="fact" (click)="isquiz=false; post_type=\'fact\';"></ion-radio>\n        </ion-item>\n      </ion-col>\n    </ion-row>\n  </div>\n  <div id="container">\n    <ion-list>\n\n      <ion-item class="rounded" id="question">\n        <ion-textarea rows="1" id="messageInputBox1" maxlength="500" placeholder="Add Question" (input)="change(1)"\n          [(ngModel)]="question" required></ion-textarea>\n      </ion-item>\n      <div *ngIf="post_type!=\'fact\'">\n\n\n        <div *ngFor="let item of items ; let i = index trackBy:trackByFn">\n          <ion-row>\n            <ion-col col-10>\n              <ion-item>\n                  <input type="text" id="option{{i}}" [(ngModel)]="items[i]"/>\n                <!-- <ion-textarea rows="1" id="option{{i}}" value={{item}} (input)="optionChange(this,i)" required></ion-textarea> -->\n              </ion-item>\n            </ion-col>\n           \n            <ion-col col-2>\n              <button ion-button icon-only (click)="deleteOption(item)">\n                <ion-icon name="close"></ion-icon>\n              </button>\n            </ion-col>\n          </ion-row>\n        </div>\n\n        <ion-item class="rounded" id="option">\n          <ion-textarea rows="1" maxlength="50" id="messageInputBox" placeholder="Add Option" [(ngModel)]="option" (keyup.enter)="addOption()"\n            required></ion-textarea>\n        </ion-item>\n\n        <ion-item>\n          <button ion-button icon-start full (click)="addOption()">\n            <ion-icon name="md-add"></ion-icon>\n            Add Option\n          </button>\n        </ion-item>\n\n        <ion-row *ngIf="items.length>1&&isquiz" justify-content-center>\n          <ion-col>\n            <ion-select [(ngModel)]="correct_option" multiple="false" placeholder="Choose correct option" style=" max-width: 100% !important;">\n              <ion-option *ngFor="let item of items" value="{{item}}" selected="{{item}}">{{item}}</ion-option>\n            </ion-select>\n          </ion-col>\n        </ion-row>\n\n        <ion-item class="rounded" id="question">\n          <ion-textarea rows="1" maxlength="500" id="messageInputBox2" placeholder="Add Description" (input)="change(2)"\n            [(ngModel)]="description" required></ion-textarea>\n        </ion-item>\n      </div>\n    </ion-list>\n\n\n    <div>\n      {{errors}}\n    </div>\n\n    <ion-row>\n      <button (click)="chooseCategory()" ion-button color="light" full>{{category}}</button>\n    </ion-row>\n    <ion-row justify-content-center>\n      <ion-col>\n        <button ion-button color="dark" round full (click)="cancel()">Cancel</button>\n      </ion-col>\n      <ion-col>\n        <button ion-button color="dark" round full (click)="submit()">Draft</button>\n      </ion-col>\n      <ion-col>\n        <button ion-button color="dark" round full (click)="post()">Post</button>\n      </ion-col>\n    </ion-row>\n\n  </div>\n\n\n</ion-content>'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/add-post/add-post.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_7__providers_post_client_api_post_client_api__["a" /* PostClientApiProvider */], __WEBPACK_IMPORTED_MODULE_6__ionic_storage__["b" /* Storage */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */], __WEBPACK_IMPORTED_MODULE_4__providers_ImageUtil__["a" /* ImageUtil */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* Platform */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_2__providers_text_util_text_util__["a" /* TextUtilProvider */]])
@@ -1143,34 +1186,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var PostClientApiProvider = /** @class */ (function () {
-    function PostClientApiProvider(server, http) {
-        this.server = server;
+    function PostClientApiProvider(http) {
         this.http = http;
         this.data = {};
         console.log('Hello PostClientApiProvider Provider');
     }
-    PostClientApiProvider.prototype.post = function (title, media_path, media_tag, media_source, post_type, post_category_id, correct_option, options, description) {
-        var tag = this.createTag(media_path, media_tag, media_source);
-        console.log(tag);
+    PostClientApiProvider.prototype.post = function (isTagPicked, isImageUploaded, mediaId, title, media_path, media_tag, media_source, post_type, post_category_id, correct_option, options, description) {
         var opts = this.getOptions(correct_option, options);
-        this.addTag(tag, title, description, this.getPostType(post_type), post_category_id, 1, opts);
+        if (!isTagPicked || isImageUploaded) {
+            var tag = this.createTag(media_path, media_tag, media_source);
+            console.log(tag);
+            return this.addTag(tag, title, description, this.getPostType(post_type), post_category_id, 1, opts);
+        }
+        else {
+            var post = this.createPost(title, description, this.getPostType(post_type), post_category_id, 1, opts, mediaId);
+            console.log(post);
+            return this.addPost(post);
+        }
     };
     PostClientApiProvider.prototype.addTag = function (tag, title, description, post_type, post_category_id, blogger_id, opts) {
-        var _this = this;
         var link = __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].BASE_URL + __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].TAGNAME_API;
-        this.http.post(link, tag, __WEBPACK_IMPORTED_MODULE_2__server_util_serverUtil__["a" /* ServerUtil */].getHeaders())
-            .subscribe(function (d) {
-            _this.data.response = d["_body"];
-            var data_array = JSON.stringify(d.json());
-            var data_parsed = JSON.parse(data_array);
-            var data_ = data_parsed.data;
-            var media_id = data_.media_id;
-            var post = _this.createPost(title, description, post_type, post_category_id, 1, opts, media_id);
-            console.log(post);
-            _this.server.addPost(post);
-        }, function (error) {
-            console.log("Oooops!");
-        });
+        return this.http.post(link, tag, __WEBPACK_IMPORTED_MODULE_2__server_util_serverUtil__["a" /* ServerUtil */].getHeaders());
     };
     PostClientApiProvider.prototype.createTag = function (media_path, media_tag, media_source) {
         var tag_data = {
@@ -1221,9 +1257,21 @@ var PostClientApiProvider = /** @class */ (function () {
         });
         return options;
     };
+    PostClientApiProvider.prototype.addPost = function (post_data) {
+        var link = __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].BASE_URL + __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].POST_API;
+        var myData = JSON.stringify(post_data);
+        var headers = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["a" /* Headers */]();
+        //       headers.append('Origin' , 'http://127.0.0.1:8100');
+        headers.append('Access-Control-Allow-Origin', '*');
+        headers.append('Access-Control-Allow-Methods', 'POST, GET, PUT');
+        headers.append('Accept', 'application/json');
+        headers.append('content-type', 'application/json');
+        var options = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["d" /* RequestOptions */]({ headers: headers });
+        return this.http.post(link, myData, options);
+    };
     PostClientApiProvider = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["A" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__server_util_serverUtil__["a" /* ServerUtil */], __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Http */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Http */]])
     ], PostClientApiProvider);
     return PostClientApiProvider;
 }());
@@ -1962,25 +2010,6 @@ var ServerUtil = /** @class */ (function () {
         return options;
     };
     ServerUtil.prototype.getSubCategory = function (parent_id) {
-    };
-    ServerUtil.prototype.addPost = function (post_data) {
-        var _this = this;
-        var link = __WEBPACK_IMPORTED_MODULE_1__environments_environment__["a" /* environment */].BASE_URL + __WEBPACK_IMPORTED_MODULE_1__environments_environment__["a" /* environment */].POST_API;
-        var myData = JSON.stringify(post_data);
-        var headers = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* Headers */]();
-        //       headers.append('Origin' , 'http://127.0.0.1:8100');
-        headers.append('Access-Control-Allow-Origin', '*');
-        headers.append('Access-Control-Allow-Methods', 'POST, GET, PUT');
-        headers.append('Accept', 'application/json');
-        headers.append('content-type', 'application/json');
-        var options = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["d" /* RequestOptions */]({ headers: headers });
-        this.http.post(link, myData, options)
-            .subscribe(function (data) {
-            _this.data.response = data["_body"];
-            console.log(_this.data.response);
-        }, function (error) {
-            console.log("Oooops!");
-        });
     };
     ServerUtil = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),

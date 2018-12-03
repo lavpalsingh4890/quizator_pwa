@@ -1,4 +1,4 @@
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { Http, Headers, RequestOptions,Response } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Post } from '../../pojo/post';
 import { Post_Option } from '../../pojo/post_option';
@@ -6,40 +6,36 @@ import { ServerUtil } from '../server-util/serverUtil';
 import { Tag } from '../../pojo/tag';
 
 import { environment as ENV } from "../../environments/environment";
+import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class PostClientApiProvider {
   private data: any = {};
-  constructor(private server: ServerUtil, public http: Http) {
+  constructor(public http: Http) {
     console.log('Hello PostClientApiProvider Provider');
   }
-  post(title: string,  media_path: string, media_tag: string, media_source: string, post_type: string, post_category_id: number, correct_option: string, options: string[], description: string,) {
-
-    var tag: Tag = this.createTag(media_path, media_tag, media_source);
-    console.log(tag);
-
+  post(isTagPicked:boolean,isImageUploaded:boolean,mediaId:number,title: string,  media_path: string, media_tag: string, media_source: string, post_type: string, post_category_id: number, correct_option: string, options: string[], description: string,) {
     var opts: Post_Option[] = this.getOptions(correct_option, options);
 
-    this.addTag(tag, title, description, this.getPostType(post_type), post_category_id, 1, opts);
+    if(!isTagPicked||isImageUploaded){
+    var tag: Tag = this.createTag(media_path, media_tag, media_source);
+    console.log(tag);
+   
+   return this.addTag(tag, title, description, this.getPostType(post_type), post_category_id, 1, opts);
+  
+  }else{
+    var post: Post = this.createPost(title, description, this.getPostType(post_type), post_category_id, 1, opts, mediaId);
+    console.log(post);
+   return  this.addPost(post);
   }
+
+   }
 
   addTag(tag: Tag, title: string, description: string, post_type: number, post_category_id: number, blogger_id: number, opts: Post_Option[]) {
     var link = ENV.BASE_URL + ENV.TAGNAME_API;
   
-    this.http.post(link, tag, ServerUtil.getHeaders())
-      .subscribe(d => {
-        this.data.response = d["_body"];
-        let data_array = JSON.stringify(d.json());
-        let data_parsed = JSON.parse(data_array);
-       let data_ = data_parsed.data;
-       let media_id = data_.media_id;
-      
-       var post: Post = this.createPost(title, description, post_type, post_category_id, 1, opts, media_id);
-       console.log(post);
-       this.server.addPost(post);
-      }, error => {
-        console.log("Oooops!");
-      });
+   return this.http.post(link, tag, ServerUtil.getHeaders())
+     
   }
 
   createTag(media_path: string, media_tag: string, media_source: string) {
@@ -90,5 +86,17 @@ export class PostClientApiProvider {
     });
     return options;
   }
-
+  public addPost(post_data:Post) : Observable<Response>{
+    var link = ENV.BASE_URL+ ENV.POST_API;
+    var myData = JSON.stringify(post_data);
+       let headers = new Headers();
+  //       headers.append('Origin' , 'http://127.0.0.1:8100');
+        headers.append('Access-Control-Allow-Origin' , '*');
+        headers.append('Access-Control-Allow-Methods', 'POST, GET, PUT');
+       headers.append('Accept','application/json');
+       headers.append('content-type','application/json');
+  let options = new RequestOptions({ headers:headers});
+   return this.http.post(link, myData,options);
+   
+}
 }

@@ -9,7 +9,10 @@ import { Storage } from '@ionic/storage';
 import { PostClientApiProvider } from '../../providers/post-client-api/post-client-api';
 import { SubcategoryPage } from '../category/subcategory/subcategory';
 import { TagnamePage } from './tagname/tagname';
-import { Tag } from '../../pojo/tag';
+import { Tag } from '../../entityModel/tag';
+import { Observable, of } from 'rxjs';
+import { Post } from '../../pojo/post';
+import { Post_Option } from '../../entityModel/post_option';
 
 @IonicPage()
 @Component({
@@ -35,26 +38,34 @@ export class AddPostPage {
   private isquiz: boolean = true;
   private isImageUploaded: boolean = false;
   private isTagPicked: boolean = false;
+  private isImageURL:boolean = false;
   private errors: string = '';
+  private mediaId:number;
+  private is_error: boolean;
 
   constructor(public alertCtrl: AlertController, private postClient: PostClientApiProvider, private storage: Storage,
     private toastCtrl: ToastController, private imageUtil: ImageUtil, private platform: Platform, private navCtrl: NavController, private textUtil: TextUtilProvider) {
 
   }
-  removeImage() {
+  removeImage(type:boolean) {
     this.isImage = false;
     this.image = null;
-    if(! this.isTagPicked)
-    this.imageUtil.removeImage();
+if(type){
+    if (!this.isTagPicked && this.isImageUploaded)
+      this.imageUtil.removeImage();
+  }
     Context.set("photoURL", null);
-    
+    Context.set("Tag",null);
     this.isImageUploaded = false;
 
     this.media_tag = null;
     this.media_source = null;
+    this.question =null;
     this.isTagPicked = false;
+    this.isImageURL =false;
   }
   getImage() {
+    this.isImageURL =false;
     this.imageUtil.getImage().then(imageData => {
       this.isImage = true;
       if (this.platform.is('ios'))
@@ -84,33 +95,73 @@ export class AddPostPage {
   }
 
   validateFields() {
-    var is_error: boolean;
     this.errors = '';
     if (this.question == null || this.question.length < 10) {
       this.errors += 'Question field - minimum 10 characters required \r\n ';
-      is_error = true;
+      this.is_error = true;
     }
     if (this.categoryId == null || this.categoryId == 0) {
       this.errors += 'Please select valid category \r\n ';
-      is_error = true;
+      this.is_error = true;
     }
     if (this.post_type == "quiz" && this.correct_option == null) {
       this.errors += 'Please select correct option \r\n ';
-      is_error = true;
+      this.is_error = true;
     }
     if (this.post_type != "fact" && (this.items == null || this.items.length < 2)) {
       this.errors += 'Please add more than one option(s) \r\n ';
-      is_error = true;
+      this.is_error = true;
     }
     console.log(this.errors)
-    if (is_error) {
+    if (this.is_error) {
       return false;
     }
     return true;
   }
   post() {
     if (this.validateFields()) {
-      this.postClient.post(this.question, this.image, this.media_tag, this.media_source, this.post_type, this.categoryId, this.correct_option, this.items, this.description);
+      this.postClient.post(this.isTagPicked,this.isImageUploaded,this.mediaId ,this.question, this.image, this.media_tag, this.media_source, this.post_type, this.categoryId, this.correct_option, this.items, this.description).subscribe(d => {
+        console.log(this.isTagPicked);
+        console.log(this.isImageUploaded);
+        if(!this.isTagPicked||this.isImageUploaded){
+          this.data.response = d["_body"];
+          let data_array = JSON.stringify(d.json());
+          let data_parsed = JSON.parse(data_array);
+         let data_ = data_parsed.data;
+         let media_id = data_.media_id;
+         var opts: Post_Option[] = this.postClient.getOptions(this.correct_option, this.items);
+         var post: Post = this.postClient.createPost(this.question, this.description, this.postClient.getPostType(this.post_type), this.categoryId, 1, opts, media_id);
+          console.log(post);
+       this.postClient.addPost(post).subscribe(data => {
+          this.data.response = data["_body"]; 
+          console.log(this.data.response);
+          this.removeImage(false);
+        }, error => {
+          console.log("Oooops!");
+          this.removeImage(false);
+        });
+      }
+        this.data.response = d["_body"]; 
+        console.log(this.data.response);
+        this.removeImage(false);
+      }, error => {
+        switch(error.status){
+          case 409:
+          this.errors += 'Duplicate TagName \r\n ';
+         
+          break;
+          default:
+          this.errors += 'Something Went Wrong \r\n ';
+
+          break;
+
+          
+        }
+
+        this.removeImage(false);
+      });
+      
+    // 
     }
   }
 
@@ -194,6 +245,7 @@ export class AddPostPage {
       this.media_source = t.imageCredits;
       this.image = t.mediaUrl;
       this.isTagPicked = true;
+      this.mediaId = t.id;
     }
 
 

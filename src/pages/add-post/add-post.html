@@ -6,12 +6,12 @@
     </div>
     <ion-row *ngIf="isImage||isTagPicked" class="btn" align-items-center>
       <ion-col col-2>
-        <button *ngIf="!isTagPicked" class="dp_button" (click)="getImage()" margin ion-button icon-only>
+        <button class="dp_button" (click)="getImage()" margin ion-button icon-only>
           <ion-icon name="add-circle"></ion-icon>
         </button>
       </ion-col>
       <ion-col offset-7 col-2>
-        <button class="dp_button" (click)="removeImage()" margin ion-button icon-only>
+        <button class="dp_button" (click)="removeImage(true)" margin ion-button icon-only>
           <ion-icon name="close"></ion-icon>
         </button>
       </ion-col>
@@ -26,7 +26,7 @@
   <div id="post_detail">
 
 
-    <ion-row *ngIf="isImage">
+    <ion-row *ngIf="isImage&&!isImageURL">
       <button ion-button (click)="upload()" full clear light>
         Upload Image
       </button>
@@ -42,15 +42,15 @@
         </ion-label>
       </ion-col>
       <ion-col col-2>
-        <button ion-button icon-only (click)="removeImage()">
+        <button ion-button icon-only (click)="removeImage(true)">
           <ion-icon name="close"></ion-icon>
         </button>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="!isImage">
+    <ion-row>
       <ion-item>
         <ion-label floating>Add Media Url</ion-label>
-        <ion-input type="text" [(ngModel)]="image"></ion-input>
+        <ion-input type="text" (input)="isImage=true;isImageURL=true;" [(ngModel)]="image"></ion-input>
       </ion-item>
     </ion-row>
     <ion-row align-items-center>
