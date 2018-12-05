@@ -1,12 +1,27 @@
 <ion-content padding>
     <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
-    <ion-list>
-      <ion-item (click)="log(item)" *ngFor="let item of category_data">
-       <ion-label>
-        {{ item.category }}
-       </ion-label>
-      </ion-item>
-    </ion-list>
+
+    <ion-row>
+        <ion-col (press)="longPressed(item)" (click)="log(item)" *ngFor="let item of category_data" col-6>
+     
+            <ion-card no-padding >
+               <ion-card-content  no-padding>
+                   <ion-row align-items-stretch>
+                       <ion-col align-self-stretch>
+                          <img  src={{item.category_media}} style="width:100%;height:100px"/>
+                       </ion-col>
+                      
+                     </ion-row>
+                     <ion-row align-items-stretch>
+                        <ion-col align-self-stretch>
+                            {{ item.category }}
+                         </ion-col>
+                     </ion-row>
+               </ion-card-content>
+             </ion-card>
+       </ion-col> 
+    </ion-row>
+   
     <ion-row>
         <button ion-button (click)="back()" color="light" round full>Back
           

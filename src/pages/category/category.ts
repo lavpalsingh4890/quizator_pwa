@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, Platform, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, Platform, ToastController, AlertController } from 'ionic-angular';
 import { SubcategoryPage } from './subcategory/subcategory';
 import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker';
 import { ImageUtil } from '../../providers/ImageUtil';
@@ -7,7 +7,9 @@ import { normalizeURL } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { environment as ENV } from "../../environments/environment";
 import { ServerUtil } from '../../providers/server-util/serverUtil';
-import { Category } from '../../pojo/category';
+import { Category } from '../../entityModel/category';
+
+import { Category as CategoryPojo } from '../../pojo/category';
 import { Context } from '../../providers/context';
 
 @IonicPage()
@@ -28,7 +30,7 @@ export class CategoryPage {
   error_text: string = "This is sample error";
   category_name: string;
   image = "../assets/imgs/397.jpg";
-  constructor(private toastCtrl: ToastController, private http: Http, private imageUtil: ImageUtil, private platform: Platform, private imagePicker: ImagePicker, public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
+  constructor( private toastCtrl: ToastController, private http: Http, private imageUtil: ImageUtil, private platform: Platform, private imagePicker: ImagePicker, public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
 
 
   }
@@ -100,7 +102,18 @@ export class CategoryPage {
   done() {
     this.navCtrl.pop();
   }
+  validate(){
+    if(this.category_name==null|| this.category_name.length < 2){
+      return "Please enter valid category name";
+    }
+    if(!SubcategoryPage.is_sub1_selected){
+      return "Please select valid category";
+    }
+    return "success";
+  }
   upload() {
+    var result:string = this.validate();
+   if(result == 'success'){
     if (!Context.get("isImageUploading")) {
       Context.set("isImageUploading", true);
       this.imageUtil.uploadImageToFirebase(this.image).then(photoURL => {
@@ -117,19 +130,26 @@ export class CategoryPage {
         toast.present();
       })
     }
+  }else{
+    let toast = this.toastCtrl.create({
+      message: result,
+      duration: 3000
+    });
+    toast.present();
+  }
   }
   createCategory() {
-    var category_data: Category = {
+    var category_data: CategoryPojo = {
       "category": this.category_name,
       "parentId": SubcategoryPage.sub_option1.id,
-      "category_media":  this.image
+      "category_media": this.image
     };
     return category_data;
   }
   addCategory() {
     var link = ENV.BASE_URL + ENV.CATEGORY_API;
 
-    var category: Category = this.createCategory();
+    var category: CategoryPojo = this.createCategory();
 
     this.http.post(link, category, ServerUtil.getHeaders())
       .subscribe(d => {
@@ -137,12 +157,12 @@ export class CategoryPage {
         let data_array = JSON.stringify(d.json());
         let data_parsed = JSON.parse(data_array);
         let data_ = data_parsed.data;
-        console.log(data_);
-
-
+        console.log(data_.category_id);
+        
       }, error => {
         console.log("Oooops!");
       });
   }
+
 
 }

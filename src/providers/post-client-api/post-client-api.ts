@@ -1,4 +1,4 @@
-import { Http, Headers, RequestOptions,Response } from '@angular/http';
+import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Post } from '../../pojo/post';
 import { Post_Option } from '../../pojo/post_option';
@@ -14,28 +14,28 @@ export class PostClientApiProvider {
   constructor(public http: Http) {
     console.log('Hello PostClientApiProvider Provider');
   }
-  post(isTagPicked:boolean,isImageUploaded:boolean,mediaId:number,title: string,  media_path: string, media_tag: string, media_source: string, post_type: string, post_category_id: number, correct_option: string, options: string[], description: string,) {
+  post(isTagPicked: boolean, isImageUploaded: boolean, mediaId: number, title: string, search_tag: string, media_path: string, media_tag: string, media_source: string, post_type: string, post_category_id: number, correct_option: string, options: string[], description: string, ) {
     var opts: Post_Option[] = this.getOptions(correct_option, options);
 
-    if(!isTagPicked||isImageUploaded){
-    var tag: Tag = this.createTag(media_path, media_tag, media_source);
-    console.log(tag);
-   
-   return this.addTag(tag, title, description, this.getPostType(post_type), post_category_id, 1, opts);
-  
-  }else{
-    var post: Post = this.createPost(title, description, this.getPostType(post_type), post_category_id, 1, opts, mediaId);
-    console.log(post);
-   return  this.addPost(post);
-  }
+    if (!isTagPicked || isImageUploaded) {
+      var tag: Tag = this.createTag(media_path, media_tag, media_source);
+      console.log(tag);
 
-   }
+      return this.addTag(tag, title, description, this.getPostType(post_type), post_category_id, 1, opts);
+
+    } else {
+      var post: Post = this.createPost(title, description, search_tag, this.getPostType(post_type), post_category_id, 1, opts, mediaId);
+      console.log(post);
+      return this.addPost(post);
+    }
+
+  }
 
   addTag(tag: Tag, title: string, description: string, post_type: number, post_category_id: number, blogger_id: number, opts: Post_Option[]) {
     var link = ENV.BASE_URL + ENV.TAGNAME_API;
-  
-   return this.http.post(link, tag, ServerUtil.getHeaders())
-     
+
+    return this.http.post(link, tag, ServerUtil.getHeaders())
+
   }
 
   createTag(media_path: string, media_tag: string, media_source: string) {
@@ -46,7 +46,7 @@ export class PostClientApiProvider {
     };
     return tag_data;
   }
-  createPost(title: string, description: string, post_type: number, post_category_id: number, blogger_id: number, options: Post_Option[], media_id: number) {
+  createPost(title: string, description: string, search_tag: string, post_type: number, post_category_id: number, blogger_id: number, options: Post_Option[], media_id: number) {
     var post_data: Post = {
       "title": title,
       "options": options,
@@ -54,7 +54,8 @@ export class PostClientApiProvider {
       "post_desc": description,
       "post_category_id": post_category_id,
       "blogger_id": blogger_id,
-      "post_media_id": media_id
+      "post_media_id": media_id,
+      "search_tag": search_tag
     };
     return post_data;
   }
@@ -86,17 +87,17 @@ export class PostClientApiProvider {
     });
     return options;
   }
-  public addPost(post_data:Post) : Observable<Response>{
-    var link = ENV.BASE_URL+ ENV.POST_API;
+  public addPost(post_data: Post): Observable<Response> {
+    var link = ENV.BASE_URL + ENV.POST_API;
     var myData = JSON.stringify(post_data);
-       let headers = new Headers();
-  //       headers.append('Origin' , 'http://127.0.0.1:8100');
-        headers.append('Access-Control-Allow-Origin' , '*');
-        headers.append('Access-Control-Allow-Methods', 'POST, GET, PUT');
-       headers.append('Accept','application/json');
-       headers.append('content-type','application/json');
-  let options = new RequestOptions({ headers:headers});
-   return this.http.post(link, myData,options);
-   
-}
+    let headers = new Headers();
+    //       headers.append('Origin' , 'http://127.0.0.1:8100');
+    headers.append('Access-Control-Allow-Origin', '*');
+    headers.append('Access-Control-Allow-Methods', 'POST, GET, PUT');
+    headers.append('Accept', 'application/json');
+    headers.append('content-type', 'application/json');
+    let options = new RequestOptions({ headers: headers });
+    return this.http.post(link, myData, options);
+
+  }
 }

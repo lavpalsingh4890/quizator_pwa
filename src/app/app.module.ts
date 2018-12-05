@@ -58,6 +58,8 @@ import { PostClientApiProvider } from '../providers/post-client-api/post-client-
 import { HttpClientModule } from '@angular/common/http';
 import { TagnameClientApiProvider } from '../providers/tagname-client-api/tagname-client-api'; 
 import { TagnamePage } from '../pages/add-post/tagname/tagname';
+
+import { LongPressModule } from 'ionic-long-press';
 var firebaseConfig = {
   apiKey: "AIzaSyAh1EyYPn6Uhn8R9e9AT7wqfPA4aWp8IB4",
   authDomain: "quizator-be795.firebaseapp.com",
@@ -92,6 +94,7 @@ var firebaseConfig = {
   ],
   imports: [
     HttpModule,
+    LongPressModule,
     BrowserModule,
     HttpClientModule,
     AngularFireModule.initializeApp(firebaseConfig),

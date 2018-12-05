@@ -24,8 +24,9 @@ export class AddPostPage {
   private items = [
   ];
 
-  private question;
-  private description;
+  private question: string;
+  private description: string;
+  private search_tag: string;
   private media_tag: string;
   private media_source: string;
   private post_type = "quiz";
@@ -38,34 +39,35 @@ export class AddPostPage {
   private isquiz: boolean = true;
   private isImageUploaded: boolean = false;
   private isTagPicked: boolean = false;
-  private isImageURL:boolean = false;
+  private isImageURL: boolean = false;
   private errors: string = '';
-  private mediaId:number;
+  private mediaId: number;
   private is_error: boolean;
 
   constructor(public alertCtrl: AlertController, private postClient: PostClientApiProvider, private storage: Storage,
     private toastCtrl: ToastController, private imageUtil: ImageUtil, private platform: Platform, private navCtrl: NavController, private textUtil: TextUtilProvider) {
 
   }
-  removeImage(type:boolean) {
+  removeImage(type: boolean) {
     this.isImage = false;
     this.image = null;
-if(type){
-    if (!this.isTagPicked && this.isImageUploaded)
-      this.imageUtil.removeImage();
-  }
+    if (type) {
+      if (!this.isTagPicked && this.isImageUploaded)
+        this.imageUtil.removeImage();
+    }
     Context.set("photoURL", null);
-    Context.set("Tag",null);
+    Context.set("Tag", null);
     this.isImageUploaded = false;
 
+    this.search_tag = null;
     this.media_tag = null;
     this.media_source = null;
-    this.question =null;
+    this.question = null;
     this.isTagPicked = false;
-    this.isImageURL =false;
+    this.isImageURL = false;
   }
   getImage() {
-    this.isImageURL =false;
+    this.isImageURL = false;
     this.imageUtil.getImage().then(imageData => {
       this.isImage = true;
       if (this.platform.is('ios'))
@@ -90,6 +92,7 @@ if(type){
     if (this.categoryId != null) this.storage.set("categoryId", this.categoryId);
     if (this.media_tag != null) this.storage.set("media_tag", this.media_tag);
     if (this.media_source != null) this.storage.set("media_source", this.media_source);
+    if (this.search_tag != null) this.storage.set("search_tag", this.search_tag);
 
     this.cancel();
   }
@@ -98,6 +101,10 @@ if(type){
     this.errors = '';
     if (this.question == null || this.question.length < 10) {
       this.errors += 'Question field - minimum 10 characters required \r\n ';
+      this.is_error = true;
+    }
+    if (this.search_tag == null || this.search_tag.length < 10) {
+      this.errors += 'Search Tag field - minimum 10 characters required \r\n ';
       this.is_error = true;
     }
     if (this.categoryId == null || this.categoryId == 0) {
@@ -120,48 +127,48 @@ if(type){
   }
   post() {
     if (this.validateFields()) {
-      this.postClient.post(this.isTagPicked,this.isImageUploaded,this.mediaId ,this.question, this.image, this.media_tag, this.media_source, this.post_type, this.categoryId, this.correct_option, this.items, this.description).subscribe(d => {
+      this.postClient.post(this.isTagPicked, this.isImageUploaded, this.mediaId, this.question, this.search_tag, this.image, this.media_tag, this.media_source, this.post_type, this.categoryId, this.correct_option, this.items, this.description).subscribe(d => {
         console.log(this.isTagPicked);
         console.log(this.isImageUploaded);
-        if(!this.isTagPicked||this.isImageUploaded){
+        if (!this.isTagPicked || this.isImageUploaded) {
           this.data.response = d["_body"];
           let data_array = JSON.stringify(d.json());
           let data_parsed = JSON.parse(data_array);
-         let data_ = data_parsed.data;
-         let media_id = data_.media_id;
-         var opts: Post_Option[] = this.postClient.getOptions(this.correct_option, this.items);
-         var post: Post = this.postClient.createPost(this.question, this.description, this.postClient.getPostType(this.post_type), this.categoryId, 1, opts, media_id);
+          let data_ = data_parsed.data;
+          let media_id = data_.media_id;
+          var opts: Post_Option[] = this.postClient.getOptions(this.correct_option, this.items);
+          var post: Post = this.postClient.createPost(this.question, this.search_tag, this.description, this.postClient.getPostType(this.post_type), this.categoryId, 1, opts, media_id);
           console.log(post);
-       this.postClient.addPost(post).subscribe(data => {
-          this.data.response = data["_body"]; 
-          console.log(this.data.response);
-          this.removeImage(false);
-        }, error => {
-          console.log("Oooops!");
-          this.removeImage(false);
-        });
-      }
-        this.data.response = d["_body"]; 
+          this.postClient.addPost(post).subscribe(data => {
+            this.data.response = data["_body"];
+            console.log(this.data.response);
+            this.removeImage(false);
+          }, error => {
+            console.log("Oooops!");
+            this.removeImage(false);
+          });
+        }
+        this.data.response = d["_body"];
         console.log(this.data.response);
         this.removeImage(false);
       }, error => {
-        switch(error.status){
+        switch (error.status) {
           case 409:
-          this.errors += 'Duplicate TagName \r\n ';
-         
-          break;
+            this.errors += 'Duplicate TagName \r\n ';
+
+            break;
           default:
-          this.errors += 'Something Went Wrong \r\n ';
+            this.errors += 'Something Went Wrong \r\n ';
 
-          break;
+            break;
 
-          
+
         }
 
         this.removeImage(false);
       });
-      
-    // 
+
+      // 
     }
   }
 
@@ -212,23 +219,23 @@ if(type){
   }
   change(index) {
 
-    // get elements
-    // var element = document.getElementById('messageInputBox'+index);
-    // var textarea = element.getElementsByTagName('textarea')[0];
+   //x get elements
+    var element = document.getElementById('messageInputBox'+index);
+    var textarea = element.getElementsByTagName('textarea')[0];
 
-    // // set default style for textarea
-    // textarea.style.minHeight = '0';
-    // textarea.style.height = '0';
+    // set default style for textarea
+    textarea.style.minHeight = '0';
+    textarea.style.height = '0';
 
-    // // limit size to 96 pixels (6 lines of text)
-    // var scroll_height = textarea.scrollHeight;
-    // if (scroll_height > 96)
-    //   scroll_height = 96;
+    // limit size to 96 pixels (6 lines of text)
+    var scroll_height = textarea.scrollHeight;
+    if (scroll_height > 96)
+      scroll_height = 96;
 
-    // // apply new style
-    // element.style.height = scroll_height + "px";
-    // textarea.style.minHeight = scroll_height + "px";
-    // textarea.style.height = scroll_height + "px";
+    // apply new style
+    element.style.height = scroll_height + "px";
+    textarea.style.minHeight = scroll_height + "px";
+    textarea.style.height = scroll_height + "px";
 
   }
 

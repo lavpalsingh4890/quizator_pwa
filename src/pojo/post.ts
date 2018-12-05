@@ -8,5 +8,6 @@ export interface Post {
     options:Post_Option[];
     post_category_id:number;
     post_media_id:number;
+    search_tag:string;
    
   }
