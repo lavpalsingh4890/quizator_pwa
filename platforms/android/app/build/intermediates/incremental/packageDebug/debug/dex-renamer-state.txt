@@ -1,4 +1,4 @@
-#Sun Dec 23 16:38:11 IST 2018
+#Sun Dec 23 18:52:54 IST 2018
 base.0=/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/transforms/dexMerger/debug/0
 path.1=classes2.dex
 renamed.1=classes2.dex

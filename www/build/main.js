@@ -548,7 +548,7 @@ var PostClientApiProvider = /** @class */ (function () {
         else {
             var post = this.createPost(title, description, search_tag, this.getPostType(post_type), post_category_id, 1, opts, mediaId);
             console.log(post);
-            return this.addPost(post);
+            return this.addPost(post, mediaId, post_category_id);
         }
     };
     PostClientApiProvider.prototype.addTag = function (tag, title, description, post_type, post_category_id, blogger_id, opts) {
@@ -569,16 +569,15 @@ var PostClientApiProvider = /** @class */ (function () {
             "options": options,
             "post_type": post_type,
             "post_desc": description,
-            "post_category_id": post_category_id,
             "blogger_id": blogger_id,
-            "post_media_id": media_id,
-            "search_tag": search_tag
+            "search_tag": search_tag,
+            "post_state": "1"
         };
         return post_data;
     };
     PostClientApiProvider.prototype.createOption = function (id, data, is_true) {
         var post_opt = {
-            "post_option": data,
+            "option": data,
             "id": id,
             "is_correct": is_true,
             "poll_count": 0
@@ -602,11 +601,26 @@ var PostClientApiProvider = /** @class */ (function () {
                 is_true = true;
             var o = _this.createOption(count, val, is_true);
             options.push(o);
+            count++;
         });
         return options;
     };
-    PostClientApiProvider.prototype.addPost = function (post_data) {
+    PostClientApiProvider.prototype.addPost = function (post_data, media, category) {
         var link = __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].BASE_URL + __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].POST_API;
+        if (media != null || category != null) {
+            var categoryAdded = false;
+            link = link + "?";
+            if (media != null) {
+                link = link + "media=" + media;
+                if (category != null) {
+                    link = link + "&category=" + category;
+                    categoryAdded = true;
+                }
+            }
+            if (!categoryAdded && category != null) {
+                link = link + "category=" + category;
+            }
+        }
         var myData = JSON.stringify(post_data);
         var headers = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["a" /* Headers */]();
         //       headers.append('Origin' , 'http://127.0.0.1:8100');
@@ -619,9 +633,10 @@ var PostClientApiProvider = /** @class */ (function () {
     };
     PostClientApiProvider = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["A" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Http */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Http */]) === "function" && _a || Object])
     ], PostClientApiProvider);
     return PostClientApiProvider;
+    var _a;
 }());
 
 //# sourceMappingURL=post-client-api.js.map
@@ -673,7 +688,6 @@ webpackEmptyAsyncContext.id = 287;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__(67);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(53);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_in_app_browser__ = __webpack_require__(332);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_mock_post__ = __webpack_require__(584);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -689,17 +703,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
 var HomePage = /** @class */ (function () {
-    function HomePage(iab, navCtrl, http) {
+    function HomePage(alertCtrl, iab, navCtrl, http) {
+        this.alertCtrl = alertCtrl;
         this.iab = iab;
         this.navCtrl = navCtrl;
         this.http = http;
+        this.page = 0;
+        this.post_view_mode = 0; // 0 -> listing , 1 -> endless , 2 -> page view
+        this.link = __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].BASE_URL + __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].POST_API + "?size=15&page=";
         this.post_viewed = new Set();
         this.post_correct_options = new Array();
+        this.posts = new Array();
         this.data = {};
-        this.posts = __WEBPACK_IMPORTED_MODULE_6__providers_mock_post__["a" /* post */];
-        // this.getPosts();
+        //this.posts = post;
+        var link = this.link + this.page;
+        this.getPosts(link);
     }
     HomePage.prototype.get_correct_option = function (post_options, post_id) {
         for (var _i = 0, post_options_1 = post_options; _i < post_options_1.length; _i++) {
@@ -709,15 +728,17 @@ var HomePage = /** @class */ (function () {
             }
         }
     };
-    HomePage.prototype.getPosts = function () {
+    HomePage.prototype.getPosts = function (link) {
         var _this = this;
-        var link = __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].BASE_URL + __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].POST_API;
         this.http.get(link, __WEBPACK_IMPORTED_MODULE_2__providers_server_util_serverUtil__["a" /* ServerUtil */].getHeaders())
             .subscribe(function (d) {
             _this.data.response = d["_body"];
             var data_array = JSON.stringify(d.json());
             var posts = JSON.parse(data_array);
-            _this.posts = posts.data;
+            // this.posts = posts.data;
+            for (var i = 0; i < posts.data.length; i++) {
+                _this.posts.push(posts.data[i]);
+            }
             console.log(_this.posts);
         }, function (error) {
             console.log("Oooops!");
@@ -725,13 +746,16 @@ var HomePage = /** @class */ (function () {
     };
     HomePage.prototype.tapOption = function (post, post_option, id, pid) {
         var post_options = post.options;
-        var correct_id = this.get_correct_option(post_options, post.post_id);
-        correct_id = correct_id - 1;
-        var correct_opt_id = "post_option_" + pid + "_" + correct_id;
-        var input = document.getElementById(correct_opt_id);
-        input.style.background = "green";
-        this.currentSelected = id;
-        this.is_correct = post_option.is_correct;
+        if (this.post_type == 1) {
+            var correct_id = this.get_correct_option(post_options, post.post_id);
+            correct_id = correct_id - 1;
+            var correct_opt_id = "post_option_" + pid + "_" + correct_id;
+            var input = document.getElementById(correct_opt_id);
+            input.style.background = "green";
+            input.style.color = "whitesmoke";
+            this.currentSelected = id;
+            this.is_correct = post_option.is_correct;
+        }
         this.selectedOption = post_option;
         if (!this.post_viewed.has(post.post_id)) {
             var post_play = {
@@ -760,14 +784,90 @@ var HomePage = /** @class */ (function () {
     HomePage.prototype.searchOnWeb = function (search_tag) {
         var browser = this.iab.create('https://www.google.co.in/search?q=' + search_tag);
     };
+    HomePage.prototype.doInfinite = function (infiniteScroll) {
+        var _this = this;
+        this.page = this.page + 1;
+        setTimeout(function () {
+            var link = _this.link + _this.page;
+            if (_this.post_type) {
+                link += "&type=" + _this.post_type;
+            }
+            _this.getPosts(link);
+            console.log('Async operation has ended');
+            infiniteScroll.complete();
+        }, 500);
+    };
+    HomePage.prototype.myAlert_show = function () {
+        var _this = this;
+        var myAlert = this.alertCtrl.create({
+            title: 'Select Post Type',
+            enableBackdropDismiss: true,
+            buttons: [
+                {
+                    text: 'OK',
+                    handler: function (data) {
+                        _this.post_type = data;
+                        console.log('OK clicked. Data -> ' + JSON.stringify(data));
+                        _this.page = 0;
+                        var link = _this.link + _this.page + "&type=" + data;
+                        _this.posts = new Array();
+                        _this.getPosts(link);
+                    },
+                    role: ''
+                },
+                {
+                    text: 'Cancel',
+                    handler: function (data) {
+                        console.log('Cancel clicked. Data -> ' + JSON.stringify(data));
+                    },
+                    role: 'cancel'
+                }
+            ],
+            inputs: [
+                {
+                    type: 'radio',
+                    id: 'all',
+                    name: 'all',
+                    'label': 'All',
+                    value: 'all',
+                    'checked': true
+                },
+                {
+                    type: 'radio',
+                    id: 'quiz',
+                    name: 'quiz',
+                    'label': 'Quiz',
+                    value: '1',
+                    'checked': false
+                },
+                {
+                    type: 'radio',
+                    id: 'poll',
+                    name: 'poll',
+                    'label': 'Poll',
+                    value: '2',
+                    'checked': false
+                },
+                {
+                    type: 'radio',
+                    id: 'fact',
+                    name: 'fact',
+                    'label': 'Fact',
+                    value: '3',
+                    'checked': false
+                }
+            ]
+        });
+        myAlert.present();
+    };
     HomePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-home',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/home/home.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-grid>\n      <ion-row>\n        <ion-col col-2>\n          <button ion-button menuToggle icon-only>\n            <ion-icon ios="ios-menu" md="md-menu"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n          <button ion-button icon-only>\n            <ion-icon ios="ios-notifications" md="md-notifications"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n\n          <button ion-button icon-only>\n            <ion-icon ios="ios-chatbubbles" md="md-chatbubbles"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n\n          <button ion-button icon-only>\n            <ion-icon ios="ios-shuffle" md="md-shuffle"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n\n          <button ion-button icon-only>\n            <ion-icon name="search"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n\n          <button ion-button icon-only>\n            <ion-icon ios="ios-person" md="md-person"></ion-icon>\n          </button>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n\n\n      </ion-row>\n    </ion-grid>\n\n  </ion-navbar>\n</ion-header>\n\n<ion-content>\n  <ion-list>\n    <ion-item *ngFor="let post of posts; let m_id = index">\n       \n      <ion-row>\n        <div class="post_image_container" *ngIf="post.post_media_id">\n          <img class="post_image" id="post_media_{{m_id}}"  src="{{post.post_media_id.mediaUrl}}" />\n        </div>\n      </ion-row>\n      <div class="post_title_container" *ngIf="post.title">\n      <ion-row padding>\n        <ion-col text-center text-wrap>\n          <p class="post_title" id="post_title_{{m_id}}">{{post.title}}</p>\n        </ion-col>\n      </ion-row>\n      </div>\n      <div id="post_option_container" *ngIf="post.options">\n        <ion-row justify-content-center align-items-center>\n          <ion-col align-self-stretch col-6 *ngFor="let post_option of post.options; let idx = index" id="post_option_container_{{m_id}}_{{idx}}"\n            [class.selected_correct]="post_option === selectedOption && idx === currentSelected && is_correct" [class.selected_incorrect]="post_option === selectedOption && idx === currentSelected && !is_correct"\n            (click)="tapOption(post,post_option,idx,m_id)" text-wrap text-center>\n            <p class="post_option" id="post_option_{{m_id}}_{{idx}}" padding>\n              {{post_option.option}}\n            </p>\n          </ion-col>\n        </ion-row>\n      </div>\n      <div id="post_desc_container" *ngIf="post.post_desc && post_viewed.has(post.post_id)">\n          <ion-row>\n            <p>\n              {{post.post_desc}}\n            </p>\n          </ion-row>\n          <ion-row *ngIf="post.post_media_id && post.post_media_id.imageCredits">\n              <p >\n               Image Credits : {{post.post_media_id.imageCredits}}\n              </p>\n            </ion-row>\n        </div>\n      <div id="post_category_container" *ngIf="post.post_category_id">\n        <ion-row align-items-center>\n          \n          <ion-col col-3>\n              <div id="post_web_search_container" *ngIf="post.search_tag && post_viewed.has(post.post_id)">\n              <button ion-button (click)="searchOnWeb(post.search_tag)" clear>\n                  Read more\n                </button>\n                </div>\n          </ion-col>\n          <ion-col col-7 text-end>\n            <p *ngIf="post.post_category_id && post.post_category_id.category"  text-wrap> {{post.post_category_id.category}}</p>\n          </ion-col>\n          <ion-col col-2>\n            <ion-avatar item-end>\n              <img *ngIf="post.post_category_id && post.post_category_id.category_media" src="{{post.post_category_id.category_media}}">\n            </ion-avatar>\n          </ion-col>\n        </ion-row>\n      </div>\n     \n      <ion-item-divider color="light" no-padding id="post_date">\n        <ion-row justify-content-end>\n          <div *ngIf="checkIfExists(post.post_id)">\n              <ion-col col-1 >\n                  <ion-icon ios="ios-done-all" md="md-done-all"></ion-icon>\n              </ion-col>\n              <ion-col col-1 *ngIf="checkIfCorrect(post.post_id)">\n                  <ion-icon name="happy"></ion-icon>\n              </ion-col>\n          </div>\n         \n          <ion-col text-right>\n              {{post.post_time| date: \'short\'}}\n          </ion-col>\n        </ion-row>\n        </ion-item-divider>\n    </ion-item>\n  </ion-list>\n</ion-content>'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/home/home.html"*/
+            selector: 'page-home',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/home/home.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-grid>\n      <ion-row>\n     \n        <ion-col>\n          <button ion-button  (click)="myAlert_show()" icon-only>\n            <ion-icon ios="ios-notifications" md="md-notifications"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n\n          <button ion-button icon-only>\n            <ion-icon ios="ios-chatbubbles" md="md-chatbubbles"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n\n          <button ion-button icon-only>\n            <ion-icon ios="ios-shuffle" md="md-shuffle"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n\n          <button ion-button icon-only>\n            <ion-icon name="search"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n\n          <button ion-button icon-only>\n            <ion-icon ios="ios-person" md="md-person"></ion-icon>\n          </button>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n\n\n      </ion-row>\n    </ion-grid>\n\n  </ion-navbar>\n</ion-header>\n\n<ion-content>\n  <ion-list>\n    <ion-item *ngFor="let post of posts; let m_id = index">\n\n      <ion-row>\n        <ion-card>\n\n\n          <div class="post_image_container" *ngIf="post.post_media_id">\n            <img onerror="this.style.display=\'none\'" class="post_image" id="post_media_{{m_id}}" src="{{post.post_media_id.mediaUrl}}" />\n          </div>\n        </ion-card>\n      </ion-row>\n      <div class="post_title_container" *ngIf="post.title">\n        <ion-row padding>\n          <ion-col text-center text-wrap>\n            <p class="post_title" id="post_title_{{m_id}}">{{post.title}}</p>\n          </ion-col>\n        </ion-row>\n      </div>\n\n\n\n      <div id="post_option_container" *ngIf="post.options">\n        <ion-row justify-content-center align-items-center>\n\n          <ion-col align-self-stretch col-6 *ngFor="let post_option of post.options; let idx = index" id="post_option_container_{{m_id}}_{{idx}}"\n            (click)="tapOption(post,post_option,idx,m_id)" text-wrap text-center>\n            <ion-card [class.selected_correct]="post_option === selectedOption && idx === currentSelected && is_correct"\n              [class.selected_incorrect]="post_option === selectedOption && idx === currentSelected && !is_correct">\n              <p [class.selected_correct]="post_option === selectedOption && idx === currentSelected && is_correct"\n                [class.selected_incorrect]="post_option === selectedOption && idx === currentSelected && !is_correct"\n                id="post_option_{{m_id}}_{{idx}}" padding>\n                {{post_option.option}}\n              </p>\n            </ion-card>\n          </ion-col>\n\n        </ion-row>\n      </div>\n      <div id="post_desc_container" *ngIf="post.post_desc && post_viewed.has(post.post_id)">\n        <ion-row>\n          <ion-col text-left text-wrap>\n            <p>\n              {{post.post_desc}}\n            </p>\n          </ion-col>\n        </ion-row>\n        <ion-row *ngIf="post.post_media_id && post.post_media_id.imageCredits">\n          <ion-col text-left text-wrap>\n            <p>\n              Image Credits : {{post.post_media_id.imageCredits}}\n            </p>\n          </ion-col>\n        </ion-row>\n      </div>\n      <div id="post_category_container" *ngIf="post.post_category_id">\n        <ion-row align-items-center>\n\n          <ion-col col-3>\n            <div id="post_web_search_container" *ngIf="post.search_tag && post_viewed.has(post.post_id)">\n              <button ion-button (click)="searchOnWeb(post.search_tag)" clear>\n                Read more\n              </button>\n            </div>\n          </ion-col>\n          <ion-col col-7 text-end>\n            <p *ngIf="post.post_category_id && post.post_category_id.category" text-wrap>\n              {{post.post_category_id.category}}</p>\n          </ion-col>\n          <ion-col col-2>\n\n            <ion-avatar item-end>\n\n              <img onerror="this.style.display=\'none\'" *ngIf="post.post_category_id && post.post_category_id.category_media"\n                src="{{post.post_category_id.category_media}}">\n            </ion-avatar>\n\n          </ion-col>\n        </ion-row>\n      </div>\n\n      <ion-item-divider color="light" no-padding id="post_date">\n        <ion-row justify-content-end>\n          <div *ngIf="checkIfExists(post.post_id)">\n            <ion-col col-1>\n              <ion-icon ios="ios-done-all" md="md-done-all"></ion-icon>\n            </ion-col>\n            <ion-col col-1 *ngIf="checkIfCorrect(post.post_id)">\n              <ion-icon name="happy"></ion-icon>\n            </ion-col>\n          </div>\n\n          <ion-col text-right>\n            {{post.post_time| date: \'short\'}}\n          </ion-col>\n        </ion-row>\n      </ion-item-divider>\n    </ion-item>\n  </ion-list>\n\n  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">\n    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data..."></ion-infinite-scroll-content>\n  </ion-infinite-scroll>\n</ion-content>'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/home/home.html"*/
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_5__ionic_native_in_app_browser__["a" /* InAppBrowser */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__ionic_native_in_app_browser__["a" /* InAppBrowser */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */]) === "function" && _c || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_5__ionic_native_in_app_browser__["a" /* InAppBrowser */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__ionic_native_in_app_browser__["a" /* InAppBrowser */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */]) === "function" && _d || Object])
     ], HomePage);
     return HomePage;
-    var _a, _b, _c;
+    var _a, _b, _c, _d;
 }());
 
 //# sourceMappingURL=home.js.map
@@ -951,9 +1051,9 @@ var StorageUtilProvider = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ionic_native_facebook__ = __webpack_require__(341);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_google_plus__ = __webpack_require__(342);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_constants_App_Constants__ = __webpack_require__(587);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_constants_App_Constants__ = __webpack_require__(586);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_storage__ = __webpack_require__(88);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pojo_session__ = __webpack_require__(588);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pojo_session__ = __webpack_require__(587);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_account_account__ = __webpack_require__(343);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_ionic_angular__ = __webpack_require__(13);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -1390,7 +1490,7 @@ var CategoryPage = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FirebaseService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_toPromise__ = __webpack_require__(592);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_toPromise__ = __webpack_require__(591);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_toPromise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_toPromise__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_firebase_app__ = __webpack_require__(346);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_firebase_app___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_firebase_app__);
@@ -1761,21 +1861,21 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__app_component__ = __webpack_require__(576);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(331);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_list_list__ = __webpack_require__(333);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_welcome_welcome__ = __webpack_require__(585);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_basic_detail_basic_detail__ = __webpack_require__(589);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_welcome_welcome__ = __webpack_require__(584);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_basic_detail_basic_detail__ = __webpack_require__(588);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_account_account__ = __webpack_require__(343);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_add_blog_add_blog__ = __webpack_require__(590);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_add_post_add_post__ = __webpack_require__(591);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_chat_main_chat_main__ = __webpack_require__(703);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_chat_list_chat_list__ = __webpack_require__(704);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_comment_comment__ = __webpack_require__(705);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_add_blog_add_blog__ = __webpack_require__(589);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_add_post_add_post__ = __webpack_require__(590);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_chat_main_chat_main__ = __webpack_require__(702);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_chat_list_chat_list__ = __webpack_require__(703);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_comment_comment__ = __webpack_require__(704);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_interest_interest__ = __webpack_require__(334);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_matchup_matchup__ = __webpack_require__(706);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_notification_notification__ = __webpack_require__(707);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_search_search__ = __webpack_require__(708);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_view_blog_view_blog__ = __webpack_require__(709);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_view_post_view_post__ = __webpack_require__(710);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_matchup_play_matchup_play__ = __webpack_require__(711);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_matchup_matchup__ = __webpack_require__(705);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_notification_notification__ = __webpack_require__(706);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_search_search__ = __webpack_require__(707);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_view_blog_view_blog__ = __webpack_require__(708);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_view_post_view_post__ = __webpack_require__(709);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_matchup_play_matchup_play__ = __webpack_require__(710);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__ionic_native_status_bar__ = __webpack_require__(328);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__ionic_native_splash_screen__ = __webpack_require__(330);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__ionic_native_deeplinks__ = __webpack_require__(335);
@@ -1783,7 +1883,7 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__angular_http__ = __webpack_require__(53);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__pages_category_category__ = __webpack_require__(344);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__pages_category_subcategory_subcategory__ = __webpack_require__(187);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__providers_emoji__ = __webpack_require__(712);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__providers_emoji__ = __webpack_require__(711);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__providers_text_util_text_util__ = __webpack_require__(186);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__ionic_native_fcm__ = __webpack_require__(336);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__ionic_native_facebook__ = __webpack_require__(341);
@@ -1803,10 +1903,10 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__providers_ImageUtil__ = __webpack_require__(113);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__providers_firebase_service__ = __webpack_require__(345);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__providers_post_client_api_post_client_api__ = __webpack_require__(204);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__angular_common_http__ = __webpack_require__(713);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__providers_tagname_client_api_tagname_client_api__ = __webpack_require__(719);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__angular_common_http__ = __webpack_require__(712);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__providers_tagname_client_api_tagname_client_api__ = __webpack_require__(718);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__pages_add_post_tagname_tagname__ = __webpack_require__(403);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51_ionic_long_press__ = __webpack_require__(720);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51_ionic_long_press__ = __webpack_require__(719);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__components_image_selector_image_selector__ = __webpack_require__(203);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__ionic_native_in_app_browser__ = __webpack_require__(332);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -2144,1347 +2244,6 @@ var MyApp = /** @class */ (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return post; });
-var post = [{
-        "post_id": 58,
-        "title": "This is a cute kitty",
-        "options": [{
-                "option": "ABCDEFG",
-                "id": 1,
-                "is_correct": false,
-                "poll_count": 0
-            }, {
-                "option": "HIJKLMN",
-                "id": 2,
-                "is_correct": true,
-                "poll_count": 0
-            }, {
-                "option": "OPQRST",
-                "id": 3,
-                "is_correct": false,
-                "poll_count": 0
-            }, {
-                "option": "UVWXYZ",
-                "id": 4,
-                "is_correct": false,
-                "poll_count": 0
-            }],
-        "post_type": "3",
-        "post_desc": "kitty goood djhekcn",
-        "post_time": "2018-12-19T15:29:01.000+0000",
-        "post_state": "1",
-        "search_tag": "love",
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 22,
-            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-            "tag": "kitty random cutie",
-            "imageCredits": "love pal"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://firebasestorage.googleapis.com/v0/b/quizator-be795.appspot.com/o/image%2Fpost%2F1543860639577?alt=media&token=05d4752e-5902-402b-ad03-7662d2a77d68"
-        }
-    }, {
-        "post_id": 57,
-        "title": "This is a cute kitty",
-        "options": [{
-                "option": "ABCDEFG",
-                "id": 1,
-                "is_correct": true,
-                "poll_count": 0
-            }, {
-                "option": "HIJKLMN",
-                "id": 2,
-                "is_correct": false,
-                "poll_count": 0
-            }, {
-                "option": "OPQRST",
-                "id": 3,
-                "is_correct": false,
-                "poll_count": 0
-            }, {
-                "option": "UVWXYZ",
-                "id": 4,
-                "is_correct": false,
-                "poll_count": 0
-            }],
-        "post_type": "3",
-        "post_desc": "kitty goood djhekcn",
-        "post_time": "2018-12-19T15:28:26.000+0000",
-        "post_state": "1",
-        "search_tag": "love",
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 22,
-            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-            "tag": "kitty random cutie",
-            "imageCredits": "love pal"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 56,
-        "title": "This is a cute kitty",
-        "options": [{
-                "option": "ABCDEFG",
-                "id": 1,
-                "is_correct": true,
-                "poll_count": 0
-            }, {
-                "option": "HIJKLMN",
-                "id": 2,
-                "is_correct": false,
-                "poll_count": 0
-            }, {
-                "option": "OPQRST",
-                "id": 3,
-                "is_correct": false,
-                "poll_count": 0
-            }, {
-                "option": "UVWXYZ",
-                "id": 4,
-                "is_correct": false,
-                "poll_count": 0
-            }],
-        "post_type": "3",
-        "post_desc": "kitty goood djhekcn",
-        "post_time": "2018-12-19T15:25:54.000+0000",
-        "post_state": "1",
-        "search_tag": "love",
-        "blogger_id": 1,
-        "post_media_id": null,
-        "post_category_id": null
-    }, {
-        "post_id": 55,
-        "title": "This is a cute kitty",
-        "options": [{
-                "option": "ABCDEFG",
-                "id": 1,
-                "is_correct": true,
-                "poll_count": 0
-            }, {
-                "option": "HIJKLMN",
-                "id": 2,
-                "is_correct": false,
-                "poll_count": 0
-            }, {
-                "option": "OPQRST",
-                "id": 3,
-                "is_correct": false,
-                "poll_count": 0
-            }, {
-                "option": "UVWXYZ",
-                "id": 4,
-                "is_correct": false,
-                "poll_count": 0
-            }],
-        "post_type": "3",
-        "post_desc": "kitty goood djhekcn",
-        "post_time": "2018-12-19T15:25:19.000+0000",
-        "post_state": "1",
-        "search_tag": "love",
-        "blogger_id": 1,
-        "post_media_id": null,
-        "post_category_id": null
-    }, {
-        "post_id": 54,
-        "title": "This is a cute kitty",
-        "options": [{
-                "option": "ABCDEFG",
-                "id": 1,
-                "is_correct": true,
-                "poll_count": 0
-            }, {
-                "option": "HIJKLMN",
-                "id": 2,
-                "is_correct": false,
-                "poll_count": 0
-            }, {
-                "option": "OPQRST",
-                "id": 3,
-                "is_correct": false,
-                "poll_count": 0
-            }, {
-                "option": "UVWXYZ",
-                "id": 4,
-                "is_correct": false,
-                "poll_count": 0
-            }],
-        "post_type": "3",
-        "post_desc": "kitty goood djhekcn",
-        "post_time": "2018-12-17T17:07:35.000+0000",
-        "post_state": "1",
-        "search_tag": "love",
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 22,
-            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-            "tag": "kitty random cutie",
-            "imageCredits": "love pal"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 53,
-        "title": "This is a cute kitty",
-        "options": [],
-        "post_type": "3",
-        "post_desc": "kitty goood djhekcn",
-        "post_time": "2018-12-06T18:50:43.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 22,
-            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-            "tag": "kitty random cutie",
-            "imageCredits": "love pal"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 52,
-        "title": "This is another random love story",
-        "options": [],
-        "post_type": "3",
-        "post_desc": "This is another random love story",
-        "post_time": "2018-12-06T18:49:08.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 21,
-            "mediaUrl": "https://firebasestorage.googleapis.com/v0/b/quizator-be795.appspot.com/o/image%2Fpost%2F1544122129801?alt=media&token=394d900d-3372-467d-a95c-8a4ea9bbd384",
-            "tag": "randomtag1",
-            "imageCredits": "love pal singh"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 51,
-        "title": "This is another random love story",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-06T18:48:34.000+0000",
-        "post_state": "1",
-        "search_tag": "This is another random love story",
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 11,
-            "mediaUrl": "https://firebasestorage.googleapis.com/v0/b/quizator-be795.appspot.com/o/image%2Fpost%2F1543860639577?alt=media&token=05d4752e-5902-402b-ad03-7662d2a77d68",
-            "tag": "loveflower2",
-            "imageCredits": "love Pal Singh"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 50,
-        "title": "mediaChange mediaChange mediaChange",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-06T18:44:56.000+0000",
-        "post_state": "1",
-        "search_tag": "mediaChange",
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 11,
-            "mediaUrl": "https://firebasestorage.googleapis.com/v0/b/quizator-be795.appspot.com/o/image%2Fpost%2F1543860639577?alt=media&token=05d4752e-5902-402b-ad03-7662d2a77d68",
-            "tag": "loveflower2",
-            "imageCredits": "love Pal Singh"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 49,
-        "title": "mediaChange mediaChange mediaChange",
-        "options": [],
-        "post_type": "3",
-        "post_desc": "mediaChange",
-        "post_time": "2018-12-06T18:43:06.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 20,
-            "mediaUrl": "https://firebasestorage.googleapis.com/v0/b/quizator-be795.appspot.com/o/image%2Fpost%2F1544121755195?alt=media&token=b317fef7-bae1-4f4a-8822-247fd2ae2aec",
-            "tag": "calm sea",
-            "imageCredits": "love pal singh"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 48,
-        "title": "kitty cuteness overloaded",
-        "options": [],
-        "post_type": "3",
-        "post_desc": "kitty cuteness overloaded",
-        "post_time": "2018-12-06T18:41:24.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 19,
-            "mediaUrl": null,
-            "tag": "sea",
-            "imageCredits": "love pal"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 47,
-        "title": "kitty cuteness overloaded",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-06T18:40:09.000+0000",
-        "post_state": "1",
-        "search_tag": "kitty cuteness overloaded",
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 18,
-            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-            "tag": "kitty cuteness overloaded",
-            "imageCredits": "love pal"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 46,
-        "title": "kitty cuteness overloaded",
-        "options": [],
-        "post_type": "3",
-        "post_desc": "kitty cuteness overloaded",
-        "post_time": "2018-12-06T18:39:42.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 18,
-            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-            "tag": "kitty cuteness overloaded",
-            "imageCredits": "love pal"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 45,
-        "title": "This is random fact",
-        "options": [],
-        "post_type": "3",
-        "post_desc": "This is random fact",
-        "post_time": "2018-12-06T18:36:46.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 17,
-            "mediaUrl": null,
-            "tag": "city",
-            "imageCredits": "love pal singh"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 44,
-        "title": "onMediaTagChange cvefjv kfvl",
-        "options": [],
-        "post_type": "3",
-        "post_desc": "onMediaTagChange caklsm;,",
-        "post_time": "2018-12-06T18:33:04.000+0000",
-        "post_state": "1",
-        "search_tag": "onMediaTagChange cefvrvefd",
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 16,
-            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-            "tag": "cat playing",
-            "imageCredits": null
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 43,
-        "title": "This is random fact",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-06T18:16:09.000+0000",
-        "post_state": "1",
-        "search_tag": "This is random fact",
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 1,
-            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
-            "tag": "love2",
-            "imageCredits": "love"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 42,
-        "title": "This is random question",
-        "options": [{
-                "option": null,
-                "id": 1,
-                "is_correct": true,
-                "poll_count": 0
-            }, {
-                "option": null,
-                "id": 1,
-                "is_correct": false,
-                "poll_count": 0
-            }, {
-                "option": null,
-                "id": 1,
-                "is_correct": false,
-                "poll_count": 0
-            }],
-        "post_type": "1",
-        "post_desc": "This is random description",
-        "post_time": "2018-12-06T16:26:24.000+0000",
-        "post_state": "1",
-        "search_tag": "Search Tag",
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 11,
-            "mediaUrl": "https://firebasestorage.googleapis.com/v0/b/quizator-be795.appspot.com/o/image%2Fpost%2F1543860639577?alt=media&token=05d4752e-5902-402b-ad03-7662d2a77d68",
-            "tag": "loveflower2",
-            "imageCredits": "love Pal Singh"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 41,
-        "title": "title",
-        "options": null,
-        "post_type": "1",
-        "post_desc": "description",
-        "post_time": "2018-12-04T08:32:24.000+0000",
-        "post_state": "1",
-        "search_tag": "search_tag",
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 1,
-            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
-            "tag": "love2",
-            "imageCredits": "love"
-        },
-        "post_category_id": {
-            "id": 1,
-            "category": "main1",
-            "parentId": 0,
-            "category_media": "https://www.gstatic.com/webp/gallery/1.jpg"
-        }
-    }, {
-        "post_id": 40,
-        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T18:30:23.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 11,
-            "mediaUrl": "https://firebasestorage.googleapis.com/v0/b/quizator-be795.appspot.com/o/image%2Fpost%2F1543860639577?alt=media&token=05d4752e-5902-402b-ad03-7662d2a77d68",
-            "tag": "loveflower2",
-            "imageCredits": "love Pal Singh"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 39,
-        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T18:29:50.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 15,
-            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-            "tag": "lovvvvv",
-            "imageCredits": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 38,
-        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T18:26:40.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 14,
-            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-            "tag": "cj4efs",
-            "imageCredits": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 37,
-        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T18:25:54.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 5,
-            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-            "tag": "kitty",
-            "imageCredits": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 36,
-        "title": null,
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T18:22:35.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": null,
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 35,
-        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T18:22:35.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 1,
-            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
-            "tag": "love2",
-            "imageCredits": "love"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 34,
-        "title": null,
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T18:21:30.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 13,
-            "mediaUrl": "https://firebasestorage.googleapis.com/v0/b/quizator-be795.appspot.com/o/image%2Fpost%2F1543861277418?alt=media&token=6cc6e080-5d79-4746-8a19-5e25c31487be",
-            "tag": "eerfff",
-            "imageCredits": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 33,
-        "title": null,
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T18:20:40.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 12,
-            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-            "tag": "dddddd",
-            "imageCredits": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 32,
-        "title": null,
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T18:11:23.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": null,
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 31,
-        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T18:11:23.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 10,
-            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-            "tag": "kitttttty",
-            "imageCredits": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 30,
-        "title": null,
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T18:10:52.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 11,
-            "mediaUrl": "https://firebasestorage.googleapis.com/v0/b/quizator-be795.appspot.com/o/image%2Fpost%2F1543860639577?alt=media&token=05d4752e-5902-402b-ad03-7662d2a77d68",
-            "tag": "loveflower2",
-            "imageCredits": "love Pal Singh"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 29,
-        "title": null,
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T18:09:52.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 10,
-            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-            "tag": "kitttttty",
-            "imageCredits": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 28,
-        "title": null,
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T18:00:02.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": null,
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 27,
-        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T18:00:02.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 7,
-            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-            "tag": "mykitty",
-            "imageCredits": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 26,
-        "title": null,
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T17:55:54.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": null,
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 25,
-        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T17:55:54.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 1,
-            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
-            "tag": "love2",
-            "imageCredits": "love"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 24,
-        "title": null,
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T17:55:25.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 8,
-            "mediaUrl": "https://firebasestorage.googleapis.com/v0/b/quizator-be795.appspot.com/o/image%2Fpost%2F1543859706178?alt=media&token=9ac18784-aa26-4d41-9e66-72dbdbdc31ee",
-            "tag": "flowermy",
-            "imageCredits": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 23,
-        "title": null,
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T17:54:25.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 7,
-            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-            "tag": "mykitty",
-            "imageCredits": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 22,
-        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T17:46:22.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 6,
-            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-            "tag": "billy",
-            "imageCredits": "love"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 21,
-        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T17:45:23.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 6,
-            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-            "tag": "billy",
-            "imageCredits": "love"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 20,
-        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T17:45:10.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 6,
-            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-            "tag": "billy",
-            "imageCredits": "love"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 19,
-        "title": "ionViewDidLoad MaincategoryPage",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T17:42:52.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 4,
-            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
-            "tag": "nature",
-            "imageCredits": "love"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 18,
-        "title": "ionViewDidLoad MaincategoryPage",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T17:41:11.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 4,
-            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
-            "tag": "nature",
-            "imageCredits": "love"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 17,
-        "title": "ionViewDidLoad MaincategoryPage",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T17:41:02.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 4,
-            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
-            "tag": "nature",
-            "imageCredits": "love"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 16,
-        "title": "ionViewDidLoad MaincategoryPage",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T17:40:54.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 4,
-            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
-            "tag": "nature",
-            "imageCredits": "love"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 15,
-        "title": "ionViewDidLoad MaincategoryPage",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T17:36:11.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 5,
-            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-            "tag": "kitty",
-            "imageCredits": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 14,
-        "title": "ionViewDidLoad MaincategoryPage",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T17:35:25.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 4,
-            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
-            "tag": "nature",
-            "imageCredits": "love"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 13,
-        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T17:27:10.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": null,
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 12,
-        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T17:27:10.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 4,
-            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
-            "tag": "nature",
-            "imageCredits": "love"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 11,
-        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T17:23:33.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": null,
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 10,
-        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T17:23:33.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 4,
-            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
-            "tag": "nature",
-            "imageCredits": "love"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 9,
-        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T17:17:15.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": null,
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 8,
-        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T17:17:15.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 4,
-            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
-            "tag": "nature",
-            "imageCredits": "love"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 7,
-        "title": "This is another random fact",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T15:53:14.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 4,
-            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
-            "tag": "nature",
-            "imageCredits": "love"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 6,
-        "title": "This is another random fact",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T15:52:08.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 4,
-            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
-            "tag": "nature",
-            "imageCredits": "love"
-        },
-        "post_category_id": {
-            "id": 2,
-            "category": "level1-1",
-            "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
-        }
-    }, {
-        "post_id": 5,
-        "title": "This is another random fact",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T15:44:35.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 3,
-            "mediaUrl": "https://firebasestorage.googleapis.com/v0/b/quizator-be795.appspot.com/o/image%2Fpost%2F1543851822746?alt=media&token=112bb7ba-40d5-4acc-95e2-1f3c1d0e6c93",
-            "tag": "flower",
-            "imageCredits": "love"
-        },
-        "post_category_id": {
-            "id": 3,
-            "category": "level2-1",
-            "parentId": 5,
-            "category_media": "www.google.com"
-        }
-    }, {
-        "post_id": 4,
-        "title": "This is a random fact",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T15:41:32.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 2,
-            "mediaUrl": null,
-            "tag": "nature",
-            "imageCredits": "www.gstatic.com"
-        },
-        "post_category_id": {
-            "id": 14,
-            "category": "My New Category",
-            "parentId": 2,
-            "category_media": "https://firebasestorage.googleapis.com/v0/b/quizator-be795.appspot.com/o/image%2Fpost%2F1543517313377?alt=media&token=2e314143-d968-4f84-9898-c99e9727a61b"
-        }
-    }, {
-        "post_id": 3,
-        "title": "This is a random fact",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-12-03T15:39:08.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 1,
-            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
-            "tag": "love2",
-            "imageCredits": "love"
-        },
-        "post_category_id": {
-            "id": 14,
-            "category": "My New Category",
-            "parentId": 2,
-            "category_media": "https://firebasestorage.googleapis.com/v0/b/quizator-be795.appspot.com/o/image%2Fpost%2F1543517313377?alt=media&token=2e314143-d968-4f84-9898-c99e9727a61b"
-        }
-    }, {
-        "post_id": 2,
-        "title": "cdhjknljkjyghjgjhkj",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-11-30T21:12:23.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": {
-            "id": 1,
-            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
-            "tag": "love2",
-            "imageCredits": "love"
-        },
-        "post_category_id": {
-            "id": 3,
-            "category": "level2-1",
-            "parentId": 5,
-            "category_media": "www.google.com"
-        }
-    }, {
-        "post_id": 1,
-        "title": "cdhjknljkjyghjgjhkj",
-        "options": [],
-        "post_type": "3",
-        "post_desc": null,
-        "post_time": "2018-11-30T21:00:36.000+0000",
-        "post_state": "1",
-        "search_tag": null,
-        "blogger_id": 1,
-        "post_media_id": null,
-        "post_category_id": {
-            "id": 3,
-            "category": "level2-1",
-            "parentId": 5,
-            "category_media": "www.google.com"
-        }
-    }];
-//# sourceMappingURL=mock-post.js.map
-
-/***/ }),
-
-/***/ 585:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WelcomePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(13);
@@ -3564,7 +2323,7 @@ var WelcomePage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 587:
+/***/ 586:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3589,7 +2348,7 @@ var App_Constants = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 588:
+/***/ 587:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3610,7 +2369,7 @@ var session = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 589:
+/***/ 588:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3703,42 +2462,7 @@ var BasicDetailPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 59:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Context; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-var Context = /** @class */ (function () {
-    function Context() {
-    }
-    Context_1 = Context;
-    Context.set = function (key, val) {
-        Context_1.contextObject.set(key, val);
-    };
-    Context.get = function (key) {
-        return Context_1.contextObject.get(key);
-    };
-    Context.contextObject = new Map();
-    Context = Context_1 = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])()
-    ], Context);
-    return Context;
-    var Context_1;
-}());
-
-//# sourceMappingURL=context.js.map
-
-/***/ }),
-
-/***/ 590:
+/***/ 589:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3783,7 +2507,42 @@ var AddBlogPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 591:
+/***/ 59:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Context; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var Context = /** @class */ (function () {
+    function Context() {
+    }
+    Context_1 = Context;
+    Context.set = function (key, val) {
+        Context_1.contextObject.set(key, val);
+    };
+    Context.get = function (key) {
+        return Context_1.contextObject.get(key);
+    };
+    Context.contextObject = new Map();
+    Context = Context_1 = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])()
+    ], Context);
+    return Context;
+    var Context_1;
+}());
+
+//# sourceMappingURL=context.js.map
+
+/***/ }),
+
+/***/ 590:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3907,9 +2666,10 @@ var AddPostPage = /** @class */ (function () {
                     var data_ = data_parsed.data;
                     var media_id = data_.media_id;
                     var opts = _this.postClient.getOptions(_this.correct_option, _this.items);
+                    console.log(opts);
                     var post = _this.postClient.createPost(_this.question, _this.search_tag, _this.description, _this.postClient.getPostType(_this.post_type), _this.categoryId, 1, opts, media_id);
                     console.log(post);
-                    _this.postClient.addPost(post).subscribe(function (data) {
+                    _this.postClient.addPost(post, _this.mediaId, _this.categoryId).subscribe(function (data) {
                         _this.data.response = data["_body"];
                         console.log(_this.data.response);
                         _this.removeImage(false);
@@ -3943,8 +2703,9 @@ var AddPostPage = /** @class */ (function () {
     AddPostPage.prototype.addOption = function () {
         if (this.option.length != 0) {
             if (this.items.indexOf(this.option) == -1) {
+                this.option = this.option.replace(/\W/g, '');
                 this.items.push(this.option);
-                console.log(this.items.toString());
+                console.log(this.option);
                 this.option = "";
             }
             else {
@@ -4044,16 +2805,16 @@ var AddPostPage = /** @class */ (function () {
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_9__components_image_selector_image_selector__["a" /* ImageSelectorComponent */]),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_9__components_image_selector_image_selector__["a" /* ImageSelectorComponent */])
+        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_9__components_image_selector_image_selector__["a" /* ImageSelectorComponent */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_9__components_image_selector_image_selector__["a" /* ImageSelectorComponent */]) === "function" && _a || Object)
     ], AddPostPage.prototype, "inputComponent", void 0);
     AddPostPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-add-post',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/add-post/add-post.html"*/'<ion-content class="page-add-post">\n  <image-selector [(image)]="image" [(isTagPicked)]="isTagPicked" [(mediaId)]="mediaId" [(media_source)]="media_source" [(media_tag)]="media_tag" (mediaTagChange)="onMediaTagChange($event)" (mediaSourceChange)="onMediaSourceChange($event)" (imageChange)="onMediaChange($event)"></image-selector>\n  \n  <div id="post_detail">\n    <ion-row radio-group [(ngModel)]="post_type">\n\n      <ion-col>\n        <ion-item>\n          <ion-label>Quiz\n          </ion-label>\n          <ion-radio value="quiz" (click)="isquiz=true; post_type=\'quiz\';">\n          </ion-radio>\n        </ion-item>\n      </ion-col>\n      <ion-col>\n        <ion-item>\n          <ion-label>Poll<ion-icon name="poll"></ion-icon>\n          </ion-label>\n          <ion-radio value="poll" (click)="isquiz=false; post_type=\'poll\';"></ion-radio>\n        </ion-item>\n      </ion-col>\n      <ion-col>\n        <ion-item>\n          <ion-label>Fact<ion-icon name="poll"></ion-icon>\n          </ion-label>\n          <ion-radio value="fact" (click)="isquiz=false; post_type=\'fact\';"></ion-radio>\n        </ion-item>\n      </ion-col>\n    </ion-row>\n  </div>\n  <div id="container">\n    <ion-list>\n\n      <ion-item class="rounded" id="question">\n        <ion-textarea rows="1" id="messageInputBox1" maxlength="500" placeholder="Add Question" (input)="change(1)"\n          [(ngModel)]="question" required></ion-textarea>\n      </ion-item>\n      <div *ngIf="post_type!=\'fact\'">\n\n\n        <div *ngFor="let item of items ; let i = index trackBy:trackByFn">\n          <ion-row>\n            <ion-col col-10>\n              <ion-item>\n                  <input type="text" id="option{{i}}" [(ngModel)]="items[i]"/>\n                <!-- <ion-textarea rows="1" id="option{{i}}" value={{item}} (input)="optionChange(this,i)" required></ion-textarea> -->\n              </ion-item>\n            </ion-col>\n           \n            <ion-col col-2>\n              <button ion-button icon-only (click)="deleteOption(item)">\n                <ion-icon name="close"></ion-icon>\n              </button>\n            </ion-col>\n          </ion-row>\n        </div>\n\n        <ion-item class="rounded" id="option">\n          <ion-textarea rows="1" maxlength="50" id="messageInputBox" placeholder="Add Option" [(ngModel)]="option" (keyup.enter)="addOption()"\n            required></ion-textarea>\n        </ion-item>\n\n        <ion-item>\n          <button ion-button icon-start full (click)="addOption()">\n            <ion-icon name="md-add"></ion-icon>\n            Add Option\n          </button>\n        </ion-item>\n\n        <ion-row *ngIf="items.length>1&&isquiz" justify-content-center>\n          <ion-col>\n            <ion-select [(ngModel)]="correct_option" multiple="false" placeholder="Choose correct option" style=" max-width: 100% !important;">\n              <ion-option *ngFor="let item of items" value="{{item}}" selected="{{item}}">{{item}}</ion-option>\n            </ion-select>\n          </ion-col>\n        </ion-row>\n\n        <ion-item class="rounded" id="question">\n          <ion-textarea rows="1" maxlength="500" id="messageInputBox2" placeholder="Add Description" (input)="change(2)"\n            [(ngModel)]="description" required></ion-textarea>\n        </ion-item>\n        \n      </div>\n      <ion-item class="rounded" id="search_tag">\n          <ion-textarea rows="1" maxlength="50" id="messageInputBox3" placeholder="Add Search Tag" (input)="change(3)"\n            [(ngModel)]="search_tag" required></ion-textarea>\n        </ion-item>\n    </ion-list>\n\n\n    <div>\n      {{errors}}\n    </div>\n\n    <ion-row>\n      <button (click)="chooseCategory()" ion-button color="light" full>{{category}}</button>\n    </ion-row>\n    <ion-row justify-content-center>\n      <ion-col>\n        <button ion-button color="dark" round full (click)="cancel()">Cancel</button>\n      </ion-col>\n      <ion-col>\n        <button ion-button color="dark" round full (click)="submit()">Draft</button>\n      </ion-col>\n      <ion-col>\n        <button ion-button color="dark" round full (click)="post()">Post</button>\n      </ion-col>\n    </ion-row>\n\n  </div>\n\n\n</ion-content>'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/add-post/add-post.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_7__providers_post_client_api_post_client_api__["a" /* PostClientApiProvider */], __WEBPACK_IMPORTED_MODULE_6__ionic_storage__["b" /* Storage */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */], __WEBPACK_IMPORTED_MODULE_4__providers_ImageUtil__["a" /* ImageUtil */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* Platform */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_2__providers_text_util_text_util__["a" /* TextUtilProvider */]])
+        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_7__providers_post_client_api_post_client_api__["a" /* PostClientApiProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__providers_post_client_api_post_client_api__["a" /* PostClientApiProvider */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_6__ionic_storage__["b" /* Storage */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__ionic_storage__["b" /* Storage */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_4__providers_ImageUtil__["a" /* ImageUtil */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__providers_ImageUtil__["a" /* ImageUtil */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* Platform */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* Platform */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */]) === "function" && _h || Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_2__providers_text_util_text_util__["a" /* TextUtilProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_text_util_text_util__["a" /* TextUtilProvider */]) === "function" && _j || Object])
     ], AddPostPage);
     return AddPostPage;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j;
 }());
 
 //# sourceMappingURL=add-post.js.map
@@ -4077,7 +2838,7 @@ var environment = {
 
 /***/ }),
 
-/***/ 703:
+/***/ 702:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4122,7 +2883,7 @@ var ChatMainPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 704:
+/***/ 703:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4167,7 +2928,7 @@ var ChatListPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 705:
+/***/ 704:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4212,7 +2973,7 @@ var CommentPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 706:
+/***/ 705:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4257,7 +3018,7 @@ var MatchupPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 707:
+/***/ 706:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4302,7 +3063,7 @@ var NotificationPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 708:
+/***/ 707:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4347,7 +3108,7 @@ var SearchPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 709:
+/***/ 708:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4392,7 +3153,7 @@ var ViewBlogPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 710:
+/***/ 709:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4449,7 +3210,7 @@ var ViewPostPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 711:
+/***/ 710:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4494,7 +3255,7 @@ var MatchupPlayPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 712:
+/***/ 711:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4528,7 +3289,7 @@ var EmojiProvider = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 719:
+/***/ 718:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

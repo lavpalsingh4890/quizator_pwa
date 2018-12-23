@@ -25884,10 +25884,12 @@ page-home .card .item-text-wrap {
 
 page-home .selected_correct {
   background: green;
+  color: whitesmoke;
 }
 
 page-home .selected_incorrect {
   background: red;
+  color: whitesmoke;
 }
 
 page-home .post_image {
@@ -25917,6 +25919,10 @@ page-home #post_desc_container {
 
 page-home #post_date {
   color: grey;
+}
+
+page-home .post_title {
+  font-size: 20px;
 }
 
 .container {

@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Sun Dec 23 16:38:11 IST 2018
+#Sun Dec 23 18:52:54 IST 2018
 60.set=ASSET
 52.set=ASSET
 53.base=/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/assets/debug

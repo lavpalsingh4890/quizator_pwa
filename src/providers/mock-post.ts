@@ -825,13 +825,33 @@ export const post :Post[]= [{
 		}
 	}, {
 		"post_id": 24,
-		"title": null,
-		"options": [],
+		"title": "This is a cute kitty",
+		"options": [{
+			"option": "ABCDEFG",
+			"id": 1,
+			"is_correct": false,
+			"poll_count": 0
+		}, {
+			"option": "HIJKLMN",
+			"id": 2,
+			"is_correct": true,
+			"poll_count": 0
+		}, {
+			"option": "OPQRST",
+			"id": 3,
+			"is_correct": false,
+			"poll_count": 0
+		}, {
+			"option": "UVWXYZ",
+			"id": 4,
+			"is_correct": false,
+			"poll_count": 0
+		}],
 		"post_type": "3",
-		"post_desc": null,
+		"post_desc": "This is a demo description for testing purpose",
 		"post_time": "2018-12-03T17:55:25.000+0000",
 		"post_state": "1",
-		"search_tag": null,
+		"search_tag": "Nature",
 		"blogger_id": 1,
 		"post_media_id": {
 			"id": 8,

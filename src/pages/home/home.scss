@@ -22,10 +22,12 @@ page-home {
 
     .selected_correct{
         background: green;
+        color: whitesmoke;
         
         }
     .selected_incorrect{
             background: red;
+            color: whitesmoke;
         }
 
 
@@ -50,5 +52,8 @@ page-home {
     }
     #post_date{
         color: grey;
+    }
+    .post_title{
+        font-size: 20px;
     }
 }

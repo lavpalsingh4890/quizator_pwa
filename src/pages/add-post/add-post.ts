@@ -112,9 +112,10 @@ export class AddPostPage {
           let data_ = data_parsed.data;
           let media_id = data_.media_id;
           var opts: Post_Option[] = this.postClient.getOptions(this.correct_option, this.items);
+          console.log(opts);
           var post: Post = this.postClient.createPost(this.question, this.search_tag, this.description, this.postClient.getPostType(this.post_type), this.categoryId, 1, opts, media_id);
           console.log(post);
-          this.postClient.addPost(post).subscribe(data => {
+          this.postClient.addPost(post,this.mediaId,this.categoryId).subscribe(data => {
             this.data.response = data["_body"];
             console.log(this.data.response);
            this.removeImage(false);
@@ -153,8 +154,9 @@ export class AddPostPage {
   addOption() {
     if (this.option.length != 0) {
       if (this.items.indexOf(this.option) == -1) {
+        this.option = this.option.replace(/\W/g, '');
         this.items.push(this.option);
-        console.log(this.items.toString());
+        console.log(this.option);
         this.option = "";
       } else {
 

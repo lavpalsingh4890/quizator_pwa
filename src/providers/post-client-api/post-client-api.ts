@@ -26,7 +26,7 @@ export class PostClientApiProvider {
     } else {
       var post: Post = this.createPost(title, description, search_tag, this.getPostType(post_type), post_category_id, 1, opts, mediaId);
       console.log(post);
-      return this.addPost(post);
+      return this.addPost(post,mediaId,post_category_id);
     }
 
   }
@@ -52,16 +52,15 @@ export class PostClientApiProvider {
       "options": options,
       "post_type": post_type,
       "post_desc": description,
-      "post_category_id": post_category_id,
       "blogger_id": blogger_id,
-      "post_media_id": media_id,
-      "search_tag": search_tag
+      "search_tag": search_tag,
+      "post_state":"1"
     };
     return post_data;
   }
   createOption(id: number, data: string, is_true: boolean) {
     var post_opt: Post_Option = {
-      "post_option": data,
+      "option": data,
       "id": id,
       "is_correct": is_true,
       "poll_count": 0
@@ -84,11 +83,30 @@ export class PostClientApiProvider {
       if (val == correct_option) is_true = true;
       var o: Post_Option = this.createOption(count, val, is_true);
       options.push(o);
+      count++;
     });
     return options;
   }
-  public addPost(post_data: Post): Observable<Response> {
+  public addPost(post_data: Post,media,category): Observable<Response> {
     var link = ENV.BASE_URL + ENV.POST_API;
+
+    if (media != null || category != null) {
+
+      var categoryAdded:boolean =false;
+      link = link + "?";
+      if (media != null) { 
+        link = link + "media=" + media;
+        if (category != null) { 
+          link = link +  "&category="+category;
+          categoryAdded =true;
+        }
+      }
+      if (!categoryAdded&&category != null) { 
+        link = link + "category="+category;
+      }
+
+    }
+
     var myData = JSON.stringify(post_data);
     let headers = new Headers();
     //       headers.append('Origin' , 'http://127.0.0.1:8100');
