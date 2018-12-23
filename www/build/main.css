@@ -25915,6 +25915,10 @@ page-home #post_desc_container {
   margin-top: 10px;
 }
 
+page-home #post_date {
+  color: grey;
+}
+
 .container {
   position: relative;
   width: 100%;

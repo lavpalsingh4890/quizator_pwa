@@ -6,12 +6,12 @@ export const post :Post[]= [{
 		"options": [{
 			"option": "ABCDEFG",
 			"id": 1,
-			"is_correct": true,
+			"is_correct": false,
 			"poll_count": 0
 		}, {
 			"option": "HIJKLMN",
 			"id": 2,
-			"is_correct": false,
+			"is_correct": true,
 			"poll_count": 0
 		}, {
 			"option": "OPQRST",
@@ -40,7 +40,7 @@ export const post :Post[]= [{
 			"id": 2,
 			"category": "level1-1",
 			"parentId": 1,
-			"category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+			"category_media": "https://firebasestorage.googleapis.com/v0/b/quizator-be795.appspot.com/o/image%2Fpost%2F1543860639577?alt=media&token=05d4752e-5902-402b-ad03-7662d2a77d68"
 		}
 	}, {
 		"post_id": 57,

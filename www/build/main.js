@@ -696,10 +696,19 @@ var HomePage = /** @class */ (function () {
         this.navCtrl = navCtrl;
         this.http = http;
         this.post_viewed = new Set();
+        this.post_correct_options = new Array();
         this.data = {};
         this.posts = __WEBPACK_IMPORTED_MODULE_6__providers_mock_post__["a" /* post */];
         // this.getPosts();
     }
+    HomePage.prototype.get_correct_option = function (post_options, post_id) {
+        for (var _i = 0, post_options_1 = post_options; _i < post_options_1.length; _i++) {
+            var post_option = post_options_1[_i];
+            if (post_option.is_correct) {
+                return post_option.id;
+            }
+        }
+    };
     HomePage.prototype.getPosts = function () {
         var _this = this;
         var link = __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].BASE_URL + __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].POST_API;
@@ -714,21 +723,46 @@ var HomePage = /** @class */ (function () {
             console.log("Oooops!");
         });
     };
-    HomePage.prototype.tapOption = function (post, post_option, id) {
-        this.post_viewed.add(post.post_id);
-        console.log(this.post_viewed);
+    HomePage.prototype.tapOption = function (post, post_option, id, pid) {
+        var post_options = post.options;
+        var correct_id = this.get_correct_option(post_options, post.post_id);
+        correct_id = correct_id - 1;
+        var correct_opt_id = "post_option_" + pid + "_" + correct_id;
+        var input = document.getElementById(correct_opt_id);
+        input.style.background = "green";
         this.currentSelected = id;
         this.is_correct = post_option.is_correct;
         this.selectedOption = post_option;
+        if (!this.post_viewed.has(post.post_id)) {
+            var post_play = {
+                "post_id": post.post_id,
+                "is_correct": this.is_correct
+            };
+            this.post_correct_options.push(post_play);
+            console.log(this.post_correct_options);
+        }
+        this.post_viewed.add(post.post_id);
+    };
+    HomePage.prototype.checkIfCorrect = function (post_id) {
+        var index = this.post_correct_options.findIndex(function (post_viewed) { return post_viewed.post_id === post_id; });
+        if (index > -1) {
+            return this.post_correct_options[index].is_correct;
+        }
+    };
+    HomePage.prototype.checkIfExists = function (post_id) {
+        var _this = this;
+        var checkRoleExistence = function (roleParam) { return _this.post_correct_options.some(function (_a) {
+            var post_id = _a.post_id;
+            return post_id == roleParam;
+        }); };
+        return checkRoleExistence(post_id);
     };
     HomePage.prototype.searchOnWeb = function (search_tag) {
-        console.log(search_tag);
-        // window.open('https://www.google.co.in/search?q='+search_tag, '_system', 'location=yes'); return false;
         var browser = this.iab.create('https://www.google.co.in/search?q=' + search_tag);
     };
     HomePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-home',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/home/home.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-grid>\n      <ion-row>\n        <ion-col col-2>\n          <button ion-button menuToggle icon-only>\n            <ion-icon ios="ios-menu" md="md-menu"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n          <button ion-button icon-only>\n            <ion-icon ios="ios-notifications" md="md-notifications"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n\n          <button ion-button icon-only>\n            <ion-icon ios="ios-chatbubbles" md="md-chatbubbles"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n\n          <button ion-button icon-only>\n            <ion-icon ios="ios-shuffle" md="md-shuffle"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n\n          <button ion-button icon-only>\n            <ion-icon name="search"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n\n          <button ion-button icon-only>\n            <ion-icon ios="ios-person" md="md-person"></ion-icon>\n          </button>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n\n\n      </ion-row>\n    </ion-grid>\n\n  </ion-navbar>\n</ion-header>\n\n<ion-content>\n  <ion-list>\n    <ion-item *ngFor="let post of posts; let m_id = index">\n      <ion-row>\n        <div class="post_image_container" *ngIf="post.post_media_id">\n          <img class="post_image" id="post_media_{{m_id}}"  src="{{post.post_media_id.mediaUrl}}" />\n        </div>\n      </ion-row>\n      <div class="post_title_container" *ngIf="post.title">\n      <ion-row padding>\n        <ion-col text-center text-wrap>\n          <p class="post_title" id="post_title_{{m_id}}">{{post.title}}</p>\n        </ion-col>\n      </ion-row>\n      </div>\n      <div id="post_option_container" *ngIf="post.options">\n        <ion-row justify-content-center align-items-center>\n          <ion-col align-self-stretch col-6 *ngFor="let post_option of post.options; let idx = index"\n            [class.selected_correct]="post_option === selectedOption && idx === currentSelected && is_correct" [class.selected_incorrect]="post_option === selectedOption && idx === currentSelected && !is_correct"\n            (click)="tapOption(post,post_option,idx)" text-wrap text-center>\n            <p class="post_option" id="post_option_{{m_id}}_{{idx}}" padding>\n              {{post_option.option}}\n            </p>\n          </ion-col>\n        </ion-row>\n      </div>\n      <div id="post_category_container" *ngIf="post.post_category_id">\n        <ion-row align-items-center>\n          \n          <ion-col col-3>\n              <div id="post_web_search_container" *ngIf="post.search_tag && post_viewed.has(post.post_id)">\n              <button ion-button (click)="searchOnWeb(post.search_tag)" clear>\n                  Read more on web\n                </button>\n                </div>\n          </ion-col>\n          <ion-col col-7 text-end>\n            <p *ngIf="post.post_category_id && post.post_category_id.category"> {{post.post_category_id.category}}</p>\n          </ion-col>\n          <ion-col col-2>\n            <ion-avatar item-end>\n              <img *ngIf="post.post_category_id && post.post_category_id.category_media" src="{{post.post_category_id.category_media}}">\n            </ion-avatar>\n          </ion-col>\n        </ion-row>\n      </div>\n      <div id="post_desc_container" *ngIf="post.post_desc && post_viewed.has(post.post_id)">\n        <ion-row>\n          <p>\n            {{post.post_desc}}\n          </p>\n        </ion-row>\n      </div>\n     \n    </ion-item>\n  </ion-list>\n</ion-content>'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/home/home.html"*/
+            selector: 'page-home',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/home/home.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-grid>\n      <ion-row>\n        <ion-col col-2>\n          <button ion-button menuToggle icon-only>\n            <ion-icon ios="ios-menu" md="md-menu"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n          <button ion-button icon-only>\n            <ion-icon ios="ios-notifications" md="md-notifications"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n\n          <button ion-button icon-only>\n            <ion-icon ios="ios-chatbubbles" md="md-chatbubbles"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n\n          <button ion-button icon-only>\n            <ion-icon ios="ios-shuffle" md="md-shuffle"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n\n          <button ion-button icon-only>\n            <ion-icon name="search"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n\n          <button ion-button icon-only>\n            <ion-icon ios="ios-person" md="md-person"></ion-icon>\n          </button>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n\n\n      </ion-row>\n    </ion-grid>\n\n  </ion-navbar>\n</ion-header>\n\n<ion-content>\n  <ion-list>\n    <ion-item *ngFor="let post of posts; let m_id = index">\n       \n      <ion-row>\n        <div class="post_image_container" *ngIf="post.post_media_id">\n          <img class="post_image" id="post_media_{{m_id}}"  src="{{post.post_media_id.mediaUrl}}" />\n        </div>\n      </ion-row>\n      <div class="post_title_container" *ngIf="post.title">\n      <ion-row padding>\n        <ion-col text-center text-wrap>\n          <p class="post_title" id="post_title_{{m_id}}">{{post.title}}</p>\n        </ion-col>\n      </ion-row>\n      </div>\n      <div id="post_option_container" *ngIf="post.options">\n        <ion-row justify-content-center align-items-center>\n          <ion-col align-self-stretch col-6 *ngFor="let post_option of post.options; let idx = index" id="post_option_container_{{m_id}}_{{idx}}"\n            [class.selected_correct]="post_option === selectedOption && idx === currentSelected && is_correct" [class.selected_incorrect]="post_option === selectedOption && idx === currentSelected && !is_correct"\n            (click)="tapOption(post,post_option,idx,m_id)" text-wrap text-center>\n            <p class="post_option" id="post_option_{{m_id}}_{{idx}}" padding>\n              {{post_option.option}}\n            </p>\n          </ion-col>\n        </ion-row>\n      </div>\n      <div id="post_desc_container" *ngIf="post.post_desc && post_viewed.has(post.post_id)">\n          <ion-row>\n            <p>\n              {{post.post_desc}}\n            </p>\n          </ion-row>\n          <ion-row *ngIf="post.post_media_id && post.post_media_id.imageCredits">\n              <p >\n               Image Credits : {{post.post_media_id.imageCredits}}\n              </p>\n            </ion-row>\n        </div>\n      <div id="post_category_container" *ngIf="post.post_category_id">\n        <ion-row align-items-center>\n          \n          <ion-col col-3>\n              <div id="post_web_search_container" *ngIf="post.search_tag && post_viewed.has(post.post_id)">\n              <button ion-button (click)="searchOnWeb(post.search_tag)" clear>\n                  Read more\n                </button>\n                </div>\n          </ion-col>\n          <ion-col col-7 text-end>\n            <p *ngIf="post.post_category_id && post.post_category_id.category"  text-wrap> {{post.post_category_id.category}}</p>\n          </ion-col>\n          <ion-col col-2>\n            <ion-avatar item-end>\n              <img *ngIf="post.post_category_id && post.post_category_id.category_media" src="{{post.post_category_id.category_media}}">\n            </ion-avatar>\n          </ion-col>\n        </ion-row>\n      </div>\n     \n      <ion-item-divider color="light" no-padding id="post_date">\n        <ion-row justify-content-end>\n          <div *ngIf="checkIfExists(post.post_id)">\n              <ion-col col-1 >\n                  <ion-icon ios="ios-done-all" md="md-done-all"></ion-icon>\n              </ion-col>\n              <ion-col col-1 *ngIf="checkIfCorrect(post.post_id)">\n                  <ion-icon name="happy"></ion-icon>\n              </ion-col>\n          </div>\n         \n          <ion-col text-right>\n              {{post.post_time| date: \'short\'}}\n          </ion-col>\n        </ion-row>\n        </ion-item-divider>\n    </ion-item>\n  </ion-list>\n</ion-content>'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/home/home.html"*/
         }),
         __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_5__ionic_native_in_app_browser__["a" /* InAppBrowser */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__ionic_native_in_app_browser__["a" /* InAppBrowser */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */]) === "function" && _c || Object])
     ], HomePage);
@@ -2117,12 +2151,12 @@ var post = [{
         "options": [{
                 "option": "ABCDEFG",
                 "id": 1,
-                "is_correct": true,
+                "is_correct": false,
                 "poll_count": 0
             }, {
                 "option": "HIJKLMN",
                 "id": 2,
-                "is_correct": false,
+                "is_correct": true,
                 "poll_count": 0
             }, {
                 "option": "OPQRST",
@@ -2151,7 +2185,7 @@ var post = [{
             "id": 2,
             "category": "level1-1",
             "parentId": 1,
-            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+            "category_media": "https://firebasestorage.googleapis.com/v0/b/quizator-be795.appspot.com/o/image%2Fpost%2F1543860639577?alt=media&token=05d4752e-5902-402b-ad03-7662d2a77d68"
         }
     }, {
         "post_id": 57,
