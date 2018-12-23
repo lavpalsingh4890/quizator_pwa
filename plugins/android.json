@@ -75,6 +75,9 @@
     },
     "cordova-plugin-crop": {
       "PACKAGE_NAME": "com.technofriend.quizator"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "com.technofriend.quizator"
     }
   },
   "dependent_plugins": {}

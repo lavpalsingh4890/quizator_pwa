@@ -144,6 +144,15 @@ module.exports = [
     "clobbers": [
       "plugins.crop"
     ]
+  },
+  {
+    "id": "cordova-plugin-inappbrowser.inappbrowser",
+    "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
+    "pluginId": "cordova-plugin-inappbrowser",
+    "clobbers": [
+      "cordova.InAppBrowser.open",
+      "window.open"
+    ]
   }
 ];
 module.exports.metadata = 
@@ -164,7 +173,8 @@ module.exports.metadata =
   "cordova-sqlite-storage": "2.5.1",
   "cordova-plugin-telerik-imagepicker": "2.2.2",
   "cordova-plugin-camera": "4.0.3",
-  "cordova-plugin-crop": "0.3.1"
+  "cordova-plugin-crop": "0.3.1",
+  "cordova-plugin-inappbrowser": "3.0.0"
 };
 // BOTTOM OF METADATA
 });

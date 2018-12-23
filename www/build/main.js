@@ -1,15 +1,175 @@
 webpackJsonp([0],{
 
-/***/ 185:
+/***/ 113:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ImageUtil; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ionic_native_image_picker__ = __webpack_require__(188);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__firebase_service__ = __webpack_require__(345);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_crop__ = __webpack_require__(401);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__context__ = __webpack_require__(59);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_camera__ = __webpack_require__(402);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+var ImageUtil = /** @class */ (function () {
+    function ImageUtil(imagePicker, cropService, firebaseService, camera) {
+        this.imagePicker = imagePicker;
+        this.cropService = cropService;
+        this.firebaseService = firebaseService;
+        this.camera = camera;
+    }
+    ImageUtil.prototype.uploadImageToFirebase = function (image) {
+        image = Object(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* normalizeURL */])(image);
+        return this.firebaseService.uploadImage(image);
+    };
+    ImageUtil.prototype.removeImage = function () {
+        var image_name = __WEBPACK_IMPORTED_MODULE_5__context__["a" /* Context */].get("uploaded_image_key");
+        this.firebaseService.removeImage(image_name).then(function (msg) {
+            console.log(msg);
+        });
+    };
+    ImageUtil.prototype.openImagePicker = function () {
+        var _this = this;
+        this.imagePicker.hasReadPermission().then(function (result) {
+            if (result == false) {
+                // no callbacks required as this opens a popup which returns async
+                _this.imagePicker.requestReadPermission();
+            }
+            else if (result == true) {
+                _this.imagePicker.getPictures({
+                    maximumImagesCount: 1
+                }).then(function (results) {
+                    for (var i = 0; i < results.length; i++) {
+                        _this.uploadImageToFirebase(results[i]);
+                    }
+                }, function (err) { return console.log(err); });
+            }
+        }, function (err) {
+            console.log(err);
+        });
+    };
+    ImageUtil.prototype.openImagePickerCrop = function () {
+        var _this = this;
+        this.imagePicker.hasReadPermission().then(function (result) {
+            if (result == false) {
+                // no callbacks required as this opens a popup which returns async
+                _this.imagePicker.requestReadPermission();
+            }
+            else if (result == true) {
+                _this.imagePicker.getPictures({
+                    maximumImagesCount: 1
+                }).then(function (results) {
+                    for (var i = 0; i < results.length; i++) {
+                        _this.cropService.crop(results[i], { quality: 75 }).then(function (newImage) {
+                            _this.uploadImageToFirebase(newImage);
+                        }, function (error) { return console.error("Error cropping image", error); });
+                    }
+                }, function (err) { return console.log(err); });
+            }
+        }, function (err) {
+            console.log(err);
+        });
+    };
+    ImageUtil.prototype.getImage = function () {
+        var options = {
+            quality: 100,
+            destinationType: this.camera.DestinationType.DATA_URL,
+            sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+            targetWidth: 1024,
+            targetHeight: 768,
+            saveToPhotoAlbum: true,
+            correctOrientation: true,
+            mediaType: this.camera.MediaType.PICTURE
+        };
+        return this.camera.getPicture(options);
+    };
+    ImageUtil = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_4__angular_core__["A" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__ionic_native_image_picker__["a" /* ImagePicker */],
+            __WEBPACK_IMPORTED_MODULE_3__ionic_native_crop__["a" /* Crop */],
+            __WEBPACK_IMPORTED_MODULE_2__firebase_service__["a" /* FirebaseService */], __WEBPACK_IMPORTED_MODULE_6__ionic_native_camera__["a" /* Camera */]])
+    ], ImageUtil);
+    return ImageUtil;
+}());
+
+//# sourceMappingURL=ImageUtil.js.map
+
+/***/ }),
+
+/***/ 186:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TextUtilProvider; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var TextUtilProvider = /** @class */ (function () {
+    function TextUtilProvider() {
+        console.log('Hello TextUtilProvider Provider');
+    }
+    TextUtilProvider.prototype.change = function (index) {
+        // get elements
+        var element = document.getElementById('messageInputBox' + index);
+        var textarea = element.getElementsByTagName('textarea')[0];
+        // set default style for textarea
+        textarea.style.minHeight = '0';
+        textarea.style.height = '0';
+        // limit size to 96 pixels (6 lines of text)
+        var scroll_height = textarea.scrollHeight;
+        if (scroll_height > 96)
+            scroll_height = 96;
+        // apply new style
+        element.style.height = scroll_height + "px";
+        textarea.style.minHeight = scroll_height + "px";
+        textarea.style.height = scroll_height + "px";
+    };
+    TextUtilProvider = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
+        __metadata("design:paramtypes", [])
+    ], TextUtilProvider);
+    return TextUtilProvider;
+}());
+
+//# sourceMappingURL=text-util.js.map
+
+/***/ }),
+
+/***/ 187:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SubcategoryPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_server_util_serverUtil__ = __webpack_require__(65);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__(87);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_server_util_serverUtil__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(53);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -176,28 +336,29 @@ var SubcategoryPage = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-subcategory',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/category/subcategory/subcategory.html"*/'<ion-content padding>\n    <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>\n\n    <ion-row>\n        <ion-col (press)="longPressed(item)" (click)="log(item)" *ngFor="let item of category_data" col-6>\n     \n            <ion-card no-padding >\n               <ion-card-content  no-padding>\n                   <ion-row align-items-stretch>\n                       <ion-col align-self-stretch>\n                          <img  src={{item.category_media}} style="width:100%;height:100px"/>\n                       </ion-col>\n                      \n                     </ion-row>\n                     <ion-row align-items-stretch>\n                        <ion-col align-self-stretch>\n                            {{ item.category }}\n                         </ion-col>\n                     </ion-row>\n               </ion-card-content>\n             </ion-card>\n       </ion-col> \n    </ion-row>\n   \n    <ion-row>\n        <button ion-button (click)="back()" color="light" round full>Back\n          \n        </button>\n      </ion-row>\n  </ion-content>\n  '/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/category/subcategory/subcategory.html"*/,
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_2__providers_server_util_serverUtil__["a" /* ServerUtil */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_server_util_serverUtil__["a" /* ServerUtil */]) === "function" && _e || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_server_util_serverUtil__["a" /* ServerUtil */]])
     ], SubcategoryPage);
     return SubcategoryPage;
-    var SubcategoryPage_1, _a, _b, _c, _d, _e;
+    var SubcategoryPage_1;
 }());
 
 //# sourceMappingURL=subcategory.js.map
 
 /***/ }),
 
-/***/ 187:
+/***/ 203:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ImageUtil; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ionic_native_image_picker__ = __webpack_require__(186);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ImageSelectorComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__firebase_service__ = __webpack_require__(334);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_crop__ = __webpack_require__(390);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__context__ = __webpack_require__(68);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_camera__ = __webpack_require__(391);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_text_util_text_util__ = __webpack_require__(186);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_ImageUtil__ = __webpack_require__(113);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_context__ = __webpack_require__(59);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_storage__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_post_client_api_post_client_api__ = __webpack_require__(204);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_add_post_tagname_tagname__ = __webpack_require__(403);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -214,92 +375,260 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var ImageUtil = /** @class */ (function () {
-    function ImageUtil(imagePicker, cropService, firebaseService, camera) {
-        this.imagePicker = imagePicker;
-        this.cropService = cropService;
-        this.firebaseService = firebaseService;
-        this.camera = camera;
+
+
+var ImageSelectorComponent = /** @class */ (function () {
+    function ImageSelectorComponent(alertCtrl, postClient, storage, toastCtrl, imageUtil, platform, navCtrl, textUtil) {
+        this.alertCtrl = alertCtrl;
+        this.postClient = postClient;
+        this.storage = storage;
+        this.toastCtrl = toastCtrl;
+        this.imageUtil = imageUtil;
+        this.platform = platform;
+        this.navCtrl = navCtrl;
+        this.textUtil = textUtil;
+        this.option = "";
+        this.items = [];
+        this.media_tag = null;
+        this.media_source = null;
+        this.image = null;
+        this.mediaTagChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* EventEmitter */]();
+        this.mediaSourceChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* EventEmitter */]();
+        this.imageChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* EventEmitter */]();
+        this.data = {};
+        this.isImage = false;
+        this.isImageUploaded = false;
+        this.isImageURL = false;
     }
-    ImageUtil.prototype.uploadImageToFirebase = function (image) {
-        image = Object(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* normalizeURL */])(image);
-        return this.firebaseService.uploadImage(image);
+    ImageSelectorComponent.prototype.removeImage = function (type) {
+        this.isImage = false;
+        this.image = null;
+        if (type) {
+            if (!this.isTagPicked && this.isImageUploaded)
+                this.imageUtil.removeImage();
+        }
+        __WEBPACK_IMPORTED_MODULE_4__providers_context__["a" /* Context */].set("photoURL", null);
+        __WEBPACK_IMPORTED_MODULE_4__providers_context__["a" /* Context */].set("Tag", null);
+        this.isImageUploaded = false;
+        this.media_tag = null;
+        this.media_source = null;
+        this.isTagPicked = false;
+        this.isImageURL = false;
     };
-    ImageUtil.prototype.removeImage = function () {
-        var image_name = __WEBPACK_IMPORTED_MODULE_5__context__["a" /* Context */].get("uploaded_image_key");
-        this.firebaseService.removeImage(image_name).then(function (msg) {
-            console.log(msg);
-        });
-    };
-    ImageUtil.prototype.openImagePicker = function () {
+    ImageSelectorComponent.prototype.getImage = function () {
         var _this = this;
-        this.imagePicker.hasReadPermission().then(function (result) {
-            if (result == false) {
-                // no callbacks required as this opens a popup which returns async
-                _this.imagePicker.requestReadPermission();
-            }
-            else if (result == true) {
-                _this.imagePicker.getPictures({
-                    maximumImagesCount: 1
-                }).then(function (results) {
-                    for (var i = 0; i < results.length; i++) {
-                        _this.uploadImageToFirebase(results[i]);
-                    }
-                }, function (err) { return console.log(err); });
-            }
-        }, function (err) {
-            console.log(err);
+        this.isImageURL = false;
+        this.imageUtil.getImage().then(function (imageData) {
+            _this.isImage = true;
+            if (_this.platform.is('ios'))
+                _this.image = Object(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* normalizeURL */])(imageData);
+            else
+                _this.image = "data:image/jpeg;base64," + imageData;
+        }, function (error) {
+            console.log('ERROR -> ' + JSON.stringify(error));
         });
     };
-    ImageUtil.prototype.openImagePickerCrop = function () {
+    ImageSelectorComponent.prototype.upload = function () {
         var _this = this;
-        this.imagePicker.hasReadPermission().then(function (result) {
-            if (result == false) {
-                // no callbacks required as this opens a popup which returns async
-                _this.imagePicker.requestReadPermission();
-            }
-            else if (result == true) {
-                _this.imagePicker.getPictures({
-                    maximumImagesCount: 1
-                }).then(function (results) {
-                    for (var i = 0; i < results.length; i++) {
-                        _this.cropService.crop(results[i], { quality: 75 }).then(function (newImage) {
-                            _this.uploadImageToFirebase(newImage);
-                        }, function (error) { return console.error("Error cropping image", error); });
-                    }
-                }, function (err) { return console.log(err); });
-            }
-        }, function (err) {
-            console.log(err);
-        });
+        if (!__WEBPACK_IMPORTED_MODULE_4__providers_context__["a" /* Context */].get("isImageUploading")) {
+            __WEBPACK_IMPORTED_MODULE_4__providers_context__["a" /* Context */].set("isImageUploading", true);
+            this.imageUtil.uploadImageToFirebase(this.image).then(function (photoURL) {
+                __WEBPACK_IMPORTED_MODULE_4__providers_context__["a" /* Context */].set("isImageUploading", false);
+                __WEBPACK_IMPORTED_MODULE_4__providers_context__["a" /* Context */].set("photoURL", photoURL);
+                _this.image = photoURL;
+                _this.isImageUploaded = true;
+                _this.mediaChange(1);
+                console.log(photoURL);
+                var toast = _this.toastCtrl.create({
+                    message: 'Image was uploaded successfully',
+                    duration: 3000
+                });
+                toast.present();
+            });
+        }
     };
-    ImageUtil.prototype.getImage = function () {
-        var options = {
-            quality: 100,
-            destinationType: this.camera.DestinationType.DATA_URL,
-            sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-            targetWidth: 1024,
-            targetHeight: 768,
-            saveToPhotoAlbum: true,
-            correctOrientation: true,
-            mediaType: this.camera.MediaType.PICTURE
-        };
-        return this.camera.getPicture(options);
+    ImageSelectorComponent.prototype.getTags = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_7__pages_add_post_tagname_tagname__["a" /* TagnamePage */], { "keyword": this.media_tag });
     };
-    ImageUtil = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_4__angular_core__["A" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__ionic_native_image_picker__["a" /* ImagePicker */],
-            __WEBPACK_IMPORTED_MODULE_3__ionic_native_crop__["a" /* Crop */],
-            __WEBPACK_IMPORTED_MODULE_2__firebase_service__["a" /* FirebaseService */], __WEBPACK_IMPORTED_MODULE_6__ionic_native_camera__["a" /* Camera */]])
-    ], ImageUtil);
-    return ImageUtil;
+    ImageSelectorComponent.prototype.mediaChange = function (type) {
+        switch (type) {
+            case 1:
+                this.imageChange.emit(this.image);
+                break;
+            case 2:
+                this.mediaTagChange.emit(this.media_tag);
+                break;
+            case 3:
+                this.mediaSourceChange.emit(this.media_source);
+                break;
+        }
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* Input */])(),
+        __metadata("design:type", Object)
+    ], ImageSelectorComponent.prototype, "media_tag", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* Input */])(),
+        __metadata("design:type", Object)
+    ], ImageSelectorComponent.prototype, "media_source", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* Input */])(),
+        __metadata("design:type", Object)
+    ], ImageSelectorComponent.prototype, "image", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["O" /* Output */])(),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* EventEmitter */])
+    ], ImageSelectorComponent.prototype, "mediaTagChange", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["O" /* Output */])(),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* EventEmitter */])
+    ], ImageSelectorComponent.prototype, "mediaSourceChange", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["O" /* Output */])(),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* EventEmitter */])
+    ], ImageSelectorComponent.prototype, "imageChange", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* Input */])(),
+        __metadata("design:type", Object)
+    ], ImageSelectorComponent.prototype, "isTagPicked", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* Input */])(),
+        __metadata("design:type", Object)
+    ], ImageSelectorComponent.prototype, "mediaId", void 0);
+    ImageSelectorComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'image-selector',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/components/image-selector/image-selector.html"*/'<div class="container">\n  <div id="post_image_container">\n\n    <img id="post_image" *ngIf="isImage||isTagPicked" src="{{image}}" />\n  </div>\n  <ion-row *ngIf="isImage||isTagPicked" class="btn" align-items-center>\n    <ion-col col-2>\n      <button class="dp_button" (click)="getImage()" margin ion-button icon-only>\n        <ion-icon name="add-circle"></ion-icon>\n      </button>\n    </ion-col>\n    <ion-col offset-7 col-2>\n      <button class="dp_button" (click)="removeImage(true)" margin ion-button icon-only>\n        <ion-icon name="close"></ion-icon>\n      </button>\n    </ion-col>\n  </ion-row>\n\n  <ion-fab id="post_image_fab" *ngIf="!isImage&&!isTagPicked" end middle>\n    <button (click)="getImage()" ion-fab>\n      <ion-icon name="md-add"></ion-icon>\n    </button>\n  </ion-fab>\n</div>\n\n<ion-row *ngIf="isImage&&!isImageURL">\n  <button ion-button (click)="upload()" full clear light>\n    Upload Image\n  </button>\n</ion-row>\n\n<ion-row *ngIf="isImageUploaded">\n  <ion-col col-2>\n    <img id="uploaded_image" src="{{image}}" />\n  </ion-col>\n  <ion-col col-8>\n    <ion-label>\n      {{image}}\n    </ion-label>\n  </ion-col>\n  <ion-col col-2>\n    <button ion-button icon-only (click)="removeImage(true)">\n      <ion-icon name="close"></ion-icon>\n    </button>\n  </ion-col>\n</ion-row>\n<ion-row>\n  <ion-item>\n    <ion-label floating>Add Media Url</ion-label>\n    <ion-input type="text" (input)="isImage=true;isImageURL=true;mediaChange(1);" [(ngModel)]="image"></ion-input>\n  </ion-item>\n</ion-row>\n<ion-row align-items-center>\n  <ion-col col-10>\n  <ion-item>\n    <ion-label floating>Add Media Tag Name</ion-label>\n    <ion-input type="text" [(ngModel)]="media_tag" (input)="mediaChange(2);" (keyup.enter)="getTags()"></ion-input>\n  </ion-item>\n</ion-col>\n<ion-col col-2>\n    <button ion-button icon-only (click)="getTags()">\n        <ion-icon name="search"></ion-icon>\n      </button>\n</ion-col>\n</ion-row>\n<ion-row>\n    <ion-col>\n        <ion-item>\n          <ion-label floating>Add Media Credits Source</ion-label>\n          <ion-input type="text" [(ngModel)]="media_source" (input)="mediaChange(3);" ></ion-input>\n        </ion-item>\n      </ion-col>\n</ion-row>\n'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/components/image-selector/image-selector.html"*/
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_6__providers_post_client_api_post_client_api__["a" /* PostClientApiProvider */], __WEBPACK_IMPORTED_MODULE_5__ionic_storage__["b" /* Storage */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */], __WEBPACK_IMPORTED_MODULE_3__providers_ImageUtil__["a" /* ImageUtil */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* Platform */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_2__providers_text_util_text_util__["a" /* TextUtilProvider */]])
+    ], ImageSelectorComponent);
+    return ImageSelectorComponent;
 }());
 
-//# sourceMappingURL=ImageUtil.js.map
+//# sourceMappingURL=image-selector.js.map
 
 /***/ }),
 
-/***/ 241:
+/***/ 204:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PostClientApiProvider; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__server_util_serverUtil__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__(67);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var PostClientApiProvider = /** @class */ (function () {
+    function PostClientApiProvider(http) {
+        this.http = http;
+        this.data = {};
+        console.log('Hello PostClientApiProvider Provider');
+    }
+    PostClientApiProvider.prototype.post = function (isTagPicked, isImageUploaded, mediaId, title, search_tag, media_path, media_tag, media_source, post_type, post_category_id, correct_option, options, description) {
+        var opts = this.getOptions(correct_option, options);
+        if (!isTagPicked || isImageUploaded) {
+            var tag = this.createTag(media_path, media_tag, media_source);
+            console.log(tag);
+            return this.addTag(tag, title, description, this.getPostType(post_type), post_category_id, 1, opts);
+        }
+        else {
+            var post = this.createPost(title, description, search_tag, this.getPostType(post_type), post_category_id, 1, opts, mediaId);
+            console.log(post);
+            return this.addPost(post);
+        }
+    };
+    PostClientApiProvider.prototype.addTag = function (tag, title, description, post_type, post_category_id, blogger_id, opts) {
+        var link = __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].BASE_URL + __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].TAGNAME_API;
+        return this.http.post(link, tag, __WEBPACK_IMPORTED_MODULE_2__server_util_serverUtil__["a" /* ServerUtil */].getHeaders());
+    };
+    PostClientApiProvider.prototype.createTag = function (media_path, media_tag, media_source) {
+        var tag_data = {
+            "mediaUrl": media_path,
+            "tag": media_tag,
+            "imageCredits": media_source
+        };
+        return tag_data;
+    };
+    PostClientApiProvider.prototype.createPost = function (title, description, search_tag, post_type, post_category_id, blogger_id, options, media_id) {
+        var post_data = {
+            "title": title,
+            "options": options,
+            "post_type": post_type,
+            "post_desc": description,
+            "post_category_id": post_category_id,
+            "blogger_id": blogger_id,
+            "post_media_id": media_id,
+            "search_tag": search_tag
+        };
+        return post_data;
+    };
+    PostClientApiProvider.prototype.createOption = function (id, data, is_true) {
+        var post_opt = {
+            "post_option": data,
+            "id": id,
+            "is_correct": is_true,
+            "poll_count": 0
+        };
+        return post_opt;
+    };
+    PostClientApiProvider.prototype.getPostType = function (post_type) {
+        switch (post_type) {
+            case "quiz": return 1;
+            case "poll": return 2;
+            case "fact": return 3;
+        }
+    };
+    PostClientApiProvider.prototype.getOptions = function (correct_option, items) {
+        var _this = this;
+        var count = 1;
+        var options = new Array();
+        items.forEach(function (val) {
+            var is_true = false;
+            if (val == correct_option)
+                is_true = true;
+            var o = _this.createOption(count, val, is_true);
+            options.push(o);
+        });
+        return options;
+    };
+    PostClientApiProvider.prototype.addPost = function (post_data) {
+        var link = __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].BASE_URL + __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].POST_API;
+        var myData = JSON.stringify(post_data);
+        var headers = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["a" /* Headers */]();
+        //       headers.append('Origin' , 'http://127.0.0.1:8100');
+        headers.append('Access-Control-Allow-Origin', '*');
+        headers.append('Access-Control-Allow-Methods', 'POST, GET, PUT');
+        headers.append('Accept', 'application/json');
+        headers.append('content-type', 'application/json');
+        var options = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["d" /* RequestOptions */]({ headers: headers });
+        return this.http.post(link, myData, options);
+    };
+    PostClientApiProvider = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["A" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Http */]])
+    ], PostClientApiProvider);
+    return PostClientApiProvider;
+}());
+
+//# sourceMappingURL=post-client-api.js.map
+
+/***/ }),
+
+/***/ 244:
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -312,11 +641,11 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 241;
+webpackEmptyAsyncContext.id = 244;
 
 /***/ }),
 
-/***/ 284:
+/***/ 287:
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -329,17 +658,22 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 284;
+webpackEmptyAsyncContext.id = 287;
 
 /***/ }),
 
-/***/ 328:
+/***/ 331:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_server_util_serverUtil__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_in_app_browser__ = __webpack_require__(332);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_mock_post__ = __webpack_require__(584);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -351,48 +685,62 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
+
+
+
+
 var HomePage = /** @class */ (function () {
-    function HomePage(navCtrl) {
+    function HomePage(iab, navCtrl, http) {
+        this.iab = iab;
         this.navCtrl = navCtrl;
-        this.items = [
-            {
-                email: "lavpalsingh4890@gmail.com",
-                imageUrl: 'https://lorempixel.com/1200/1200/nature/1',
-            }, {
-                imageUrl: 'https://lorempixel.com/1200/1200/nature/2',
-            }, {
-                imageUrl: 'https://lorempixel.com/1200/1200/nature/3',
-            }, {
-                imageUrl: 'https://lorempixel.com/1200/1200/nature/4',
-            }, {
-                imageUrl: 'https://lorempixel.com/1200/1200/nature/5',
-            }, {
-                imageUrl: 'https://lorempixel.com/1200/1200/nature/6',
-            }, {
-                imageUrl: 'https://lorempixel.com/1200/1200/nature/7',
-            }, {
-                imageUrl: 'https://lorempixel.com/1200/1200/nature/8',
-            }, {
-                imageUrl: 'https://lorempixel.com/1200/1200/nature/9',
-            }, {
-                imageUrl: 'https://lorempixel.com/1200/1200/nature/10',
-            },
-        ];
+        this.http = http;
+        this.post_viewed = new Set();
+        this.data = {};
+        this.posts = __WEBPACK_IMPORTED_MODULE_6__providers_mock_post__["a" /* post */];
+        // this.getPosts();
     }
+    HomePage.prototype.getPosts = function () {
+        var _this = this;
+        var link = __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].BASE_URL + __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].POST_API;
+        this.http.get(link, __WEBPACK_IMPORTED_MODULE_2__providers_server_util_serverUtil__["a" /* ServerUtil */].getHeaders())
+            .subscribe(function (d) {
+            _this.data.response = d["_body"];
+            var data_array = JSON.stringify(d.json());
+            var posts = JSON.parse(data_array);
+            _this.posts = posts.data;
+            console.log(_this.posts);
+        }, function (error) {
+            console.log("Oooops!");
+        });
+    };
+    HomePage.prototype.tapOption = function (post, post_option, id) {
+        this.post_viewed.add(post.post_id);
+        console.log(this.post_viewed);
+        this.currentSelected = id;
+        this.is_correct = post_option.is_correct;
+        this.selectedOption = post_option;
+    };
+    HomePage.prototype.searchOnWeb = function (search_tag) {
+        console.log(search_tag);
+        // window.open('https://www.google.co.in/search?q='+search_tag, '_system', 'location=yes'); return false;
+        var browser = this.iab.create('https://www.google.co.in/search?q=' + search_tag);
+    };
     HomePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-home',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/home/home.html"*/'<ion-header>\n    <ion-navbar>\n      <ion-grid>\n        <ion-row>\n          <ion-col col-2>\n            <button ion-button menuToggle icon-only>\n              <ion-icon ios="ios-menu" md="md-menu"></ion-icon>\n            </button>\n          </ion-col>\n          <ion-col>\n            <button ion-button icon-only>\n              <ion-icon ios="ios-notifications" md="md-notifications"></ion-icon>\n            </button>\n          </ion-col>\n          <ion-col>\n  \n            <button ion-button icon-only>\n              <ion-icon ios="ios-chatbubbles" md="md-chatbubbles"></ion-icon>\n            </button>\n          </ion-col>\n          <ion-col>\n  \n            <button ion-button icon-only>\n              <ion-icon ios="ios-shuffle" md="md-shuffle"></ion-icon>\n            </button>\n          </ion-col>\n          <ion-col>\n  \n            <button ion-button icon-only>\n              <ion-icon name="search"></ion-icon>\n            </button>\n          </ion-col>\n          <ion-col>\n  \n            <button ion-button icon-only>\n              <ion-icon ios="ios-person" md="md-person"></ion-icon>\n            </button>\n          </ion-col>\n        </ion-row>\n        <ion-row>\n  \n  \n        </ion-row>\n      </ion-grid>\n  \n    </ion-navbar>\n  </ion-header>\n  \n  <ion-content>\n    <ion-list>\n      <ion-item *ngFor="let item of items" >\n        <ion-card>\n          <img src="assets/imgs/397.jpg" />\n          <ion-card-content no-padding>\n             <ion-card-title>\n              Nine Inch Nails Live\n            </ion-card-title> \n           \n            <ion-grid>\n              <ion-row>\n              <ion-col col-6 *ngFor="let item of items"  text-wrap no-padding >\n                  <p class="item-text-wrap" no-padding>\n                      The most popular industrial group ever, and largely\n                      responsible for bringing the music to a mass audience.\n                    </p>\n              </ion-col>\n           \n              </ion-row>\n            </ion-grid>\n           </ion-card-content> \n          <ion-row no-padding>\n              <ion-col>\n                <button ion-button clear small color="danger" icon-start>\n                  <ion-icon name=\'star\'></ion-icon>\n                  Favorite\n                </button>\n              </ion-col>\n              <ion-col text-center>\n                <button ion-button clear small color="danger" icon-start>\n                  <ion-icon name=\'musical-notes\'></ion-icon>\n                  Listen\n                </button>\n              </ion-col>\n              <ion-col text-right>\n                <button ion-button clear small color="danger" icon-start>\n                  <ion-icon name=\'share-alt\'></ion-icon>\n                  Share\n                </button>\n              </ion-col>\n            </ion-row>\n  \n  \n        </ion-card>\n      </ion-item>\n    </ion-list>\n  </ion-content>'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/home/home.html"*/
+            selector: 'page-home',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/home/home.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-grid>\n      <ion-row>\n        <ion-col col-2>\n          <button ion-button menuToggle icon-only>\n            <ion-icon ios="ios-menu" md="md-menu"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n          <button ion-button icon-only>\n            <ion-icon ios="ios-notifications" md="md-notifications"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n\n          <button ion-button icon-only>\n            <ion-icon ios="ios-chatbubbles" md="md-chatbubbles"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n\n          <button ion-button icon-only>\n            <ion-icon ios="ios-shuffle" md="md-shuffle"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n\n          <button ion-button icon-only>\n            <ion-icon name="search"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col>\n\n          <button ion-button icon-only>\n            <ion-icon ios="ios-person" md="md-person"></ion-icon>\n          </button>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n\n\n      </ion-row>\n    </ion-grid>\n\n  </ion-navbar>\n</ion-header>\n\n<ion-content>\n  <ion-list>\n    <ion-item *ngFor="let post of posts; let m_id = index">\n      <ion-row>\n        <div class="post_image_container" *ngIf="post.post_media_id">\n          <img class="post_image" id="post_media_{{m_id}}"  src="{{post.post_media_id.mediaUrl}}" />\n        </div>\n      </ion-row>\n      <div class="post_title_container" *ngIf="post.title">\n      <ion-row padding>\n        <ion-col text-center text-wrap>\n          <p class="post_title" id="post_title_{{m_id}}">{{post.title}}</p>\n        </ion-col>\n      </ion-row>\n      </div>\n      <div id="post_option_container" *ngIf="post.options">\n        <ion-row justify-content-center align-items-center>\n          <ion-col align-self-stretch col-6 *ngFor="let post_option of post.options; let idx = index"\n            [class.selected_correct]="post_option === selectedOption && idx === currentSelected && is_correct" [class.selected_incorrect]="post_option === selectedOption && idx === currentSelected && !is_correct"\n            (click)="tapOption(post,post_option,idx)" text-wrap text-center>\n            <p class="post_option" id="post_option_{{m_id}}_{{idx}}" padding>\n              {{post_option.option}}\n            </p>\n          </ion-col>\n        </ion-row>\n      </div>\n      <div id="post_category_container" *ngIf="post.post_category_id">\n        <ion-row align-items-center>\n          \n          <ion-col col-3>\n              <div id="post_web_search_container" *ngIf="post.search_tag && post_viewed.has(post.post_id)">\n              <button ion-button (click)="searchOnWeb(post.search_tag)" clear>\n                  Read more on web\n                </button>\n                </div>\n          </ion-col>\n          <ion-col col-7 text-end>\n            <p *ngIf="post.post_category_id && post.post_category_id.category"> {{post.post_category_id.category}}</p>\n          </ion-col>\n          <ion-col col-2>\n            <ion-avatar item-end>\n              <img *ngIf="post.post_category_id && post.post_category_id.category_media" src="{{post.post_category_id.category_media}}">\n            </ion-avatar>\n          </ion-col>\n        </ion-row>\n      </div>\n      <div id="post_desc_container" *ngIf="post.post_desc && post_viewed.has(post.post_id)">\n        <ion-row>\n          <p>\n            {{post.post_desc}}\n          </p>\n        </ion-row>\n      </div>\n     \n    </ion-item>\n  </ion-list>\n</ion-content>'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/home/home.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_5__ionic_native_in_app_browser__["a" /* InAppBrowser */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__ionic_native_in_app_browser__["a" /* InAppBrowser */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */]) === "function" && _c || Object])
     ], HomePage);
     return HomePage;
+    var _a, _b, _c;
 }());
 
 //# sourceMappingURL=home.js.map
 
 /***/ }),
 
-/***/ 329:
+/***/ 333:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -449,7 +797,7 @@ var ListPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 330:
+/***/ 334:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -514,21 +862,66 @@ var InterestPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 331:
+/***/ 338:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AddPostPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return StorageUtilProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_text_util_text_util__ = __webpack_require__(332);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__category_category__ = __webpack_require__(333);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_ImageUtil__ = __webpack_require__(187);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_context__ = __webpack_require__(68);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_storage__ = __webpack_require__(121);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__providers_post_client_api_post_client_api__ = __webpack_require__(393);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__category_subcategory_subcategory__ = __webpack_require__(185);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__tagname_tagname__ = __webpack_require__(394);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ionic_native_sqlite__ = __webpack_require__(339);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var StorageUtilProvider = /** @class */ (function () {
+    function StorageUtilProvider(sqlite) {
+        this.sqlite = sqlite;
+        console.log('Hello StorageUtilProvider Provider');
+    }
+    StorageUtilProvider.prototype.executeSQL = function (database, sql) {
+        var database_name = database + ".db";
+        this.sqlite.create({
+            name: database_name,
+            location: 'default'
+        })
+            .then(function (db) {
+            db.executeSql(sql, [])
+                .then(function () { return console.log('Executed SQL'); })
+                .catch(function (e) { return console.log(e); });
+        })
+            .catch(function (e) { return console.log(e); });
+    };
+    StorageUtilProvider = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__ionic_native_sqlite__["a" /* SQLite */]])
+    ], StorageUtilProvider);
+    return StorageUtilProvider;
+}());
+
+//# sourceMappingURL=storage-util.js.map
+
+/***/ }),
+
+/***/ 340:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SessionUtilProvider; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ionic_native_facebook__ = __webpack_require__(341);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_google_plus__ = __webpack_require__(342);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_constants_App_Constants__ = __webpack_require__(587);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_storage__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pojo_session__ = __webpack_require__(588);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_account_account__ = __webpack_require__(343);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_ionic_angular__ = __webpack_require__(13);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -546,276 +939,99 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
-
-
-var AddPostPage = /** @class */ (function () {
-    function AddPostPage(alertCtrl, postClient, storage, toastCtrl, imageUtil, platform, navCtrl, textUtil) {
-        this.alertCtrl = alertCtrl;
-        this.postClient = postClient;
+var SessionUtilProvider = /** @class */ (function () {
+    function SessionUtilProvider(appCtrl, fb, googlePlus, storage) {
+        this.appCtrl = appCtrl;
+        this.fb = fb;
+        this.googlePlus = googlePlus;
         this.storage = storage;
-        this.toastCtrl = toastCtrl;
-        this.imageUtil = imageUtil;
-        this.platform = platform;
-        this.navCtrl = navCtrl;
-        this.textUtil = textUtil;
-        this.option = "";
-        this.items = [];
-        this.post_type = "quiz";
-        this.data = {};
-        this.category = "Select Category";
-        this.isImage = false;
-        this.isquiz = true;
-        this.isImageUploaded = false;
-        this.isTagPicked = false;
-        this.isImageURL = false;
-        this.errors = '';
+        this.initialize_session();
+        this.check_login_state();
     }
-    AddPostPage.prototype.removeImage = function (type) {
-        this.isImage = false;
-        this.image = null;
-        if (type) {
-            if (!this.isTagPicked && this.isImageUploaded)
-                this.imageUtil.removeImage();
-        }
-        __WEBPACK_IMPORTED_MODULE_5__providers_context__["a" /* Context */].set("photoURL", null);
-        __WEBPACK_IMPORTED_MODULE_5__providers_context__["a" /* Context */].set("Tag", null);
-        this.isImageUploaded = false;
-        this.search_tag = null;
-        this.media_tag = null;
-        this.media_source = null;
-        this.question = null;
-        this.isTagPicked = false;
-        this.isImageURL = false;
+    SessionUtilProvider.prototype.initialize_session = function () {
+        this.storage.set(__WEBPACK_IMPORTED_MODULE_3__providers_constants_App_Constants__["a" /* App_Constants */].SESSION_STATE, "N");
     };
-    AddPostPage.prototype.getImage = function () {
+    SessionUtilProvider.prototype.get_login_state = function () {
+        return this.storage.get(__WEBPACK_IMPORTED_MODULE_3__providers_constants_App_Constants__["a" /* App_Constants */].SESSION_STATE);
+    };
+    SessionUtilProvider.prototype.set_login_state = function () {
+        this.storage.set(__WEBPACK_IMPORTED_MODULE_3__providers_constants_App_Constants__["a" /* App_Constants */].SESSION_STATE, "Y");
+    };
+    SessionUtilProvider.prototype.clear_login_state = function () {
+        this.session_obj = null;
+        this.storage.set(__WEBPACK_IMPORTED_MODULE_3__providers_constants_App_Constants__["a" /* App_Constants */].SESSION_OBJECT, this.session_obj);
+        this.storage.set(__WEBPACK_IMPORTED_MODULE_3__providers_constants_App_Constants__["a" /* App_Constants */].SESSION_STATE, "N");
+    };
+    SessionUtilProvider.prototype.check_login_state = function () {
         var _this = this;
-        this.isImageURL = false;
-        this.imageUtil.getImage().then(function (imageData) {
-            _this.isImage = true;
-            if (_this.platform.is('ios'))
-                _this.image = Object(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* normalizeURL */])(imageData);
-            else
-                _this.image = "data:image/jpeg;base64," + imageData;
-        }, function (error) {
-            console.log('ERROR -> ' + JSON.stringify(error));
+        this.get_login_state().then(function (val) {
+            if (val == 'N') {
+                console.log('Hello SessionUtilProvider Provider');
+                _this.appCtrl.getRootNav().push(__WEBPACK_IMPORTED_MODULE_6__pages_account_account__["a" /* AccountPage */]);
+                //this.navCtrl.push(AccountPage);
+                // this.navUtil.navigateTo('Account_page');
+            }
         });
     };
-    AddPostPage.prototype.cancel = function () {
-        this.navCtrl.pop();
+    SessionUtilProvider.prototype.set_login_data = function (name, email, imageurl, login_type, bday, gender) {
+        this.session_obj = new __WEBPACK_IMPORTED_MODULE_5__pojo_session__["a" /* session */](name, email, imageurl, login_type, bday, gender);
+        this.storage.set(__WEBPACK_IMPORTED_MODULE_3__providers_constants_App_Constants__["a" /* App_Constants */].SESSION_OBJECT, this.session_obj);
     };
-    AddPostPage.prototype.draft = function () {
-        this.storage.set("isDraft", true);
-        if (this.question != null)
-            this.storage.set("question", this.question);
-        if (this.description != null)
-            this.storage.set("description", this.description);
-        if (this.image != null)
-            this.storage.set("image", this.image);
-        if (this.post_type != null)
-            this.storage.set("post_type", this.post_type);
-        if (this.correct_option != null)
-            this.storage.set("correct_option", this.correct_option);
-        if (this.items != null)
-            this.storage.set("items", this.items);
-        if (this.categoryId != null)
-            this.storage.set("categoryId", this.categoryId);
-        if (this.media_tag != null)
-            this.storage.set("media_tag", this.media_tag);
-        if (this.media_source != null)
-            this.storage.set("media_source", this.media_source);
-        if (this.search_tag != null)
-            this.storage.set("search_tag", this.search_tag);
-        this.cancel();
+    SessionUtilProvider.prototype.googleLogin = function () {
+        this.googlePlus.login({
+            'scopes': '',
+        })
+            .then(function (res) {
+            console.log(JSON.stringify(res));
+            console.log(res.imageUrl);
+        })
+            .catch(function (err) { return console.error(err); });
     };
-    AddPostPage.prototype.validateFields = function () {
-        this.errors = '';
-        if (this.question == null || this.question.length < 10) {
-            this.errors += 'Question field - minimum 10 characters required \r\n ';
-            this.is_error = true;
-        }
-        if (this.search_tag == null || this.search_tag.length < 10) {
-            this.errors += 'Search Tag field - minimum 10 characters required \r\n ';
-            this.is_error = true;
-        }
-        if (this.categoryId == null || this.categoryId == 0) {
-            this.errors += 'Please select valid category \r\n ';
-            this.is_error = true;
-        }
-        if (this.post_type == "quiz" && this.correct_option == null) {
-            this.errors += 'Please select correct option \r\n ';
-            this.is_error = true;
-        }
-        if (this.post_type != "fact" && (this.items == null || this.items.length < 2)) {
-            this.errors += 'Please add more than one option(s) \r\n ';
-            this.is_error = true;
-        }
-        console.log(this.errors);
-        if (this.is_error) {
-            return false;
-        }
-        return true;
-    };
-    AddPostPage.prototype.post = function () {
+    SessionUtilProvider.prototype.facebookLogin = function () {
         var _this = this;
-        if (this.validateFields()) {
-            this.postClient.post(this.isTagPicked, this.isImageUploaded, this.mediaId, this.question, this.search_tag, this.image, this.media_tag, this.media_source, this.post_type, this.categoryId, this.correct_option, this.items, this.description).subscribe(function (d) {
-                console.log(_this.isTagPicked);
-                console.log(_this.isImageUploaded);
-                if (!_this.isTagPicked || _this.isImageUploaded) {
-                    _this.data.response = d["_body"];
-                    var data_array = JSON.stringify(d.json());
-                    var data_parsed = JSON.parse(data_array);
-                    var data_ = data_parsed.data;
-                    var media_id = data_.media_id;
-                    var opts = _this.postClient.getOptions(_this.correct_option, _this.items);
-                    var post = _this.postClient.createPost(_this.question, _this.search_tag, _this.description, _this.postClient.getPostType(_this.post_type), _this.categoryId, 1, opts, media_id);
-                    console.log(post);
-                    _this.postClient.addPost(post).subscribe(function (data) {
-                        _this.data.response = data["_body"];
-                        console.log(_this.data.response);
-                        _this.removeImage(false);
-                    }, function (error) {
-                        console.log("Oooops!");
-                        _this.removeImage(false);
-                    });
-                }
-                _this.data.response = d["_body"];
-                console.log(_this.data.response);
-                _this.removeImage(false);
-            }, function (error) {
-                switch (error.status) {
-                    case 409:
-                        _this.errors += 'Duplicate TagName \r\n ';
-                        break;
-                    default:
-                        _this.errors += 'Something Went Wrong \r\n ';
-                        break;
-                }
-                _this.removeImage(false);
-            });
-            // 
-        }
-    };
-    AddPostPage.prototype.chooseCategory = function () {
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_3__category_category__["a" /* CategoryPage */]);
-    };
-    AddPostPage.prototype.addOption = function () {
-        if (this.option.length != 0) {
-            if (this.items.indexOf(this.option) == -1) {
-                this.items.push(this.option);
-                console.log(this.items.toString());
-                this.option = "";
+        this.fb.login(['public_profile', 'user_photos', 'email', 'user_birthday'])
+            .then(function (res) {
+            if (res.status == "connected") {
+                var fb_id = res.authResponse.userID;
+                var fb_token = res.authResponse.accessToken;
+                _this.fb.api("/me?fields=name,gender,birthday,email", []).then(function (user) {
+                    var gender = user.gender;
+                    var birthday = user.birthday;
+                    var name = user.name;
+                    var email = user.email;
+                    console.log("=== USER INFOS ===");
+                    console.log("Gender : " + gender);
+                    console.log("Birthday : " + birthday);
+                    console.log("Name : " + name);
+                    console.log("Email : " + email);
+                });
             }
             else {
-                console.log("item already exists");
+                console.log("An error occurred...");
             }
-        }
-        else {
-            console.log("item empty");
-        }
+        })
+            .catch(function (e) {
+            console.log('Error logging into Facebook', e);
+        });
     };
-    AddPostPage.prototype.trackByFn = function (index, item) {
-        return index;
-    };
-    AddPostPage.prototype.onEnter = function (index) {
-        this.addOption();
-    };
-    AddPostPage.prototype.optionChange = function (it, index) {
-        var elem = document.getElementById("option" + index);
-        console.log(elem.value + " " + index);
-    };
-    AddPostPage.prototype.updateOption = function (it, index) {
-        console.log(it + " " + index);
-        var itemIndex = this.items.findIndex(function (item) { return item.id == it.id; });
-        this.items[index] = it;
-    };
-    AddPostPage.prototype.deleteOption = function (item) {
-        if (this.items.indexOf(item) != -1) {
-            this.items.splice(this.items.indexOf(item), 1);
-            console.log(this.items.toString());
-        }
-        else {
-            console.log("item doesn't exist");
-        }
-    };
-    AddPostPage.prototype.change = function (index) {
-        //x get elements
-        var element = document.getElementById('messageInputBox' + index);
-        var textarea = element.getElementsByTagName('textarea')[0];
-        // set default style for textarea
-        textarea.style.minHeight = '0';
-        textarea.style.height = '0';
-        // limit size to 96 pixels (6 lines of text)
-        var scroll_height = textarea.scrollHeight;
-        if (scroll_height > 96)
-            scroll_height = 96;
-        // apply new style
-        element.style.height = scroll_height + "px";
-        textarea.style.minHeight = scroll_height + "px";
-        textarea.style.height = scroll_height + "px";
-    };
-    AddPostPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad AddPostPage');
-    };
-    AddPostPage.prototype.ionViewDidEnter = function () {
-        console.log('ionViewDidEnter AddPostPage');
-        var t = __WEBPACK_IMPORTED_MODULE_5__providers_context__["a" /* Context */].get("Tag");
-        if (t != null) {
-            console.log(t.tag);
-            this.media_tag = t.tag;
-            this.media_source = t.imageCredits;
-            this.image = t.mediaUrl;
-            this.isTagPicked = true;
-            this.mediaId = t.id;
-        }
-        if (__WEBPACK_IMPORTED_MODULE_8__category_subcategory_subcategory__["a" /* SubcategoryPage */].is_sub1_selected) {
-            console.log(__WEBPACK_IMPORTED_MODULE_8__category_subcategory_subcategory__["a" /* SubcategoryPage */].main_option2.id + " " + __WEBPACK_IMPORTED_MODULE_8__category_subcategory_subcategory__["a" /* SubcategoryPage */].main_option2.category + " " + __WEBPACK_IMPORTED_MODULE_8__category_subcategory_subcategory__["a" /* SubcategoryPage */].sub_option1.id + " " + __WEBPACK_IMPORTED_MODULE_8__category_subcategory_subcategory__["a" /* SubcategoryPage */].sub_option1.category);
-            this.categoryId = __WEBPACK_IMPORTED_MODULE_8__category_subcategory_subcategory__["a" /* SubcategoryPage */].sub_option1.id;
-            this.category = __WEBPACK_IMPORTED_MODULE_8__category_subcategory_subcategory__["a" /* SubcategoryPage */].sub_option1.category;
-        }
-    };
-    AddPostPage.prototype.upload = function () {
-        var _this = this;
-        if (!__WEBPACK_IMPORTED_MODULE_5__providers_context__["a" /* Context */].get("isImageUploading")) {
-            __WEBPACK_IMPORTED_MODULE_5__providers_context__["a" /* Context */].set("isImageUploading", true);
-            this.imageUtil.uploadImageToFirebase(this.image).then(function (photoURL) {
-                __WEBPACK_IMPORTED_MODULE_5__providers_context__["a" /* Context */].set("isImageUploading", false);
-                __WEBPACK_IMPORTED_MODULE_5__providers_context__["a" /* Context */].set("photoURL", photoURL);
-                _this.image = photoURL;
-                _this.isImageUploaded = true;
-                console.log(photoURL);
-                var toast = _this.toastCtrl.create({
-                    message: 'Image was uploaded successfully',
-                    duration: 3000
-                });
-                toast.present();
-            });
-        }
-    };
-    AddPostPage.prototype.getTags = function () {
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_9__tagname_tagname__["a" /* TagnamePage */], { "keyword": this.media_tag });
-    };
-    AddPostPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-add-post',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/add-post/add-post.html"*/'<ion-content class="page-add-post">\n  <div class="container">\n    <div id="post_image_container">\n\n      <img id="post_image" *ngIf="isImage||isTagPicked" src="{{image}}" />\n    </div>\n    <ion-row *ngIf="isImage||isTagPicked" class="btn" align-items-center>\n      <ion-col col-2>\n        <button class="dp_button" (click)="getImage()" margin ion-button icon-only>\n          <ion-icon name="add-circle"></ion-icon>\n        </button>\n      </ion-col>\n      <ion-col offset-7 col-2>\n        <button class="dp_button" (click)="removeImage(true)" margin ion-button icon-only>\n          <ion-icon name="close"></ion-icon>\n        </button>\n      </ion-col>\n    </ion-row>\n\n    <ion-fab id="post_image_fab" *ngIf="!isImage&&!isTagPicked" end middle>\n      <button (click)="getImage()" ion-fab>\n        <ion-icon name="md-add"></ion-icon>\n      </button>\n    </ion-fab>\n  </div>\n  <div id="post_detail">\n\n\n    <ion-row *ngIf="isImage&&!isImageURL">\n      <button ion-button (click)="upload()" full clear light>\n        Upload Image\n      </button>\n    </ion-row>\n\n    <ion-row *ngIf="isImageUploaded">\n      <ion-col col-2>\n        <img id="uploaded_image" src="{{image}}" />\n      </ion-col>\n      <ion-col col-8>\n        <ion-label>\n          {{image}}\n        </ion-label>\n      </ion-col>\n      <ion-col col-2>\n        <button ion-button icon-only (click)="removeImage(true)">\n          <ion-icon name="close"></ion-icon>\n        </button>\n      </ion-col>\n    </ion-row>\n    <ion-row>\n      <ion-item>\n        <ion-label floating>Add Media Url</ion-label>\n        <ion-input type="text" (input)="isImage=true;isImageURL=true;" [(ngModel)]="image"></ion-input>\n      </ion-item>\n    </ion-row>\n    <ion-row align-items-center>\n      <ion-col col-10>\n      <ion-item>\n        <ion-label floating>Add Media Tag Name</ion-label>\n        <ion-input type="text" [(ngModel)]="media_tag" (keyup.enter)="getTags()"></ion-input>\n      </ion-item>\n    </ion-col>\n    <ion-col col-2>\n        <button ion-button icon-only (click)="getTags()">\n            <ion-icon name="search"></ion-icon>\n          </button>\n    </ion-col>\n    </ion-row>\n    <ion-row>\n        <ion-col>\n            <ion-item>\n              <ion-label floating>Add Media Credits Source</ion-label>\n              <ion-input type="text" [(ngModel)]="media_source"></ion-input>\n            </ion-item>\n          </ion-col>\n    </ion-row>\n    <ion-row radio-group [(ngModel)]="post_type">\n\n      <ion-col>\n        <ion-item>\n          <ion-label>Quiz\n          </ion-label>\n          <ion-radio value="quiz" (click)="isquiz=true; post_type=\'quiz\';">\n          </ion-radio>\n        </ion-item>\n      </ion-col>\n      <ion-col>\n        <ion-item>\n          <ion-label>Poll<ion-icon name="poll"></ion-icon>\n          </ion-label>\n          <ion-radio value="poll" (click)="isquiz=false; post_type=\'poll\';"></ion-radio>\n        </ion-item>\n      </ion-col>\n      <ion-col>\n        <ion-item>\n          <ion-label>Fact<ion-icon name="poll"></ion-icon>\n          </ion-label>\n          <ion-radio value="fact" (click)="isquiz=false; post_type=\'fact\';"></ion-radio>\n        </ion-item>\n      </ion-col>\n    </ion-row>\n  </div>\n  <div id="container">\n    <ion-list>\n\n      <ion-item class="rounded" id="question">\n        <ion-textarea rows="1" id="messageInputBox1" maxlength="500" placeholder="Add Question" (input)="change(1)"\n          [(ngModel)]="question" required></ion-textarea>\n      </ion-item>\n      <div *ngIf="post_type!=\'fact\'">\n\n\n        <div *ngFor="let item of items ; let i = index trackBy:trackByFn">\n          <ion-row>\n            <ion-col col-10>\n              <ion-item>\n                  <input type="text" id="option{{i}}" [(ngModel)]="items[i]"/>\n                <!-- <ion-textarea rows="1" id="option{{i}}" value={{item}} (input)="optionChange(this,i)" required></ion-textarea> -->\n              </ion-item>\n            </ion-col>\n           \n            <ion-col col-2>\n              <button ion-button icon-only (click)="deleteOption(item)">\n                <ion-icon name="close"></ion-icon>\n              </button>\n            </ion-col>\n          </ion-row>\n        </div>\n\n        <ion-item class="rounded" id="option">\n          <ion-textarea rows="1" maxlength="50" id="messageInputBox" placeholder="Add Option" [(ngModel)]="option" (keyup.enter)="addOption()"\n            required></ion-textarea>\n        </ion-item>\n\n        <ion-item>\n          <button ion-button icon-start full (click)="addOption()">\n            <ion-icon name="md-add"></ion-icon>\n            Add Option\n          </button>\n        </ion-item>\n\n        <ion-row *ngIf="items.length>1&&isquiz" justify-content-center>\n          <ion-col>\n            <ion-select [(ngModel)]="correct_option" multiple="false" placeholder="Choose correct option" style=" max-width: 100% !important;">\n              <ion-option *ngFor="let item of items" value="{{item}}" selected="{{item}}">{{item}}</ion-option>\n            </ion-select>\n          </ion-col>\n        </ion-row>\n\n        <ion-item class="rounded" id="question">\n          <ion-textarea rows="1" maxlength="500" id="messageInputBox2" placeholder="Add Description" (input)="change(2)"\n            [(ngModel)]="description" required></ion-textarea>\n        </ion-item>\n        <ion-item class="rounded" id="search_tag">\n          <ion-textarea rows="1" maxlength="50" id="messageInputBox3" placeholder="Add Search Tag" (input)="change(3)"\n            [(ngModel)]="search_tag" required></ion-textarea>\n        </ion-item>\n      </div>\n    </ion-list>\n\n\n    <div>\n      {{errors}}\n    </div>\n\n    <ion-row>\n      <button (click)="chooseCategory()" ion-button color="light" full>{{category}}</button>\n    </ion-row>\n    <ion-row justify-content-center>\n      <ion-col>\n        <button ion-button color="dark" round full (click)="cancel()">Cancel</button>\n      </ion-col>\n      <ion-col>\n        <button ion-button color="dark" round full (click)="submit()">Draft</button>\n      </ion-col>\n      <ion-col>\n        <button ion-button color="dark" round full (click)="post()">Post</button>\n      </ion-col>\n    </ion-row>\n\n  </div>\n\n\n</ion-content>'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/add-post/add-post.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_7__providers_post_client_api_post_client_api__["a" /* PostClientApiProvider */], __WEBPACK_IMPORTED_MODULE_6__ionic_storage__["b" /* Storage */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */], __WEBPACK_IMPORTED_MODULE_4__providers_ImageUtil__["a" /* ImageUtil */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* Platform */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_2__providers_text_util_text_util__["a" /* TextUtilProvider */]])
-    ], AddPostPage);
-    return AddPostPage;
+    SessionUtilProvider = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_7_ionic_angular__["b" /* App */], __WEBPACK_IMPORTED_MODULE_1__ionic_native_facebook__["a" /* Facebook */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_google_plus__["a" /* GooglePlus */], __WEBPACK_IMPORTED_MODULE_4__ionic_storage__["b" /* Storage */]])
+    ], SessionUtilProvider);
+    return SessionUtilProvider;
 }());
 
-//# sourceMappingURL=add-post.js.map
+//# sourceMappingURL=session-util.js.map
 
 /***/ }),
 
-/***/ 332:
+/***/ 343:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TextUtilProvider; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AccountPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(13);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -826,13 +1042,56 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-var TextUtilProvider = /** @class */ (function () {
-    function TextUtilProvider() {
-        console.log('Hello TextUtilProvider Provider');
+
+var AccountPage = /** @class */ (function () {
+    function AccountPage(navCtrl, navParams) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.isImage = true;
+        this.colors = ['#e43737', '#e0e437', '#37e446', '#375be4', '#972cb1'];
+        this.slides = [
+            {
+                email: "lavpalsingh4890@gmail.com",
+                imageUrl: 'https://lorempixel.com/1200/1200/nature/1',
+            }, {
+                imageUrl: 'https://lorempixel.com/1200/1200/nature/2',
+            }, {
+                imageUrl: 'https://lorempixel.com/1200/1200/nature/3',
+            }, {
+                imageUrl: 'https://lorempixel.com/1200/1200/nature/4',
+            }, {
+                imageUrl: 'https://lorempixel.com/1200/1200/nature/5',
+            }, {
+                imageUrl: 'https://lorempixel.com/1200/1200/nature/6',
+            }, {
+                imageUrl: 'https://lorempixel.com/1200/1200/nature/7',
+            }, {
+                imageUrl: 'https://lorempixel.com/1200/1200/nature/8',
+            }, {
+                imageUrl: 'https://lorempixel.com/1200/1200/nature/9',
+            }, {
+                imageUrl: 'https://lorempixel.com/1200/1200/nature/10',
+            },
+        ];
+        this.color = this.colors[0];
     }
-    TextUtilProvider.prototype.change = function (index) {
+    AccountPage.prototype.onSlideChanged = function () {
+        this.random_int = Math.floor(Math.random() * (this.colors.length - 0 + 1)) + 0;
+        this.color = this.colors[this.random_int];
+    };
+    AccountPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad BasicDetailPage');
+    };
+    // @ViewChild('myInput') myInput: ElementRef;
+    // resize() {
+    //     var element = this.myInput['_elementRef'].nativeElement.getElementsByClassName("text-input")[0];
+    //     var scrollHeight = element.scrollHeight;
+    //     element.style.height = scrollHeight + 'px';
+    //     this.myInput['_elementRef'].nativeElement.style.height = (scrollHeight + 16) + 'px';
+    // }
+    AccountPage.prototype.change = function () {
         // get elements
-        var element = document.getElementById('messageInputBox' + index);
+        var element = document.getElementById('messageInputBox');
         var textarea = element.getElementsByTagName('textarea')[0];
         // set default style for textarea
         textarea.style.minHeight = '0';
@@ -846,31 +1105,34 @@ var TextUtilProvider = /** @class */ (function () {
         textarea.style.minHeight = scroll_height + "px";
         textarea.style.height = scroll_height + "px";
     };
-    TextUtilProvider = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
-        __metadata("design:paramtypes", [])
-    ], TextUtilProvider);
-    return TextUtilProvider;
+    AccountPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-account',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/account/account.html"*/'<ion-header>\n  </ion-header>\n  \n  \n  <ion-content>\n  \n    <ion-slides *ngIf="isImage" #slider effect="fade" pager="true" loop="true" spaceBetween="1" slidesPerView="1" class="slides_container">\n      <ion-slide *ngFor="let slide of slides" class="slide-background" [ngStyle]="{\'background\' : \'url(\' + slide.imageUrl + \')\'}">\n  \n        <ion-grid>\n          <ion-row>     \n            <ion-col>\n              <p class="email">{{slide.email}}</p>\n            </ion-col>\n            <ion-col>\n              <button class="dp_button" ion-button icon-only>\n                <ion-icon name="star"></ion-icon>\n              </button>\n            </ion-col>\n          </ion-row>\n        </ion-grid>\n      </ion-slide>\n    </ion-slides>\n    <ion-grid>\n      <ion-row justify-content-center>\n        <ion-col col-2>\n          <ion-fab>\n            <button *ngIf="isImage" ion-fab>\n              <ion-icon name="md-add"></ion-icon>\n            </button>\n          </ion-fab>\n  \n        </ion-col>\n        <ion-col col-2 offset-1>\n          <ion-fab>\n            <button *ngIf="isImage" ion-fab>\n              <ion-icon name="md-add"></ion-icon>\n            </button>\n          </ion-fab>\n  \n        </ion-col>\n        <ion-col col-2 offset-1>\n          <ion-fab>\n            <button *ngIf="isImage" ion-fab>\n              <ion-icon name="md-add"></ion-icon>\n            </button>\n          </ion-fab>\n  \n        </ion-col>\n      </ion-row>\n    </ion-grid>\n    <ion-grid>\n      <ion-row>\n        <ion-col>\n        <p style="color:black">Name</p>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col>\n          <ion-row radio-group [(ngModel)]="Gender">\n  \n            <ion-col>\n              <ion-item>\n                <ion-label>Male <ion-icon name="man"></ion-icon>\n                </ion-label>\n  \n                <ion-radio value="male">\n  \n                </ion-radio>\n              </ion-item>\n            </ion-col>\n            <ion-col>\n              <ion-item>\n                <ion-label>Female <ion-icon name="woman"></ion-icon>\n                </ion-label>\n                <ion-radio value="female"></ion-radio>\n              </ion-item>\n            </ion-col>\n          </ion-row>\n  \n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col>\n          <ion-row radio-group [(ngModel)]="AgeGroup">\n  \n            <ion-col col-12>\n              <ion-label>Age Group</ion-label>\n            </ion-col>\n            <ion-col col-6>\n              <ion-item>\n                <ion-label>0-18</ion-label>\n                <ion-radio value="18"></ion-radio>\n              </ion-item>\n            </ion-col>\n            <ion-col col-6>\n              <ion-item>\n                <ion-label>19-30</ion-label>\n                <ion-radio value="30"></ion-radio>\n              </ion-item>\n            </ion-col>\n  \n            <ion-col col-6>\n              <ion-item>\n                <ion-label>31-60</ion-label>\n                <ion-radio value="60"></ion-radio>\n              </ion-item>\n            </ion-col>\n            <ion-col col-6>\n              <ion-item>\n                <ion-label>61+</ion-label>\n                <ion-radio value="60plus"></ion-radio>\n              </ion-item>\n            </ion-col>\n          </ion-row>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col col-10>\n          <p>Country</p>\n        </ion-col>\n        <ion-col col-2>\n          <button *ngIf="isImage" ion-fab>\n            <ion-icon name="locate"></ion-icon>\n          </button>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col>\n          <ion-item>\n            <ion-textarea rows="1" id="messageInputBox" placeholder="Send message" (input)="change()" required></ion-textarea>\n          </ion-item>\n        </ion-col>\n      </ion-row>\n  \n      <ion-row>\n        <ion-col>\n          <p class="userid">userid</p>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col col-12>\n          <button ion-button color="light" round full>Continue</button>\n        </ion-col>\n  \n      </ion-row>\n    </ion-grid>\n    <!-- </ion-card-content>\n    </ion-card> -->\n  </ion-content>'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/account/account.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]])
+    ], AccountPage);
+    return AccountPage;
 }());
 
-//# sourceMappingURL=text-util.js.map
+//# sourceMappingURL=account.js.map
 
 /***/ }),
 
-/***/ 333:
+/***/ 344:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CategoryPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__subcategory_subcategory__ = __webpack_require__(185);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_image_picker__ = __webpack_require__(186);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_ImageUtil__ = __webpack_require__(187);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_http__ = __webpack_require__(56);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__environments_environment__ = __webpack_require__(87);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__providers_server_util_serverUtil__ = __webpack_require__(65);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__providers_context__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__subcategory_subcategory__ = __webpack_require__(187);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_image_picker__ = __webpack_require__(188);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_ImageUtil__ = __webpack_require__(113);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_http__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__environments_environment__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__providers_server_util_serverUtil__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__providers_context__ = __webpack_require__(59);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_image_selector_image_selector__ = __webpack_require__(203);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -880,6 +1142,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -908,15 +1171,21 @@ var CategoryPage = /** @class */ (function () {
         this.is_main_selected = false;
         this.is_sub_selected = false;
         this.is_category_image = false;
-        this.is_error = false;
         this.error_text = "This is sample error";
-        this.image = "../assets/imgs/397.jpg";
+        this.isImageUploaded = false;
+        this.isTagPicked = false;
+        this.isImageURL = false;
     }
-    CategoryPage.prototype.removeImage = function () {
-        this.isImage = false;
-        this.image = null;
-    };
     CategoryPage.prototype.ionViewDidEnter = function () {
+        var t = __WEBPACK_IMPORTED_MODULE_8__providers_context__["a" /* Context */].get("Tag");
+        if (t != null) {
+            console.log(t.tag);
+            this.media_tag = t.tag;
+            this.media_source = t.imageCredits;
+            this.image = t.mediaUrl;
+            this.isTagPicked = true;
+            this.mediaId = t.id;
+        }
         if (__WEBPACK_IMPORTED_MODULE_2__subcategory_subcategory__["a" /* SubcategoryPage */].is_main_selected) {
             this.main_category = __WEBPACK_IMPORTED_MODULE_2__subcategory_subcategory__["a" /* SubcategoryPage */].main_option.category;
             this.is_main_selected = true;
@@ -1011,9 +1280,14 @@ var CategoryPage = /** @class */ (function () {
         }
     };
     CategoryPage.prototype.createCategory = function () {
+        var parentId;
+        if (__WEBPACK_IMPORTED_MODULE_2__subcategory_subcategory__["a" /* SubcategoryPage */].is_sub1_selected)
+            parentId = __WEBPACK_IMPORTED_MODULE_2__subcategory_subcategory__["a" /* SubcategoryPage */].sub_option1.id;
+        else
+            parentId = __WEBPACK_IMPORTED_MODULE_2__subcategory_subcategory__["a" /* SubcategoryPage */].main_option.id;
         var category_data = {
             "category": this.category_name,
-            "parentId": __WEBPACK_IMPORTED_MODULE_2__subcategory_subcategory__["a" /* SubcategoryPage */].sub_option1.id,
+            "parentId": parentId,
             "category_media": this.image
         };
         return category_data;
@@ -1029,39 +1303,68 @@ var CategoryPage = /** @class */ (function () {
             var data_parsed = JSON.parse(data_array);
             var data_ = data_parsed.data;
             console.log(data_.category_id);
+            _this.removeImage(false);
         }, function (error) {
             console.log("Oooops!");
         });
     };
+    CategoryPage.prototype.removeImage = function (type) {
+        this.isImage = false;
+        this.image = null;
+        if (type) {
+            if (!this.isTagPicked && this.isImageUploaded)
+                this.imageUtil.removeImage();
+        }
+        __WEBPACK_IMPORTED_MODULE_8__providers_context__["a" /* Context */].set("photoURL", null);
+        __WEBPACK_IMPORTED_MODULE_8__providers_context__["a" /* Context */].set("Tag", null);
+        this.isImageUploaded = false;
+        this.media_tag = null;
+        this.media_source = null;
+        this.isTagPicked = false;
+        this.isImageURL = false;
+        this.inputComponent.removeImage(false);
+    };
+    CategoryPage.prototype.onMediaTagChange = function (media_tag) {
+        this.media_tag = media_tag;
+    };
+    CategoryPage.prototype.onMediaSourceChange = function (media_source) {
+        this.media_source = media_source;
+    };
+    CategoryPage.prototype.onMediaChange = function (image) {
+        this.image = image;
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_9__components_image_selector_image_selector__["a" /* ImageSelectorComponent */]),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_9__components_image_selector_image_selector__["a" /* ImageSelectorComponent */])
+    ], CategoryPage.prototype, "inputComponent", void 0);
     CategoryPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-category',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/category/category.html"*/'<ion-content padding class="page-category">\n  <ion-card>\n\n    <ion-card-header>\n      Choose Post Category\n      <button class="dp_button" (click)="clear()" ion-button clear end>clear\n       \n        </button>\n    </ion-card-header>\n\n    <ion-card-content>\n      <ion-row>\n        <button ion-button (click)="getSubCategory(0)" color="light" round icon-end full>{{main_category}}\n          <ion-icon name="search"></ion-icon>\n        </button>\n      </ion-row>\n      <ion-row *ngIf="is_main_selected">\n        <button ion-button (click)="getSubCategory(1)" color="light" round icon-end full>{{sub_category1}}\n          <ion-icon name="search"></ion-icon>\n        </button>\n      </ion-row>\n      <ion-row *ngIf="is_sub_selected">\n          <button ion-button (click)="getSubCategory(2)" color="light" round icon-end full>{{sub_category2}}\n            <ion-icon name="search"></ion-icon>\n          </button>\n        </ion-row>\n    </ion-card-content>\n  </ion-card>\n  <ion-card>\n\n    <ion-card-header>\n        <ion-item>\n            <ion-label floating>Enter new category name</ion-label>\n            <ion-input type="text" [(ngModel)]="category_name"></ion-input>\n          </ion-item>\n    </ion-card-header>\n\n    <ion-card-content>\n       \n      <ion-row *ngIf="is_category_image">\n        <div class="container">\n          <img class="post_image" src="{{image}}" />\n          <ion-row class="btn" align-items-center>\n            <ion-col col-2>\n              <button class="dp_button" margin ion-button icon-only clear>\n                <ion-icon name="heart"></ion-icon>\n              </button>\n            </ion-col>\n            <ion-col offset-7 col-2>\n              <button class="dp_button" margin ion-button icon-only clear>\n                <ion-icon name="close"></ion-icon>\n              </button>\n            </ion-col>\n          </ion-row>\n        </div>\n      </ion-row>\n      <ion-row>\n          <div class="container">\n              <div id="post_image_container">\n          \n                <img id="post_image" *ngIf="isImage" src="{{image}}" />\n              </div>\n              <ion-row *ngIf="isImage" class="btn" align-items-center>\n                <ion-col col-2>\n                  <button  class="dp_button" (click)="getImage()" margin ion-button icon-only>\n                    <ion-icon name="add-circle"></ion-icon>\n                  </button>\n                </ion-col>\n                <ion-col offset-7 col-2>\n                  <button class="dp_button" (click)="removeImage()" margin ion-button icon-only>\n                    <ion-icon name="close"></ion-icon>\n                  </button>\n                </ion-col>\n              </ion-row>\n          \n              <button *ngIf="!isImage" (click)="getImage()" ion-button color="light" round icon-end full>Add Category image\n                  <ion-icon name="add"></ion-icon>\n                </button>\n              \n                <button *ngIf="isImage" (click)="upload()" ion-button color="light" round icon-end full>Add Category\n                  <ion-icon name="add"></ion-icon>\n                </button>\n            </div>\n       \n        </ion-row>\n    </ion-card-content>\n  </ion-card>\n  <ion-label *ngIf="is_error" class="error_text">\n    {{error_text}}\n  </ion-label>\n  <button ion-button color="light" (click)="done()" round full>Done\n    </button>\n    <!-- <input type="file" (change)="onFileChanged($event)"> -->\n</ion-content>'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/category/category.html"*/,
+            selector: 'page-category',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/category/category.html"*/'<ion-content padding class="page-category">\n  <ion-card>\n\n    <ion-card-header>\n      Choose Post Category\n      <button class="dp_button" (click)="clear()" ion-button clear end>clear\n\n      </button>\n    </ion-card-header>\n\n    <ion-card-content>\n      <ion-row>\n        <button ion-button (click)="getSubCategory(0)" color="light" round icon-end full>{{main_category}}\n          <ion-icon name="search"></ion-icon>\n        </button>\n      </ion-row>\n      <ion-row *ngIf="is_main_selected">\n        <button ion-button (click)="getSubCategory(1)" color="light" round icon-end full>{{sub_category1}}\n          <ion-icon name="search"></ion-icon>\n        </button>\n      </ion-row>\n      <ion-row *ngIf="is_sub_selected">\n        <button ion-button (click)="getSubCategory(2)" color="light" round icon-end full>{{sub_category2}}\n          <ion-icon name="search"></ion-icon>\n        </button>\n      </ion-row>\n    </ion-card-content>\n  </ion-card>\n  <ion-card>\n\n    <ion-card-header>\n      <ion-item>\n        <ion-label floating>Enter new category name</ion-label>\n        <ion-input type="text" [(ngModel)]="category_name"></ion-input>\n      </ion-item>\n    </ion-card-header>\n\n  </ion-card>\n\n  <ion-row *ngIf="is_category_image">\n    <div class="container">\n      <img class="post_image" src="{{image}}" />\n      <ion-row class="btn" align-items-center>\n        <ion-col col-2>\n          <button class="dp_button" margin ion-button icon-only clear>\n            <ion-icon name="heart"></ion-icon>\n          </button>\n        </ion-col>\n        <ion-col offset-7 col-2>\n          <button class="dp_button" margin ion-button icon-only clear>\n            <ion-icon name="close"></ion-icon>\n          </button>\n        </ion-col>\n      </ion-row>\n    </div>\n  </ion-row>\n  <image-selector [(image)]="image" [(isTagPicked)]="isTagPicked" [(mediaId)]="mediaId" [(media_source)]="media_source"\n  [(media_tag)]="media_tag" (mediaTagChange)="onMediaTagChange($event)" (mediaSourceChange)="onMediaSourceChange($event)"\n  (imageChange)="onMediaChange($event)"></image-selector>\n\n  <button ion-button color="light" (click)="addCategory()" round full>Add Category\n    </button>\n\n  <ion-label *ngIf="is_error" class="error_text">\n    {{error_text}}\n  </ion-label>\n  <button ion-button color="light" (click)="done()" round full>Done\n  </button>\n  <!-- <input type="file" (change)="onFileChanged($event)"> -->\n</ion-content>'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/category/category.html"*/,
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_5__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__angular_http__["b" /* Http */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__providers_ImageUtil__["a" /* ImageUtil */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__providers_ImageUtil__["a" /* ImageUtil */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* Platform */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* Platform */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_3__ionic_native_image_picker__["a" /* ImagePicker */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ionic_native_image_picker__["a" /* ImagePicker */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* ModalController */]) === "function" && _h || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */], __WEBPACK_IMPORTED_MODULE_5__angular_http__["b" /* Http */], __WEBPACK_IMPORTED_MODULE_4__providers_ImageUtil__["a" /* ImageUtil */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* Platform */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_image_picker__["a" /* ImagePicker */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* ModalController */]])
     ], CategoryPage);
     return CategoryPage;
-    var _a, _b, _c, _d, _e, _f, _g, _h;
 }());
 
 //# sourceMappingURL=category.js.map
 
 /***/ }),
 
-/***/ 334:
+/***/ 345:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FirebaseService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_toPromise__ = __webpack_require__(583);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_toPromise__ = __webpack_require__(592);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_toPromise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_toPromise__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_firebase_app__ = __webpack_require__(335);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_firebase_app__ = __webpack_require__(346);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_firebase_app___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_firebase_app__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_firebase_storage__ = __webpack_require__(189);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_firebase_storage__ = __webpack_require__(190);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_firebase_storage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_firebase_storage__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__context__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__context__ = __webpack_require__(59);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ionic_angular__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__firebaseDataProvider__ = __webpack_require__(346);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__firebaseDataProvider__ = __webpack_require__(357);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1174,14 +1477,14 @@ var FirebaseService = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 346:
+/***/ 357:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DataProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angularfire2_database__ = __webpack_require__(347);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angularfire2_storage__ = __webpack_require__(385);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angularfire2_database__ = __webpack_require__(358);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angularfire2_storage__ = __webpack_require__(396);
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
         s = arguments[i];
@@ -1247,135 +1550,17 @@ var DataProvider = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 393:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PostClientApiProvider; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(56);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__server_util_serverUtil__ = __webpack_require__(65);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__(87);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-var PostClientApiProvider = /** @class */ (function () {
-    function PostClientApiProvider(http) {
-        this.http = http;
-        this.data = {};
-        console.log('Hello PostClientApiProvider Provider');
-    }
-    PostClientApiProvider.prototype.post = function (isTagPicked, isImageUploaded, mediaId, title, search_tag, media_path, media_tag, media_source, post_type, post_category_id, correct_option, options, description) {
-        var opts = this.getOptions(correct_option, options);
-        if (!isTagPicked || isImageUploaded) {
-            var tag = this.createTag(media_path, media_tag, media_source);
-            console.log(tag);
-            return this.addTag(tag, title, description, this.getPostType(post_type), post_category_id, 1, opts);
-        }
-        else {
-            var post = this.createPost(title, description, search_tag, this.getPostType(post_type), post_category_id, 1, opts, mediaId);
-            console.log(post);
-            return this.addPost(post);
-        }
-    };
-    PostClientApiProvider.prototype.addTag = function (tag, title, description, post_type, post_category_id, blogger_id, opts) {
-        var link = __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].BASE_URL + __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].TAGNAME_API;
-        return this.http.post(link, tag, __WEBPACK_IMPORTED_MODULE_2__server_util_serverUtil__["a" /* ServerUtil */].getHeaders());
-    };
-    PostClientApiProvider.prototype.createTag = function (media_path, media_tag, media_source) {
-        var tag_data = {
-            "mediaUrl": media_path,
-            "tag": media_tag,
-            "imageCredits": media_source
-        };
-        return tag_data;
-    };
-    PostClientApiProvider.prototype.createPost = function (title, description, search_tag, post_type, post_category_id, blogger_id, options, media_id) {
-        var post_data = {
-            "title": title,
-            "options": options,
-            "post_type": post_type,
-            "post_desc": description,
-            "post_category_id": post_category_id,
-            "blogger_id": blogger_id,
-            "post_media_id": media_id,
-            "search_tag": search_tag
-        };
-        return post_data;
-    };
-    PostClientApiProvider.prototype.createOption = function (id, data, is_true) {
-        var post_opt = {
-            "post_option": data,
-            "id": id,
-            "is_correct": is_true,
-            "poll_count": 0
-        };
-        return post_opt;
-    };
-    PostClientApiProvider.prototype.getPostType = function (post_type) {
-        switch (post_type) {
-            case "quiz": return 1;
-            case "poll": return 2;
-            case "fact": return 3;
-        }
-    };
-    PostClientApiProvider.prototype.getOptions = function (correct_option, items) {
-        var _this = this;
-        var count = 1;
-        var options = new Array();
-        items.forEach(function (val) {
-            var is_true = false;
-            if (val == correct_option)
-                is_true = true;
-            var o = _this.createOption(count, val, is_true);
-            options.push(o);
-        });
-        return options;
-    };
-    PostClientApiProvider.prototype.addPost = function (post_data) {
-        var link = __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].BASE_URL + __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].POST_API;
-        var myData = JSON.stringify(post_data);
-        var headers = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["a" /* Headers */]();
-        //       headers.append('Origin' , 'http://127.0.0.1:8100');
-        headers.append('Access-Control-Allow-Origin', '*');
-        headers.append('Access-Control-Allow-Methods', 'POST, GET, PUT');
-        headers.append('Accept', 'application/json');
-        headers.append('content-type', 'application/json');
-        var options = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["d" /* RequestOptions */]({ headers: headers });
-        return this.http.post(link, myData, options);
-    };
-    PostClientApiProvider = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["A" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Http */]])
-    ], PostClientApiProvider);
-    return PostClientApiProvider;
-}());
-
-//# sourceMappingURL=post-client-api.js.map
-
-/***/ }),
-
-/***/ 394:
+/***/ 403:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TagnamePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_server_util_serverUtil__ = __webpack_require__(65);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__(87);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(56);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_context__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_server_util_serverUtil__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_context__ = __webpack_require__(59);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1508,279 +1693,22 @@ var TagnamePage = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-tagname',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/add-post/tagname/tagname.html"*/'<ion-content padding>\n  <ion-row>\n    <ion-col col-10>\n        <ion-searchbar [(ngModel)]="keyword" (ionInput)="getItems($event)"></ion-searchbar>\n    </ion-col>\n    <ion-col col-2>\n        <button ion-button icon-only (click)="getTags()">\n            <ion-icon name="search"></ion-icon>\n          </button>\n    </ion-col>\n  </ion-row>\n  <ion-row>\n      <ion-col (press)="longPressed(item)" (click)="log(item)" *ngFor="let item of items" col-6>\n   \n          <ion-card no-padding >\n             <ion-card-content  no-padding>\n                 <ion-row align-items-stretch>\n                     <ion-col align-self-stretch>\n                        <img  src={{item.mediaUrl}} style="width:100%;height:100px"/>\n                     </ion-col>\n                    \n                   </ion-row>\n                   <ion-row align-items-stretch>\n                      <ion-col align-self-stretch>\n                          {{ item.tag }}\n                       </ion-col>\n                   </ion-row>\n             </ion-card-content>\n           </ion-card>\n     </ion-col> \n  </ion-row>\n  \n  <!-- <ion-list>\n      <ion-row>\n    <ion-item (click)="log(item)" *ngFor="let item of items">\n      \n             \n    \n    \n    </ion-item>\n  </ion-row>\n  </ion-list> -->\n  <ion-row>\n      <button ion-button (click)="back()" color="light" round full>Back\n        \n      </button>\n    </ion-row>\n</ion-content>\n'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/add-post/tagname/tagname.html"*/,
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]) === "function" && _e || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */], __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]])
     ], TagnamePage);
     return TagnamePage;
-    var _a, _b, _c, _d, _e;
 }());
 
 //# sourceMappingURL=tagname.js.map
 
 /***/ }),
 
-/***/ 397:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return StorageUtilProvider; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ionic_native_sqlite__ = __webpack_require__(398);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var StorageUtilProvider = /** @class */ (function () {
-    function StorageUtilProvider(sqlite) {
-        this.sqlite = sqlite;
-        console.log('Hello StorageUtilProvider Provider');
-    }
-    StorageUtilProvider.prototype.executeSQL = function (database, sql) {
-        var database_name = database + ".db";
-        this.sqlite.create({
-            name: database_name,
-            location: 'default'
-        })
-            .then(function (db) {
-            db.executeSql(sql, [])
-                .then(function () { return console.log('Executed SQL'); })
-                .catch(function (e) { return console.log(e); });
-        })
-            .catch(function (e) { return console.log(e); });
-    };
-    StorageUtilProvider = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__ionic_native_sqlite__["a" /* SQLite */]])
-    ], StorageUtilProvider);
-    return StorageUtilProvider;
-}());
-
-//# sourceMappingURL=storage-util.js.map
-
-/***/ }),
-
-/***/ 399:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SessionUtilProvider; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ionic_native_facebook__ = __webpack_require__(400);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_google_plus__ = __webpack_require__(401);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_constants_App_Constants__ = __webpack_require__(696);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_storage__ = __webpack_require__(121);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pojo_session__ = __webpack_require__(697);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_account_account__ = __webpack_require__(402);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_ionic_angular__ = __webpack_require__(13);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-
-
-
-var SessionUtilProvider = /** @class */ (function () {
-    function SessionUtilProvider(appCtrl, fb, googlePlus, storage) {
-        this.appCtrl = appCtrl;
-        this.fb = fb;
-        this.googlePlus = googlePlus;
-        this.storage = storage;
-        this.initialize_session();
-        this.check_login_state();
-    }
-    SessionUtilProvider.prototype.initialize_session = function () {
-        this.storage.set(__WEBPACK_IMPORTED_MODULE_3__providers_constants_App_Constants__["a" /* App_Constants */].SESSION_STATE, "N");
-    };
-    SessionUtilProvider.prototype.get_login_state = function () {
-        return this.storage.get(__WEBPACK_IMPORTED_MODULE_3__providers_constants_App_Constants__["a" /* App_Constants */].SESSION_STATE);
-    };
-    SessionUtilProvider.prototype.set_login_state = function () {
-        this.storage.set(__WEBPACK_IMPORTED_MODULE_3__providers_constants_App_Constants__["a" /* App_Constants */].SESSION_STATE, "Y");
-    };
-    SessionUtilProvider.prototype.clear_login_state = function () {
-        this.session_obj = null;
-        this.storage.set(__WEBPACK_IMPORTED_MODULE_3__providers_constants_App_Constants__["a" /* App_Constants */].SESSION_OBJECT, this.session_obj);
-        this.storage.set(__WEBPACK_IMPORTED_MODULE_3__providers_constants_App_Constants__["a" /* App_Constants */].SESSION_STATE, "N");
-    };
-    SessionUtilProvider.prototype.check_login_state = function () {
-        var _this = this;
-        this.get_login_state().then(function (val) {
-            if (val == 'N') {
-                console.log('Hello SessionUtilProvider Provider');
-                _this.appCtrl.getRootNav().push(__WEBPACK_IMPORTED_MODULE_6__pages_account_account__["a" /* AccountPage */]);
-                //this.navCtrl.push(AccountPage);
-                // this.navUtil.navigateTo('Account_page');
-            }
-        });
-    };
-    SessionUtilProvider.prototype.set_login_data = function (name, email, imageurl, login_type, bday, gender) {
-        this.session_obj = new __WEBPACK_IMPORTED_MODULE_5__pojo_session__["a" /* session */](name, email, imageurl, login_type, bday, gender);
-        this.storage.set(__WEBPACK_IMPORTED_MODULE_3__providers_constants_App_Constants__["a" /* App_Constants */].SESSION_OBJECT, this.session_obj);
-    };
-    SessionUtilProvider.prototype.googleLogin = function () {
-        this.googlePlus.login({
-            'scopes': '',
-        })
-            .then(function (res) {
-            console.log(JSON.stringify(res));
-            console.log(res.imageUrl);
-        })
-            .catch(function (err) { return console.error(err); });
-    };
-    SessionUtilProvider.prototype.facebookLogin = function () {
-        var _this = this;
-        this.fb.login(['public_profile', 'user_photos', 'email', 'user_birthday'])
-            .then(function (res) {
-            if (res.status == "connected") {
-                var fb_id = res.authResponse.userID;
-                var fb_token = res.authResponse.accessToken;
-                _this.fb.api("/me?fields=name,gender,birthday,email", []).then(function (user) {
-                    var gender = user.gender;
-                    var birthday = user.birthday;
-                    var name = user.name;
-                    var email = user.email;
-                    console.log("=== USER INFOS ===");
-                    console.log("Gender : " + gender);
-                    console.log("Birthday : " + birthday);
-                    console.log("Name : " + name);
-                    console.log("Email : " + email);
-                });
-            }
-            else {
-                console.log("An error occurred...");
-            }
-        })
-            .catch(function (e) {
-            console.log('Error logging into Facebook', e);
-        });
-    };
-    SessionUtilProvider = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_7_ionic_angular__["b" /* App */], __WEBPACK_IMPORTED_MODULE_1__ionic_native_facebook__["a" /* Facebook */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_google_plus__["a" /* GooglePlus */], __WEBPACK_IMPORTED_MODULE_4__ionic_storage__["b" /* Storage */]])
-    ], SessionUtilProvider);
-    return SessionUtilProvider;
-}());
-
-//# sourceMappingURL=session-util.js.map
-
-/***/ }),
-
-/***/ 402:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AccountPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(13);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var AccountPage = /** @class */ (function () {
-    function AccountPage(navCtrl, navParams) {
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.isImage = true;
-        this.colors = ['#e43737', '#e0e437', '#37e446', '#375be4', '#972cb1'];
-        this.slides = [
-            {
-                email: "lavpalsingh4890@gmail.com",
-                imageUrl: 'https://lorempixel.com/1200/1200/nature/1',
-            }, {
-                imageUrl: 'https://lorempixel.com/1200/1200/nature/2',
-            }, {
-                imageUrl: 'https://lorempixel.com/1200/1200/nature/3',
-            }, {
-                imageUrl: 'https://lorempixel.com/1200/1200/nature/4',
-            }, {
-                imageUrl: 'https://lorempixel.com/1200/1200/nature/5',
-            }, {
-                imageUrl: 'https://lorempixel.com/1200/1200/nature/6',
-            }, {
-                imageUrl: 'https://lorempixel.com/1200/1200/nature/7',
-            }, {
-                imageUrl: 'https://lorempixel.com/1200/1200/nature/8',
-            }, {
-                imageUrl: 'https://lorempixel.com/1200/1200/nature/9',
-            }, {
-                imageUrl: 'https://lorempixel.com/1200/1200/nature/10',
-            },
-        ];
-        this.color = this.colors[0];
-    }
-    AccountPage.prototype.onSlideChanged = function () {
-        this.random_int = Math.floor(Math.random() * (this.colors.length - 0 + 1)) + 0;
-        this.color = this.colors[this.random_int];
-    };
-    AccountPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad BasicDetailPage');
-    };
-    // @ViewChild('myInput') myInput: ElementRef;
-    // resize() {
-    //     var element = this.myInput['_elementRef'].nativeElement.getElementsByClassName("text-input")[0];
-    //     var scrollHeight = element.scrollHeight;
-    //     element.style.height = scrollHeight + 'px';
-    //     this.myInput['_elementRef'].nativeElement.style.height = (scrollHeight + 16) + 'px';
-    // }
-    AccountPage.prototype.change = function () {
-        // get elements
-        var element = document.getElementById('messageInputBox');
-        var textarea = element.getElementsByTagName('textarea')[0];
-        // set default style for textarea
-        textarea.style.minHeight = '0';
-        textarea.style.height = '0';
-        // limit size to 96 pixels (6 lines of text)
-        var scroll_height = textarea.scrollHeight;
-        if (scroll_height > 96)
-            scroll_height = 96;
-        // apply new style
-        element.style.height = scroll_height + "px";
-        textarea.style.minHeight = scroll_height + "px";
-        textarea.style.height = scroll_height + "px";
-    };
-    AccountPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-account',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/account/account.html"*/'<ion-header>\n  </ion-header>\n  \n  \n  <ion-content>\n  \n    <ion-slides *ngIf="isImage" #slider effect="fade" pager="true" loop="true" spaceBetween="1" slidesPerView="1" class="slides_container">\n      <ion-slide *ngFor="let slide of slides" class="slide-background" [ngStyle]="{\'background\' : \'url(\' + slide.imageUrl + \')\'}">\n  \n        <ion-grid>\n          <ion-row>     \n            <ion-col>\n              <p class="email">{{slide.email}}</p>\n            </ion-col>\n            <ion-col>\n              <button class="dp_button" ion-button icon-only>\n                <ion-icon name="star"></ion-icon>\n              </button>\n            </ion-col>\n          </ion-row>\n        </ion-grid>\n      </ion-slide>\n    </ion-slides>\n    <ion-grid>\n      <ion-row justify-content-center>\n        <ion-col col-2>\n          <ion-fab>\n            <button *ngIf="isImage" ion-fab>\n              <ion-icon name="md-add"></ion-icon>\n            </button>\n          </ion-fab>\n  \n        </ion-col>\n        <ion-col col-2 offset-1>\n          <ion-fab>\n            <button *ngIf="isImage" ion-fab>\n              <ion-icon name="md-add"></ion-icon>\n            </button>\n          </ion-fab>\n  \n        </ion-col>\n        <ion-col col-2 offset-1>\n          <ion-fab>\n            <button *ngIf="isImage" ion-fab>\n              <ion-icon name="md-add"></ion-icon>\n            </button>\n          </ion-fab>\n  \n        </ion-col>\n      </ion-row>\n    </ion-grid>\n    <ion-grid>\n      <ion-row>\n        <ion-col>\n        <p style="color:black">Name</p>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col>\n          <ion-row radio-group [(ngModel)]="Gender">\n  \n            <ion-col>\n              <ion-item>\n                <ion-label>Male <ion-icon name="man"></ion-icon>\n                </ion-label>\n  \n                <ion-radio value="male">\n  \n                </ion-radio>\n              </ion-item>\n            </ion-col>\n            <ion-col>\n              <ion-item>\n                <ion-label>Female <ion-icon name="woman"></ion-icon>\n                </ion-label>\n                <ion-radio value="female"></ion-radio>\n              </ion-item>\n            </ion-col>\n          </ion-row>\n  \n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col>\n          <ion-row radio-group [(ngModel)]="AgeGroup">\n  \n            <ion-col col-12>\n              <ion-label>Age Group</ion-label>\n            </ion-col>\n            <ion-col col-6>\n              <ion-item>\n                <ion-label>0-18</ion-label>\n                <ion-radio value="18"></ion-radio>\n              </ion-item>\n            </ion-col>\n            <ion-col col-6>\n              <ion-item>\n                <ion-label>19-30</ion-label>\n                <ion-radio value="30"></ion-radio>\n              </ion-item>\n            </ion-col>\n  \n            <ion-col col-6>\n              <ion-item>\n                <ion-label>31-60</ion-label>\n                <ion-radio value="60"></ion-radio>\n              </ion-item>\n            </ion-col>\n            <ion-col col-6>\n              <ion-item>\n                <ion-label>61+</ion-label>\n                <ion-radio value="60plus"></ion-radio>\n              </ion-item>\n            </ion-col>\n          </ion-row>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col col-10>\n          <p>Country</p>\n        </ion-col>\n        <ion-col col-2>\n          <button *ngIf="isImage" ion-fab>\n            <ion-icon name="locate"></ion-icon>\n          </button>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col>\n          <ion-item>\n            <ion-textarea rows="1" id="messageInputBox" placeholder="Send message" (input)="change()" required></ion-textarea>\n          </ion-item>\n        </ion-col>\n      </ion-row>\n  \n      <ion-row>\n        <ion-col>\n          <p class="userid">userid</p>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col col-12>\n          <button ion-button color="light" round full>Continue</button>\n        </ion-col>\n  \n      </ion-row>\n    </ion-grid>\n    <!-- </ion-card-content>\n    </ion-card> -->\n  </ion-content>'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/account/account.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]])
-    ], AccountPage);
-    return AccountPage;
-}());
-
-//# sourceMappingURL=account.js.map
-
-/***/ }),
-
-/***/ 403:
+/***/ 404:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(404);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(535);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(405);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(536);
 
 
 Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_1__app_module__["a" /* AppModule */]);
@@ -1788,69 +1716,73 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 
 /***/ }),
 
-/***/ 535:
+/***/ 536:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__app_component__ = __webpack_require__(575);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(328);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_list_list__ = __webpack_require__(329);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_welcome_welcome__ = __webpack_require__(695);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_basic_detail_basic_detail__ = __webpack_require__(698);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_account_account__ = __webpack_require__(402);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_add_blog_add_blog__ = __webpack_require__(699);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_add_post_add_post__ = __webpack_require__(331);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_chat_main_chat_main__ = __webpack_require__(700);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_chat_list_chat_list__ = __webpack_require__(701);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_comment_comment__ = __webpack_require__(702);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_interest_interest__ = __webpack_require__(330);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_matchup_matchup__ = __webpack_require__(703);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_notification_notification__ = __webpack_require__(704);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_search_search__ = __webpack_require__(705);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_view_blog_view_blog__ = __webpack_require__(706);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_view_post_view_post__ = __webpack_require__(707);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_matchup_play_matchup_play__ = __webpack_require__(708);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__ionic_native_status_bar__ = __webpack_require__(325);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__ionic_native_splash_screen__ = __webpack_require__(327);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__ionic_native_deeplinks__ = __webpack_require__(395);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__providers_server_util_serverUtil__ = __webpack_require__(65);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__angular_http__ = __webpack_require__(56);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__pages_category_category__ = __webpack_require__(333);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__pages_category_subcategory_subcategory__ = __webpack_require__(185);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__providers_emoji__ = __webpack_require__(709);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__providers_text_util_text_util__ = __webpack_require__(332);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__ionic_native_fcm__ = __webpack_require__(396);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__ionic_native_facebook__ = __webpack_require__(400);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__ionic_native_google_plus__ = __webpack_require__(401);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__ionic_storage__ = __webpack_require__(121);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__providers_storage_util_storage_util__ = __webpack_require__(397);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__ionic_native_sqlite__ = __webpack_require__(398);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__providers_session_util_session_util__ = __webpack_require__(399);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__ionic_native_image_picker__ = __webpack_require__(186);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__ionic_native_camera__ = __webpack_require__(391);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39_angularfire2__ = __webpack_require__(70);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40_angularfire2_database__ = __webpack_require__(347);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41_angularfire2_storage__ = __webpack_require__(385);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__providers_firebaseDataProvider__ = __webpack_require__(346);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__providers_context__ = __webpack_require__(68);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__ionic_native_crop__ = __webpack_require__(390);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__providers_ImageUtil__ = __webpack_require__(187);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__providers_firebase_service__ = __webpack_require__(334);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__providers_post_client_api_post_client_api__ = __webpack_require__(393);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__angular_common_http__ = __webpack_require__(710);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__providers_tagname_client_api_tagname_client_api__ = __webpack_require__(716);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__pages_add_post_tagname_tagname__ = __webpack_require__(394);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51_ionic_long_press__ = __webpack_require__(717);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__app_component__ = __webpack_require__(576);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(331);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_list_list__ = __webpack_require__(333);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_welcome_welcome__ = __webpack_require__(585);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_basic_detail_basic_detail__ = __webpack_require__(589);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_account_account__ = __webpack_require__(343);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_add_blog_add_blog__ = __webpack_require__(590);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_add_post_add_post__ = __webpack_require__(591);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_chat_main_chat_main__ = __webpack_require__(703);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_chat_list_chat_list__ = __webpack_require__(704);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_comment_comment__ = __webpack_require__(705);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_interest_interest__ = __webpack_require__(334);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_matchup_matchup__ = __webpack_require__(706);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_notification_notification__ = __webpack_require__(707);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_search_search__ = __webpack_require__(708);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_view_blog_view_blog__ = __webpack_require__(709);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_view_post_view_post__ = __webpack_require__(710);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_matchup_play_matchup_play__ = __webpack_require__(711);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__ionic_native_status_bar__ = __webpack_require__(328);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__ionic_native_splash_screen__ = __webpack_require__(330);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__ionic_native_deeplinks__ = __webpack_require__(335);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__providers_server_util_serverUtil__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__angular_http__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__pages_category_category__ = __webpack_require__(344);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__pages_category_subcategory_subcategory__ = __webpack_require__(187);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__providers_emoji__ = __webpack_require__(712);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__providers_text_util_text_util__ = __webpack_require__(186);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__ionic_native_fcm__ = __webpack_require__(336);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__ionic_native_facebook__ = __webpack_require__(341);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__ionic_native_google_plus__ = __webpack_require__(342);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__ionic_storage__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__providers_storage_util_storage_util__ = __webpack_require__(338);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__ionic_native_sqlite__ = __webpack_require__(339);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__providers_session_util_session_util__ = __webpack_require__(340);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__ionic_native_image_picker__ = __webpack_require__(188);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__ionic_native_camera__ = __webpack_require__(402);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39_angularfire2__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40_angularfire2_database__ = __webpack_require__(358);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41_angularfire2_storage__ = __webpack_require__(396);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__providers_firebaseDataProvider__ = __webpack_require__(357);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__providers_context__ = __webpack_require__(59);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__ionic_native_crop__ = __webpack_require__(401);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__providers_ImageUtil__ = __webpack_require__(113);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__providers_firebase_service__ = __webpack_require__(345);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__providers_post_client_api_post_client_api__ = __webpack_require__(204);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__angular_common_http__ = __webpack_require__(713);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__providers_tagname_client_api_tagname_client_api__ = __webpack_require__(719);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__pages_add_post_tagname_tagname__ = __webpack_require__(403);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51_ionic_long_press__ = __webpack_require__(720);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__components_image_selector_image_selector__ = __webpack_require__(203);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__ionic_native_in_app_browser__ = __webpack_require__(332);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -1937,7 +1869,8 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_20__pages_matchup_play_matchup_play__["a" /* MatchupPlayPage */],
                 __WEBPACK_IMPORTED_MODULE_27__pages_category_subcategory_subcategory__["a" /* SubcategoryPage */],
                 __WEBPACK_IMPORTED_MODULE_26__pages_category_category__["a" /* CategoryPage */],
-                __WEBPACK_IMPORTED_MODULE_50__pages_add_post_tagname_tagname__["a" /* TagnamePage */]
+                __WEBPACK_IMPORTED_MODULE_50__pages_add_post_tagname_tagname__["a" /* TagnamePage */],
+                __WEBPACK_IMPORTED_MODULE_52__components_image_selector_image_selector__["a" /* ImageSelectorComponent */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_25__angular_http__["c" /* HttpModule */],
@@ -2020,6 +1953,7 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_43__providers_context__["a" /* Context */],
                 __WEBPACK_IMPORTED_MODULE_44__ionic_native_crop__["a" /* Crop */],
                 __WEBPACK_IMPORTED_MODULE_45__providers_ImageUtil__["a" /* ImageUtil */],
+                __WEBPACK_IMPORTED_MODULE_53__ionic_native_in_app_browser__["a" /* InAppBrowser */],
                 // { provide: LocationStrategy, useClass: PathLocationStrategy },
                 { provide: __WEBPACK_IMPORTED_MODULE_1__angular_core__["u" /* ErrorHandler */], useClass: __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["d" /* IonicErrorHandler */] },
                 __WEBPACK_IMPORTED_MODULE_47__providers_post_client_api_post_client_api__["a" /* PostClientApiProvider */],
@@ -2034,105 +1968,14 @@ var AppModule = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 575:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(325);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(327);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(328);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_list_list__ = __webpack_require__(329);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_interest_interest__ = __webpack_require__(330);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_add_post_add_post__ = __webpack_require__(331);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ionic_native_deeplinks__ = __webpack_require__(395);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ionic_native_fcm__ = __webpack_require__(396);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-
-
-
-
-
-var MyApp = /** @class */ (function () {
-    function MyApp(deeplinks, platform, statusBar, splashScreen, fcm) {
-        this.deeplinks = deeplinks;
-        this.platform = platform;
-        this.statusBar = statusBar;
-        this.splashScreen = splashScreen;
-        this.fcm = fcm;
-        this.rootPage = __WEBPACK_IMPORTED_MODULE_7__pages_add_post_add_post__["a" /* AddPostPage */];
-        this.initializeApp();
-        this.pages = [
-            { title: 'Home', component: __WEBPACK_IMPORTED_MODULE_4__pages_home_home__["a" /* HomePage */] },
-            { title: 'List', component: __WEBPACK_IMPORTED_MODULE_5__pages_list_list__["a" /* ListPage */] },
-            { title: 'interest', component: __WEBPACK_IMPORTED_MODULE_6__pages_interest_interest__["a" /* InterestPage */] }
-        ];
-    }
-    MyApp.prototype.initializeApp = function () {
-        var _this = this;
-        if (this.platform.is('ios')) {
-            this.platform.ready().then(function () {
-                _this.statusBar.styleDefault();
-                _this.splashScreen.hide();
-                _this.fcm.getToken().then(function (token) {
-                    // Your best bet is to here store the token on the user's profile on the
-                    // Firebase database, so that when you want to send notifications to this 
-                    // specific user you can do it from Cloud Functions.
-                });
-                _this.fcm.onNotification().subscribe(function (data) {
-                    if (data.wasTapped) {
-                        console.log("Received in background");
-                    }
-                    else {
-                        console.log("Received in foreground");
-                    }
-                    ;
-                });
-            });
-        }
-    };
-    MyApp.prototype.openPage = function (page) {
-        this.nav.setRoot(page.component);
-    };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* Nav */]),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* Nav */])
-    ], MyApp.prototype, "nav", void 0);
-    MyApp = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/app/app.html"*/'<ion-menu [content]="content">\n  <ion-header>\n    <ion-toolbar>\n      <ion-title>Menu</ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-content>\n    <ion-list>\n      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">\n        {{p.title}}\n      </button>\n    </ion-list>\n  </ion-content>\n\n</ion-menu>\n\n<!-- Disable swipe-to-go-back because it\'s poor UX to combine STGB with side menus -->\n<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/app/app.html"*/
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_8__ionic_native_deeplinks__["a" /* Deeplinks */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */], __WEBPACK_IMPORTED_MODULE_9__ionic_native_fcm__["a" /* FCM */]])
-    ], MyApp);
-    return MyApp;
-}());
-
-//# sourceMappingURL=app.component.js.map
-
-/***/ }),
-
-/***/ 65:
+/***/ 57:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ServerUtil; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__environments_environment__ = __webpack_require__(87);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__environments_environment__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__(53);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2174,52 +2017,1447 @@ var ServerUtil = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 68:
+/***/ 576:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Context; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(328);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(330);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(331);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_list_list__ = __webpack_require__(333);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_interest_interest__ = __webpack_require__(334);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ionic_native_deeplinks__ = __webpack_require__(335);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ionic_native_fcm__ = __webpack_require__(336);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 
-var Context = /** @class */ (function () {
-    function Context() {
+
+
+
+
+
+
+
+
+var MyApp = /** @class */ (function () {
+    function MyApp(deeplinks, platform, statusBar, splashScreen, fcm) {
+        this.deeplinks = deeplinks;
+        this.platform = platform;
+        this.statusBar = statusBar;
+        this.splashScreen = splashScreen;
+        this.fcm = fcm;
+        this.rootPage = __WEBPACK_IMPORTED_MODULE_4__pages_home_home__["a" /* HomePage */];
+        this.initializeApp();
+        this.pages = [
+            { title: 'Home', component: __WEBPACK_IMPORTED_MODULE_4__pages_home_home__["a" /* HomePage */] },
+            { title: 'List', component: __WEBPACK_IMPORTED_MODULE_5__pages_list_list__["a" /* ListPage */] },
+            { title: 'interest', component: __WEBPACK_IMPORTED_MODULE_6__pages_interest_interest__["a" /* InterestPage */] }
+        ];
     }
-    Context_1 = Context;
-    Context.set = function (key, val) {
-        Context_1.contextObject.set(key, val);
+    MyApp.prototype.initializeApp = function () {
+        var _this = this;
+        if (this.platform.is('ios')) {
+            this.platform.ready().then(function () {
+                _this.statusBar.styleDefault();
+                _this.splashScreen.hide();
+                _this.fcm.getToken().then(function (token) {
+                    // Your best bet is to here store the token on the user's profile on the
+                    // Firebase database, so that when you want to send notifications to this 
+                    // specific user you can do it from Cloud Functions.
+                });
+                _this.fcm.onNotification().subscribe(function (data) {
+                    if (data.wasTapped) {
+                        console.log("Received in background");
+                    }
+                    else {
+                        console.log("Received in foreground");
+                    }
+                    ;
+                });
+            });
+        }
     };
-    Context.get = function (key) {
-        return Context_1.contextObject.get(key);
+    MyApp.prototype.openPage = function (page) {
+        this.nav.setRoot(page.component);
     };
-    Context.contextObject = new Map();
-    Context = Context_1 = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])()
-    ], Context);
-    return Context;
-    var Context_1;
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* Nav */]),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* Nav */])
+    ], MyApp.prototype, "nav", void 0);
+    MyApp = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/app/app.html"*/'<ion-menu [content]="content">\n  <ion-header style="background: black">\n    <ion-toolbar >\n      <ion-title>Menu</ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-content>\n    <ion-list>\n      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">\n        {{p.title}}\n      </button>\n    </ion-list>\n  </ion-content>\n\n</ion-menu>\n\n<!-- Disable swipe-to-go-back because it\'s poor UX to combine STGB with side menus -->\n<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/app/app.html"*/
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_7__ionic_native_deeplinks__["a" /* Deeplinks */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */], __WEBPACK_IMPORTED_MODULE_8__ionic_native_fcm__["a" /* FCM */]])
+    ], MyApp);
+    return MyApp;
 }());
 
-//# sourceMappingURL=context.js.map
+//# sourceMappingURL=app.component.js.map
 
 /***/ }),
 
-/***/ 695:
+/***/ 584:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return post; });
+var post = [{
+        "post_id": 58,
+        "title": "This is a cute kitty",
+        "options": [{
+                "option": "ABCDEFG",
+                "id": 1,
+                "is_correct": true,
+                "poll_count": 0
+            }, {
+                "option": "HIJKLMN",
+                "id": 2,
+                "is_correct": false,
+                "poll_count": 0
+            }, {
+                "option": "OPQRST",
+                "id": 3,
+                "is_correct": false,
+                "poll_count": 0
+            }, {
+                "option": "UVWXYZ",
+                "id": 4,
+                "is_correct": false,
+                "poll_count": 0
+            }],
+        "post_type": "3",
+        "post_desc": "kitty goood djhekcn",
+        "post_time": "2018-12-19T15:29:01.000+0000",
+        "post_state": "1",
+        "search_tag": "love",
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 22,
+            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+            "tag": "kitty random cutie",
+            "imageCredits": "love pal"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 57,
+        "title": "This is a cute kitty",
+        "options": [{
+                "option": "ABCDEFG",
+                "id": 1,
+                "is_correct": true,
+                "poll_count": 0
+            }, {
+                "option": "HIJKLMN",
+                "id": 2,
+                "is_correct": false,
+                "poll_count": 0
+            }, {
+                "option": "OPQRST",
+                "id": 3,
+                "is_correct": false,
+                "poll_count": 0
+            }, {
+                "option": "UVWXYZ",
+                "id": 4,
+                "is_correct": false,
+                "poll_count": 0
+            }],
+        "post_type": "3",
+        "post_desc": "kitty goood djhekcn",
+        "post_time": "2018-12-19T15:28:26.000+0000",
+        "post_state": "1",
+        "search_tag": "love",
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 22,
+            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+            "tag": "kitty random cutie",
+            "imageCredits": "love pal"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 56,
+        "title": "This is a cute kitty",
+        "options": [{
+                "option": "ABCDEFG",
+                "id": 1,
+                "is_correct": true,
+                "poll_count": 0
+            }, {
+                "option": "HIJKLMN",
+                "id": 2,
+                "is_correct": false,
+                "poll_count": 0
+            }, {
+                "option": "OPQRST",
+                "id": 3,
+                "is_correct": false,
+                "poll_count": 0
+            }, {
+                "option": "UVWXYZ",
+                "id": 4,
+                "is_correct": false,
+                "poll_count": 0
+            }],
+        "post_type": "3",
+        "post_desc": "kitty goood djhekcn",
+        "post_time": "2018-12-19T15:25:54.000+0000",
+        "post_state": "1",
+        "search_tag": "love",
+        "blogger_id": 1,
+        "post_media_id": null,
+        "post_category_id": null
+    }, {
+        "post_id": 55,
+        "title": "This is a cute kitty",
+        "options": [{
+                "option": "ABCDEFG",
+                "id": 1,
+                "is_correct": true,
+                "poll_count": 0
+            }, {
+                "option": "HIJKLMN",
+                "id": 2,
+                "is_correct": false,
+                "poll_count": 0
+            }, {
+                "option": "OPQRST",
+                "id": 3,
+                "is_correct": false,
+                "poll_count": 0
+            }, {
+                "option": "UVWXYZ",
+                "id": 4,
+                "is_correct": false,
+                "poll_count": 0
+            }],
+        "post_type": "3",
+        "post_desc": "kitty goood djhekcn",
+        "post_time": "2018-12-19T15:25:19.000+0000",
+        "post_state": "1",
+        "search_tag": "love",
+        "blogger_id": 1,
+        "post_media_id": null,
+        "post_category_id": null
+    }, {
+        "post_id": 54,
+        "title": "This is a cute kitty",
+        "options": [{
+                "option": "ABCDEFG",
+                "id": 1,
+                "is_correct": true,
+                "poll_count": 0
+            }, {
+                "option": "HIJKLMN",
+                "id": 2,
+                "is_correct": false,
+                "poll_count": 0
+            }, {
+                "option": "OPQRST",
+                "id": 3,
+                "is_correct": false,
+                "poll_count": 0
+            }, {
+                "option": "UVWXYZ",
+                "id": 4,
+                "is_correct": false,
+                "poll_count": 0
+            }],
+        "post_type": "3",
+        "post_desc": "kitty goood djhekcn",
+        "post_time": "2018-12-17T17:07:35.000+0000",
+        "post_state": "1",
+        "search_tag": "love",
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 22,
+            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+            "tag": "kitty random cutie",
+            "imageCredits": "love pal"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 53,
+        "title": "This is a cute kitty",
+        "options": [],
+        "post_type": "3",
+        "post_desc": "kitty goood djhekcn",
+        "post_time": "2018-12-06T18:50:43.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 22,
+            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+            "tag": "kitty random cutie",
+            "imageCredits": "love pal"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 52,
+        "title": "This is another random love story",
+        "options": [],
+        "post_type": "3",
+        "post_desc": "This is another random love story",
+        "post_time": "2018-12-06T18:49:08.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 21,
+            "mediaUrl": "https://firebasestorage.googleapis.com/v0/b/quizator-be795.appspot.com/o/image%2Fpost%2F1544122129801?alt=media&token=394d900d-3372-467d-a95c-8a4ea9bbd384",
+            "tag": "randomtag1",
+            "imageCredits": "love pal singh"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 51,
+        "title": "This is another random love story",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-06T18:48:34.000+0000",
+        "post_state": "1",
+        "search_tag": "This is another random love story",
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 11,
+            "mediaUrl": "https://firebasestorage.googleapis.com/v0/b/quizator-be795.appspot.com/o/image%2Fpost%2F1543860639577?alt=media&token=05d4752e-5902-402b-ad03-7662d2a77d68",
+            "tag": "loveflower2",
+            "imageCredits": "love Pal Singh"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 50,
+        "title": "mediaChange mediaChange mediaChange",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-06T18:44:56.000+0000",
+        "post_state": "1",
+        "search_tag": "mediaChange",
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 11,
+            "mediaUrl": "https://firebasestorage.googleapis.com/v0/b/quizator-be795.appspot.com/o/image%2Fpost%2F1543860639577?alt=media&token=05d4752e-5902-402b-ad03-7662d2a77d68",
+            "tag": "loveflower2",
+            "imageCredits": "love Pal Singh"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 49,
+        "title": "mediaChange mediaChange mediaChange",
+        "options": [],
+        "post_type": "3",
+        "post_desc": "mediaChange",
+        "post_time": "2018-12-06T18:43:06.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 20,
+            "mediaUrl": "https://firebasestorage.googleapis.com/v0/b/quizator-be795.appspot.com/o/image%2Fpost%2F1544121755195?alt=media&token=b317fef7-bae1-4f4a-8822-247fd2ae2aec",
+            "tag": "calm sea",
+            "imageCredits": "love pal singh"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 48,
+        "title": "kitty cuteness overloaded",
+        "options": [],
+        "post_type": "3",
+        "post_desc": "kitty cuteness overloaded",
+        "post_time": "2018-12-06T18:41:24.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 19,
+            "mediaUrl": null,
+            "tag": "sea",
+            "imageCredits": "love pal"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 47,
+        "title": "kitty cuteness overloaded",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-06T18:40:09.000+0000",
+        "post_state": "1",
+        "search_tag": "kitty cuteness overloaded",
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 18,
+            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+            "tag": "kitty cuteness overloaded",
+            "imageCredits": "love pal"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 46,
+        "title": "kitty cuteness overloaded",
+        "options": [],
+        "post_type": "3",
+        "post_desc": "kitty cuteness overloaded",
+        "post_time": "2018-12-06T18:39:42.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 18,
+            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+            "tag": "kitty cuteness overloaded",
+            "imageCredits": "love pal"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 45,
+        "title": "This is random fact",
+        "options": [],
+        "post_type": "3",
+        "post_desc": "This is random fact",
+        "post_time": "2018-12-06T18:36:46.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 17,
+            "mediaUrl": null,
+            "tag": "city",
+            "imageCredits": "love pal singh"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 44,
+        "title": "onMediaTagChange cvefjv kfvl",
+        "options": [],
+        "post_type": "3",
+        "post_desc": "onMediaTagChange caklsm;,",
+        "post_time": "2018-12-06T18:33:04.000+0000",
+        "post_state": "1",
+        "search_tag": "onMediaTagChange cefvrvefd",
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 16,
+            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+            "tag": "cat playing",
+            "imageCredits": null
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 43,
+        "title": "This is random fact",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-06T18:16:09.000+0000",
+        "post_state": "1",
+        "search_tag": "This is random fact",
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 1,
+            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
+            "tag": "love2",
+            "imageCredits": "love"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 42,
+        "title": "This is random question",
+        "options": [{
+                "option": null,
+                "id": 1,
+                "is_correct": true,
+                "poll_count": 0
+            }, {
+                "option": null,
+                "id": 1,
+                "is_correct": false,
+                "poll_count": 0
+            }, {
+                "option": null,
+                "id": 1,
+                "is_correct": false,
+                "poll_count": 0
+            }],
+        "post_type": "1",
+        "post_desc": "This is random description",
+        "post_time": "2018-12-06T16:26:24.000+0000",
+        "post_state": "1",
+        "search_tag": "Search Tag",
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 11,
+            "mediaUrl": "https://firebasestorage.googleapis.com/v0/b/quizator-be795.appspot.com/o/image%2Fpost%2F1543860639577?alt=media&token=05d4752e-5902-402b-ad03-7662d2a77d68",
+            "tag": "loveflower2",
+            "imageCredits": "love Pal Singh"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 41,
+        "title": "title",
+        "options": null,
+        "post_type": "1",
+        "post_desc": "description",
+        "post_time": "2018-12-04T08:32:24.000+0000",
+        "post_state": "1",
+        "search_tag": "search_tag",
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 1,
+            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
+            "tag": "love2",
+            "imageCredits": "love"
+        },
+        "post_category_id": {
+            "id": 1,
+            "category": "main1",
+            "parentId": 0,
+            "category_media": "https://www.gstatic.com/webp/gallery/1.jpg"
+        }
+    }, {
+        "post_id": 40,
+        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T18:30:23.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 11,
+            "mediaUrl": "https://firebasestorage.googleapis.com/v0/b/quizator-be795.appspot.com/o/image%2Fpost%2F1543860639577?alt=media&token=05d4752e-5902-402b-ad03-7662d2a77d68",
+            "tag": "loveflower2",
+            "imageCredits": "love Pal Singh"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 39,
+        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T18:29:50.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 15,
+            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+            "tag": "lovvvvv",
+            "imageCredits": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 38,
+        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T18:26:40.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 14,
+            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+            "tag": "cj4efs",
+            "imageCredits": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 37,
+        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T18:25:54.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 5,
+            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+            "tag": "kitty",
+            "imageCredits": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 36,
+        "title": null,
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T18:22:35.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": null,
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 35,
+        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T18:22:35.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 1,
+            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
+            "tag": "love2",
+            "imageCredits": "love"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 34,
+        "title": null,
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T18:21:30.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 13,
+            "mediaUrl": "https://firebasestorage.googleapis.com/v0/b/quizator-be795.appspot.com/o/image%2Fpost%2F1543861277418?alt=media&token=6cc6e080-5d79-4746-8a19-5e25c31487be",
+            "tag": "eerfff",
+            "imageCredits": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 33,
+        "title": null,
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T18:20:40.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 12,
+            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+            "tag": "dddddd",
+            "imageCredits": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 32,
+        "title": null,
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T18:11:23.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": null,
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 31,
+        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T18:11:23.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 10,
+            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+            "tag": "kitttttty",
+            "imageCredits": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 30,
+        "title": null,
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T18:10:52.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 11,
+            "mediaUrl": "https://firebasestorage.googleapis.com/v0/b/quizator-be795.appspot.com/o/image%2Fpost%2F1543860639577?alt=media&token=05d4752e-5902-402b-ad03-7662d2a77d68",
+            "tag": "loveflower2",
+            "imageCredits": "love Pal Singh"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 29,
+        "title": null,
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T18:09:52.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 10,
+            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+            "tag": "kitttttty",
+            "imageCredits": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 28,
+        "title": null,
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T18:00:02.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": null,
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 27,
+        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T18:00:02.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 7,
+            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+            "tag": "mykitty",
+            "imageCredits": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 26,
+        "title": null,
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T17:55:54.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": null,
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 25,
+        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T17:55:54.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 1,
+            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
+            "tag": "love2",
+            "imageCredits": "love"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 24,
+        "title": null,
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T17:55:25.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 8,
+            "mediaUrl": "https://firebasestorage.googleapis.com/v0/b/quizator-be795.appspot.com/o/image%2Fpost%2F1543859706178?alt=media&token=9ac18784-aa26-4d41-9e66-72dbdbdc31ee",
+            "tag": "flowermy",
+            "imageCredits": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 23,
+        "title": null,
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T17:54:25.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 7,
+            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+            "tag": "mykitty",
+            "imageCredits": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 22,
+        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T17:46:22.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 6,
+            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+            "tag": "billy",
+            "imageCredits": "love"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 21,
+        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T17:45:23.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 6,
+            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+            "tag": "billy",
+            "imageCredits": "love"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 20,
+        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T17:45:10.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 6,
+            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+            "tag": "billy",
+            "imageCredits": "love"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 19,
+        "title": "ionViewDidLoad MaincategoryPage",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T17:42:52.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 4,
+            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
+            "tag": "nature",
+            "imageCredits": "love"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 18,
+        "title": "ionViewDidLoad MaincategoryPage",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T17:41:11.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 4,
+            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
+            "tag": "nature",
+            "imageCredits": "love"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 17,
+        "title": "ionViewDidLoad MaincategoryPage",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T17:41:02.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 4,
+            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
+            "tag": "nature",
+            "imageCredits": "love"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 16,
+        "title": "ionViewDidLoad MaincategoryPage",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T17:40:54.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 4,
+            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
+            "tag": "nature",
+            "imageCredits": "love"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 15,
+        "title": "ionViewDidLoad MaincategoryPage",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T17:36:11.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 5,
+            "mediaUrl": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+            "tag": "kitty",
+            "imageCredits": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 14,
+        "title": "ionViewDidLoad MaincategoryPage",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T17:35:25.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 4,
+            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
+            "tag": "nature",
+            "imageCredits": "love"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 13,
+        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T17:27:10.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": null,
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 12,
+        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T17:27:10.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 4,
+            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
+            "tag": "nature",
+            "imageCredits": "love"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 11,
+        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T17:23:33.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": null,
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 10,
+        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T17:23:33.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 4,
+            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
+            "tag": "nature",
+            "imageCredits": "love"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 9,
+        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T17:17:15.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": null,
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 8,
+        "title": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T17:17:15.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 4,
+            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
+            "tag": "nature",
+            "imageCredits": "love"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 7,
+        "title": "This is another random fact",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T15:53:14.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 4,
+            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
+            "tag": "nature",
+            "imageCredits": "love"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 6,
+        "title": "This is another random fact",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T15:52:08.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 4,
+            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
+            "tag": "nature",
+            "imageCredits": "love"
+        },
+        "post_category_id": {
+            "id": 2,
+            "category": "level1-1",
+            "parentId": 1,
+            "category_media": "https://res.cloudinary.com/demo/image/upload/kitten_fighting.gif"
+        }
+    }, {
+        "post_id": 5,
+        "title": "This is another random fact",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T15:44:35.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 3,
+            "mediaUrl": "https://firebasestorage.googleapis.com/v0/b/quizator-be795.appspot.com/o/image%2Fpost%2F1543851822746?alt=media&token=112bb7ba-40d5-4acc-95e2-1f3c1d0e6c93",
+            "tag": "flower",
+            "imageCredits": "love"
+        },
+        "post_category_id": {
+            "id": 3,
+            "category": "level2-1",
+            "parentId": 5,
+            "category_media": "www.google.com"
+        }
+    }, {
+        "post_id": 4,
+        "title": "This is a random fact",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T15:41:32.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 2,
+            "mediaUrl": null,
+            "tag": "nature",
+            "imageCredits": "www.gstatic.com"
+        },
+        "post_category_id": {
+            "id": 14,
+            "category": "My New Category",
+            "parentId": 2,
+            "category_media": "https://firebasestorage.googleapis.com/v0/b/quizator-be795.appspot.com/o/image%2Fpost%2F1543517313377?alt=media&token=2e314143-d968-4f84-9898-c99e9727a61b"
+        }
+    }, {
+        "post_id": 3,
+        "title": "This is a random fact",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-12-03T15:39:08.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 1,
+            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
+            "tag": "love2",
+            "imageCredits": "love"
+        },
+        "post_category_id": {
+            "id": 14,
+            "category": "My New Category",
+            "parentId": 2,
+            "category_media": "https://firebasestorage.googleapis.com/v0/b/quizator-be795.appspot.com/o/image%2Fpost%2F1543517313377?alt=media&token=2e314143-d968-4f84-9898-c99e9727a61b"
+        }
+    }, {
+        "post_id": 2,
+        "title": "cdhjknljkjyghjgjhkj",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-11-30T21:12:23.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": {
+            "id": 1,
+            "mediaUrl": "https://www.gstatic.com/webp/gallery/1.jpg",
+            "tag": "love2",
+            "imageCredits": "love"
+        },
+        "post_category_id": {
+            "id": 3,
+            "category": "level2-1",
+            "parentId": 5,
+            "category_media": "www.google.com"
+        }
+    }, {
+        "post_id": 1,
+        "title": "cdhjknljkjyghjgjhkj",
+        "options": [],
+        "post_type": "3",
+        "post_desc": null,
+        "post_time": "2018-11-30T21:00:36.000+0000",
+        "post_state": "1",
+        "search_tag": null,
+        "blogger_id": 1,
+        "post_media_id": null,
+        "post_category_id": {
+            "id": 3,
+            "category": "level2-1",
+            "parentId": 5,
+            "category_media": "www.google.com"
+        }
+    }];
+//# sourceMappingURL=mock-post.js.map
+
+/***/ }),
+
+/***/ 585:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WelcomePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_storage__ = __webpack_require__(121);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_storage_util_storage_util__ = __webpack_require__(397);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_session_util_session_util__ = __webpack_require__(399);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_server_util_serverUtil__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_storage__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_storage_util_storage_util__ = __webpack_require__(338);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_session_util_session_util__ = __webpack_require__(340);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_server_util_serverUtil__ = __webpack_require__(57);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2292,7 +3530,7 @@ var WelcomePage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 696:
+/***/ 587:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2317,7 +3555,7 @@ var App_Constants = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 697:
+/***/ 588:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2338,7 +3576,7 @@ var session = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 698:
+/***/ 589:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2431,7 +3669,42 @@ var BasicDetailPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 699:
+/***/ 59:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Context; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var Context = /** @class */ (function () {
+    function Context() {
+    }
+    Context_1 = Context;
+    Context.set = function (key, val) {
+        Context_1.contextObject.set(key, val);
+    };
+    Context.get = function (key) {
+        return Context_1.contextObject.get(key);
+    };
+    Context.contextObject = new Map();
+    Context = Context_1 = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])()
+    ], Context);
+    return Context;
+    var Context_1;
+}());
+
+//# sourceMappingURL=context.js.map
+
+/***/ }),
+
+/***/ 590:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2476,7 +3749,301 @@ var AddBlogPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 700:
+/***/ 591:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AddPostPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_text_util_text_util__ = __webpack_require__(186);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__category_category__ = __webpack_require__(344);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_ImageUtil__ = __webpack_require__(113);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_context__ = __webpack_require__(59);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_storage__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__providers_post_client_api_post_client_api__ = __webpack_require__(204);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__category_subcategory_subcategory__ = __webpack_require__(187);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_image_selector_image_selector__ = __webpack_require__(203);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+
+
+var AddPostPage = /** @class */ (function () {
+    function AddPostPage(alertCtrl, postClient, storage, toastCtrl, imageUtil, platform, navCtrl, textUtil) {
+        this.alertCtrl = alertCtrl;
+        this.postClient = postClient;
+        this.storage = storage;
+        this.toastCtrl = toastCtrl;
+        this.imageUtil = imageUtil;
+        this.platform = platform;
+        this.navCtrl = navCtrl;
+        this.textUtil = textUtil;
+        this.option = "";
+        this.items = [];
+        this.post_type = "quiz";
+        this.data = {};
+        this.category = "Select Category";
+        this.isImage = false;
+        this.isquiz = true;
+        this.isImageUploaded = false;
+        this.isTagPicked = false;
+        this.isImageURL = false;
+        this.errors = '';
+    }
+    AddPostPage.prototype.cancel = function () {
+        this.navCtrl.pop();
+    };
+    AddPostPage.prototype.draft = function () {
+        this.storage.set("isDraft", true);
+        if (this.question != null)
+            this.storage.set("question", this.question);
+        if (this.description != null)
+            this.storage.set("description", this.description);
+        if (this.image != null)
+            this.storage.set("image", this.image);
+        if (this.post_type != null)
+            this.storage.set("post_type", this.post_type);
+        if (this.correct_option != null)
+            this.storage.set("correct_option", this.correct_option);
+        if (this.items != null)
+            this.storage.set("items", this.items);
+        if (this.categoryId != null)
+            this.storage.set("categoryId", this.categoryId);
+        if (this.media_tag != null)
+            this.storage.set("media_tag", this.media_tag);
+        if (this.media_source != null)
+            this.storage.set("media_source", this.media_source);
+        if (this.search_tag != null)
+            this.storage.set("search_tag", this.search_tag);
+        this.cancel();
+    };
+    AddPostPage.prototype.validateFields = function () {
+        this.errors = '';
+        if (this.question == null || this.question.length < 10) {
+            this.errors += 'Question field - minimum 10 characters required \r\n ';
+            this.is_error = true;
+        }
+        if (this.search_tag == null || this.search_tag.length < 10) {
+            this.errors += 'Search Tag field - minimum 10 characters required \r\n ';
+            this.is_error = true;
+        }
+        if (this.categoryId == null || this.categoryId == 0) {
+            this.errors += 'Please select valid category \r\n ';
+            this.is_error = true;
+        }
+        if (this.post_type == "quiz" && this.correct_option == null) {
+            this.errors += 'Please select correct option \r\n ';
+            this.is_error = true;
+        }
+        if (this.post_type != "fact" && (this.items == null || this.items.length < 2)) {
+            this.errors += 'Please add more than one option(s) \r\n ';
+            this.is_error = true;
+        }
+        console.log(this.errors);
+        if (this.is_error) {
+            return false;
+        }
+        return true;
+    };
+    AddPostPage.prototype.post = function () {
+        var _this = this;
+        if (this.validateFields()) {
+            this.postClient.post(this.isTagPicked, this.isImageUploaded, this.mediaId, this.question, this.search_tag, this.image, this.media_tag, this.media_source, this.post_type, this.categoryId, this.correct_option, this.items, this.description).subscribe(function (d) {
+                console.log(_this.isTagPicked);
+                console.log(_this.isImageUploaded);
+                if (!_this.isTagPicked || _this.isImageUploaded) {
+                    _this.data.response = d["_body"];
+                    var data_array = JSON.stringify(d.json());
+                    var data_parsed = JSON.parse(data_array);
+                    var data_ = data_parsed.data;
+                    var media_id = data_.media_id;
+                    var opts = _this.postClient.getOptions(_this.correct_option, _this.items);
+                    var post = _this.postClient.createPost(_this.question, _this.search_tag, _this.description, _this.postClient.getPostType(_this.post_type), _this.categoryId, 1, opts, media_id);
+                    console.log(post);
+                    _this.postClient.addPost(post).subscribe(function (data) {
+                        _this.data.response = data["_body"];
+                        console.log(_this.data.response);
+                        _this.removeImage(false);
+                    }, function (error) {
+                        console.log("Oooops!");
+                        _this.removeImage(false);
+                    });
+                }
+                _this.data.response = d["_body"];
+                console.log(_this.data.response);
+                _this.removeImage(false);
+            }, function (error) {
+                switch (error.status) {
+                    case 409:
+                        _this.errors += 'Duplicate TagName \r\n ';
+                        break;
+                    default:
+                        _this.errors += 'Something Went Wrong \r\n ';
+                        break;
+                }
+                _this.removeImage(false);
+            });
+        }
+        else {
+            this.is_error = false;
+        }
+    };
+    AddPostPage.prototype.chooseCategory = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_3__category_category__["a" /* CategoryPage */]);
+    };
+    AddPostPage.prototype.addOption = function () {
+        if (this.option.length != 0) {
+            if (this.items.indexOf(this.option) == -1) {
+                this.items.push(this.option);
+                console.log(this.items.toString());
+                this.option = "";
+            }
+            else {
+                console.log("item already exists");
+            }
+        }
+        else {
+            console.log("item empty");
+        }
+    };
+    AddPostPage.prototype.trackByFn = function (index, item) {
+        return index;
+    };
+    AddPostPage.prototype.onEnter = function (index) {
+        this.addOption();
+    };
+    AddPostPage.prototype.optionChange = function (it, index) {
+        var elem = document.getElementById("option" + index);
+        console.log(elem.value + " " + index);
+    };
+    AddPostPage.prototype.updateOption = function (it, index) {
+        console.log(it + " " + index);
+        var itemIndex = this.items.findIndex(function (item) { return item.id == it.id; });
+        this.items[index] = it;
+    };
+    AddPostPage.prototype.deleteOption = function (item) {
+        if (this.items.indexOf(item) != -1) {
+            this.items.splice(this.items.indexOf(item), 1);
+            console.log(this.items.toString());
+        }
+        else {
+            console.log("item doesn't exist");
+        }
+    };
+    AddPostPage.prototype.change = function (index) {
+        //x get elements
+        var element = document.getElementById('messageInputBox' + index);
+        var textarea = element.getElementsByTagName('textarea')[0];
+        // set default style for textarea
+        textarea.style.minHeight = '0';
+        textarea.style.height = '0';
+        // limit size to 96 pixels (6 lines of text)
+        var scroll_height = textarea.scrollHeight;
+        if (scroll_height > 96)
+            scroll_height = 96;
+        // apply new style
+        element.style.height = scroll_height + "px";
+        textarea.style.minHeight = scroll_height + "px";
+        textarea.style.height = scroll_height + "px";
+    };
+    AddPostPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad AddPostPage');
+    };
+    AddPostPage.prototype.ionViewDidEnter = function () {
+        console.log('ionViewDidEnter AddPostPage');
+        var t = __WEBPACK_IMPORTED_MODULE_5__providers_context__["a" /* Context */].get("Tag");
+        if (t != null) {
+            console.log(t.tag);
+            this.media_tag = t.tag;
+            this.media_source = t.imageCredits;
+            this.image = t.mediaUrl;
+            this.isTagPicked = true;
+            this.mediaId = t.id;
+        }
+        if (__WEBPACK_IMPORTED_MODULE_8__category_subcategory_subcategory__["a" /* SubcategoryPage */].is_sub1_selected) {
+            console.log(__WEBPACK_IMPORTED_MODULE_8__category_subcategory_subcategory__["a" /* SubcategoryPage */].main_option2.id + " " + __WEBPACK_IMPORTED_MODULE_8__category_subcategory_subcategory__["a" /* SubcategoryPage */].main_option2.category + " " + __WEBPACK_IMPORTED_MODULE_8__category_subcategory_subcategory__["a" /* SubcategoryPage */].sub_option1.id + " " + __WEBPACK_IMPORTED_MODULE_8__category_subcategory_subcategory__["a" /* SubcategoryPage */].sub_option1.category);
+            this.categoryId = __WEBPACK_IMPORTED_MODULE_8__category_subcategory_subcategory__["a" /* SubcategoryPage */].sub_option1.id;
+            this.category = __WEBPACK_IMPORTED_MODULE_8__category_subcategory_subcategory__["a" /* SubcategoryPage */].sub_option1.category;
+        }
+    };
+    AddPostPage.prototype.removeImage = function (type) {
+        this.isImage = false;
+        this.image = null;
+        if (type) {
+            if (!this.isTagPicked && this.isImageUploaded)
+                this.imageUtil.removeImage();
+        }
+        __WEBPACK_IMPORTED_MODULE_5__providers_context__["a" /* Context */].set("photoURL", null);
+        __WEBPACK_IMPORTED_MODULE_5__providers_context__["a" /* Context */].set("Tag", null);
+        this.isImageUploaded = false;
+        this.search_tag = null;
+        this.media_tag = null;
+        this.media_source = null;
+        this.question = null;
+        this.isTagPicked = false;
+        this.isImageURL = false;
+        this.inputComponent.removeImage(false);
+    };
+    AddPostPage.prototype.onMediaTagChange = function (media_tag) {
+        this.media_tag = media_tag;
+    };
+    AddPostPage.prototype.onMediaSourceChange = function (media_source) {
+        this.media_source = media_source;
+    };
+    AddPostPage.prototype.onMediaChange = function (image) {
+        this.image = image;
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_9__components_image_selector_image_selector__["a" /* ImageSelectorComponent */]),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_9__components_image_selector_image_selector__["a" /* ImageSelectorComponent */])
+    ], AddPostPage.prototype, "inputComponent", void 0);
+    AddPostPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-add-post',template:/*ion-inline-start:"/Users/lavpal/My Workspace/quizator-client/src/pages/add-post/add-post.html"*/'<ion-content class="page-add-post">\n  <image-selector [(image)]="image" [(isTagPicked)]="isTagPicked" [(mediaId)]="mediaId" [(media_source)]="media_source" [(media_tag)]="media_tag" (mediaTagChange)="onMediaTagChange($event)" (mediaSourceChange)="onMediaSourceChange($event)" (imageChange)="onMediaChange($event)"></image-selector>\n  \n  <div id="post_detail">\n    <ion-row radio-group [(ngModel)]="post_type">\n\n      <ion-col>\n        <ion-item>\n          <ion-label>Quiz\n          </ion-label>\n          <ion-radio value="quiz" (click)="isquiz=true; post_type=\'quiz\';">\n          </ion-radio>\n        </ion-item>\n      </ion-col>\n      <ion-col>\n        <ion-item>\n          <ion-label>Poll<ion-icon name="poll"></ion-icon>\n          </ion-label>\n          <ion-radio value="poll" (click)="isquiz=false; post_type=\'poll\';"></ion-radio>\n        </ion-item>\n      </ion-col>\n      <ion-col>\n        <ion-item>\n          <ion-label>Fact<ion-icon name="poll"></ion-icon>\n          </ion-label>\n          <ion-radio value="fact" (click)="isquiz=false; post_type=\'fact\';"></ion-radio>\n        </ion-item>\n      </ion-col>\n    </ion-row>\n  </div>\n  <div id="container">\n    <ion-list>\n\n      <ion-item class="rounded" id="question">\n        <ion-textarea rows="1" id="messageInputBox1" maxlength="500" placeholder="Add Question" (input)="change(1)"\n          [(ngModel)]="question" required></ion-textarea>\n      </ion-item>\n      <div *ngIf="post_type!=\'fact\'">\n\n\n        <div *ngFor="let item of items ; let i = index trackBy:trackByFn">\n          <ion-row>\n            <ion-col col-10>\n              <ion-item>\n                  <input type="text" id="option{{i}}" [(ngModel)]="items[i]"/>\n                <!-- <ion-textarea rows="1" id="option{{i}}" value={{item}} (input)="optionChange(this,i)" required></ion-textarea> -->\n              </ion-item>\n            </ion-col>\n           \n            <ion-col col-2>\n              <button ion-button icon-only (click)="deleteOption(item)">\n                <ion-icon name="close"></ion-icon>\n              </button>\n            </ion-col>\n          </ion-row>\n        </div>\n\n        <ion-item class="rounded" id="option">\n          <ion-textarea rows="1" maxlength="50" id="messageInputBox" placeholder="Add Option" [(ngModel)]="option" (keyup.enter)="addOption()"\n            required></ion-textarea>\n        </ion-item>\n\n        <ion-item>\n          <button ion-button icon-start full (click)="addOption()">\n            <ion-icon name="md-add"></ion-icon>\n            Add Option\n          </button>\n        </ion-item>\n\n        <ion-row *ngIf="items.length>1&&isquiz" justify-content-center>\n          <ion-col>\n            <ion-select [(ngModel)]="correct_option" multiple="false" placeholder="Choose correct option" style=" max-width: 100% !important;">\n              <ion-option *ngFor="let item of items" value="{{item}}" selected="{{item}}">{{item}}</ion-option>\n            </ion-select>\n          </ion-col>\n        </ion-row>\n\n        <ion-item class="rounded" id="question">\n          <ion-textarea rows="1" maxlength="500" id="messageInputBox2" placeholder="Add Description" (input)="change(2)"\n            [(ngModel)]="description" required></ion-textarea>\n        </ion-item>\n        \n      </div>\n      <ion-item class="rounded" id="search_tag">\n          <ion-textarea rows="1" maxlength="50" id="messageInputBox3" placeholder="Add Search Tag" (input)="change(3)"\n            [(ngModel)]="search_tag" required></ion-textarea>\n        </ion-item>\n    </ion-list>\n\n\n    <div>\n      {{errors}}\n    </div>\n\n    <ion-row>\n      <button (click)="chooseCategory()" ion-button color="light" full>{{category}}</button>\n    </ion-row>\n    <ion-row justify-content-center>\n      <ion-col>\n        <button ion-button color="dark" round full (click)="cancel()">Cancel</button>\n      </ion-col>\n      <ion-col>\n        <button ion-button color="dark" round full (click)="submit()">Draft</button>\n      </ion-col>\n      <ion-col>\n        <button ion-button color="dark" round full (click)="post()">Post</button>\n      </ion-col>\n    </ion-row>\n\n  </div>\n\n\n</ion-content>'/*ion-inline-end:"/Users/lavpal/My Workspace/quizator-client/src/pages/add-post/add-post.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_7__providers_post_client_api_post_client_api__["a" /* PostClientApiProvider */], __WEBPACK_IMPORTED_MODULE_6__ionic_storage__["b" /* Storage */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */], __WEBPACK_IMPORTED_MODULE_4__providers_ImageUtil__["a" /* ImageUtil */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* Platform */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_2__providers_text_util_text_util__["a" /* TextUtilProvider */]])
+    ], AddPostPage);
+    return AddPostPage;
+}());
+
+//# sourceMappingURL=add-post.js.map
+
+/***/ }),
+
+/***/ 67:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return environment; });
+var environment = {
+    BASE_URL: "http://localhost:8080/",
+    POST_API: "post",
+    CATEGORY_API: "category",
+    PARENT_CATEGORY_PARAMS: "?type=main&parent=0",
+    TAG_FIND_API: "media/find?media_keyword=",
+    TAGNAME_API: "media"
+};
+//# sourceMappingURL=environment.js.map
+
+/***/ }),
+
+/***/ 703:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2521,7 +4088,7 @@ var ChatMainPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 701:
+/***/ 704:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2566,7 +4133,7 @@ var ChatListPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 702:
+/***/ 705:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2611,7 +4178,7 @@ var CommentPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 703:
+/***/ 706:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2656,7 +4223,7 @@ var MatchupPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 704:
+/***/ 707:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2701,7 +4268,7 @@ var NotificationPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 705:
+/***/ 708:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2746,7 +4313,7 @@ var SearchPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 706:
+/***/ 709:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2791,7 +4358,7 @@ var ViewBlogPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 707:
+/***/ 710:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2848,7 +4415,7 @@ var ViewPostPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 708:
+/***/ 711:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2893,7 +4460,7 @@ var MatchupPlayPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 709:
+/***/ 712:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2927,12 +4494,12 @@ var EmojiProvider = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 716:
+/***/ 719:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TagnameClientApiProvider; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(53);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2962,24 +4529,7 @@ var TagnameClientApiProvider = /** @class */ (function () {
 
 //# sourceMappingURL=tagname-client-api.js.map
 
-/***/ }),
-
-/***/ 87:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return environment; });
-var environment = {
-    BASE_URL: "http://localhost:8080/",
-    POST_API: "post",
-    CATEGORY_API: "category",
-    PARENT_CATEGORY_PARAMS: "?type=main&parent=0",
-    TAG_FIND_API: "media/find?media_keyword=",
-    TAGNAME_API: "media"
-};
-//# sourceMappingURL=environment.js.map
-
 /***/ })
 
-},[403]);
+},[404]);
 //# sourceMappingURL=main.js.map

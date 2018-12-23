@@ -60,6 +60,11 @@ import { TagnameClientApiProvider } from '../providers/tagname-client-api/tagnam
 import { TagnamePage } from '../pages/add-post/tagname/tagname';
 
 import { LongPressModule } from 'ionic-long-press';
+import { ImageSelectorComponent } from '../components/image-selector/image-selector';
+import { HomePageModule } from '../pages/home/home.module';
+import { PostItemModule } from '../components/post-item/postItem.module';
+
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 var firebaseConfig = {
   apiKey: "AIzaSyAh1EyYPn6Uhn8R9e9AT7wqfPA4aWp8IB4",
   authDomain: "quizator-be795.firebaseapp.com",
@@ -90,7 +95,8 @@ var firebaseConfig = {
     MatchupPlayPage,
     SubcategoryPage,
     CategoryPage,
-    TagnamePage
+    TagnamePage,
+    ImageSelectorComponent
   ],
   imports: [
     HttpModule,
@@ -176,6 +182,7 @@ var firebaseConfig = {
     Context,
     Crop,
     ImageUtil,
+    InAppBrowser,
    // { provide: LocationStrategy, useClass: PathLocationStrategy },
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     PostClientApiProvider,

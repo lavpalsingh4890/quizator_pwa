@@ -10,7 +10,7 @@ page-home {
     }
     
     .card .item-text-wrap {
-        background: silver;
+        background: color($colors, primary);
         height: 80%;
         display: flex;
         align-items: center;
@@ -18,5 +18,34 @@ page-home {
         word-wrap: break-word;
         padding: 10px;
         margin:1px;
+    }
+
+    .selected_correct{
+        background: green;
+        
+        }
+    .selected_incorrect{
+            background: red;
+        }
+
+
+    .post_image{
+        max-height: 700px;
+        min-width:200px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .post_image_container{
+        width:100%;
+        align-items: center;
+    }
+    .post_option{
+        background: color($colors, primary);
+        color: whitesmoke;
+    }
+
+    #post_desc_container{
+        margin-top: 10px;
     }
 }

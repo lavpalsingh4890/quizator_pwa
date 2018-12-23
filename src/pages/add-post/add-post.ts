@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, Platform, ToastController, AlertController } from 'ionic-angular';
 import { TextUtilProvider } from '../../providers/text-util/text-util';
 import { normalizeURL } from 'ionic-angular';
@@ -12,7 +12,8 @@ import { TagnamePage } from './tagname/tagname';
 import { Tag } from '../../entityModel/tag';
 import { Observable, of } from 'rxjs';
 import { Post } from '../../pojo/post';
-import { Post_Option } from '../../entityModel/post_option';
+import { Post_Option } from '../../pojo/post_option';
+import { ImageSelectorComponent } from '../../components/image-selector/image-selector';
 
 @IonicPage()
 @Component({
@@ -23,14 +24,13 @@ export class AddPostPage {
   private option: string = "";
   private items = [
   ];
-
   private question: string;
   private description: string;
   private search_tag: string;
-  private media_tag: string;
-  private media_source: string;
+  private media_tag;
+  private media_source;
   private post_type = "quiz";
-  private image: any;
+  private image;
   private correct_option: string;
   private data: any = {};
   private categoryId: number;
@@ -44,40 +44,15 @@ export class AddPostPage {
   private mediaId: number;
   private is_error: boolean;
 
-  constructor(public alertCtrl: AlertController, private postClient: PostClientApiProvider, private storage: Storage,
+  @ViewChild(ImageSelectorComponent) inputComponent: ImageSelectorComponent
+
+
+  constructor( public alertCtrl: AlertController, private postClient: PostClientApiProvider, private storage: Storage,
     private toastCtrl: ToastController, private imageUtil: ImageUtil, private platform: Platform, private navCtrl: NavController, private textUtil: TextUtilProvider) {
 
   }
-  removeImage(type: boolean) {
-    this.isImage = false;
-    this.image = null;
-    if (type) {
-      if (!this.isTagPicked && this.isImageUploaded)
-        this.imageUtil.removeImage();
-    }
-    Context.set("photoURL", null);
-    Context.set("Tag", null);
-    this.isImageUploaded = false;
 
-    this.search_tag = null;
-    this.media_tag = null;
-    this.media_source = null;
-    this.question = null;
-    this.isTagPicked = false;
-    this.isImageURL = false;
-  }
-  getImage() {
-    this.isImageURL = false;
-    this.imageUtil.getImage().then(imageData => {
-      this.isImage = true;
-      if (this.platform.is('ios'))
-        this.image = normalizeURL(imageData);
-      else
-        this.image = "data:image/jpeg;base64," + imageData;
-    }, error => {
-      console.log('ERROR -> ' + JSON.stringify(error));
-    });
-  }
+  
   cancel() {
     this.navCtrl.pop();
   }
@@ -142,7 +117,7 @@ export class AddPostPage {
           this.postClient.addPost(post).subscribe(data => {
             this.data.response = data["_body"];
             console.log(this.data.response);
-            this.removeImage(false);
+           this.removeImage(false);
           }, error => {
             console.log("Oooops!");
             this.removeImage(false);
@@ -165,10 +140,10 @@ export class AddPostPage {
 
         }
 
-        this.removeImage(false);
+       this.removeImage(false);
       });
-
-      // 
+    }else{
+     this.is_error =false;
     }
   }
 
@@ -242,7 +217,6 @@ export class AddPostPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddPostPage');
   }
-
   ionViewDidEnter() {
     console.log('ionViewDidEnter AddPostPage');
     var t: Tag = <Tag>Context.get("Tag");
@@ -262,28 +236,33 @@ export class AddPostPage {
       this.category = SubcategoryPage.sub_option1.category;
     }
   }
-  upload() {
-    if (!Context.get("isImageUploading")) {
-      Context.set("isImageUploading", true);
-      this.imageUtil.uploadImageToFirebase(this.image).then(photoURL => {
-        Context.set("isImageUploading", false);
-        Context.set("photoURL", photoURL);
-        this.image = photoURL;
-
-        this.isImageUploaded = true;
-        console.log(photoURL);
-        let toast = this.toastCtrl.create({
-          message: 'Image was uploaded successfully',
-          duration: 3000
-        });
-        toast.present();
-      })
+  removeImage(type: boolean) {
+    this.isImage = false;
+    this.image = null;
+    if (type) {
+      if (!this.isTagPicked && this.isImageUploaded)
+        this.imageUtil.removeImage();
     }
+    Context.set("photoURL", null);
+    Context.set("Tag", null);
+    this.isImageUploaded = false;
+
+    this.search_tag = null;
+    this.media_tag = null;
+    this.media_source = null;
+    this.question = null;
+    this.isTagPicked = false;
+    this.isImageURL = false;
+    this.inputComponent.removeImage(false);
   }
 
-  getTags() {
-    this.navCtrl.push(TagnamePage, { "keyword": this.media_tag });
+  onMediaTagChange(media_tag){
+    this.media_tag =media_tag;
   }
-
-
+  onMediaSourceChange(media_source){
+    this.media_source =media_source;
+  }
+  onMediaChange(image){
+    this.image =image;
+  }
 }
