@@ -65,6 +65,7 @@ import { HomePageModule } from '../pages/home/home.module';
 import { PostItemModule } from '../components/post-item/postItem.module';
 
 import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { QuickSettingModalPage } from '../pages/quick-setting-modal/quick-setting-modal';
 var firebaseConfig = {
   apiKey: "AIzaSyAh1EyYPn6Uhn8R9e9AT7wqfPA4aWp8IB4",
   authDomain: "quizator-be795.firebaseapp.com",
@@ -96,7 +97,8 @@ var firebaseConfig = {
     SubcategoryPage,
     CategoryPage,
     TagnamePage,
-    ImageSelectorComponent
+    ImageSelectorComponent,
+    QuickSettingModalPage
   ],
   imports: [
     HttpModule,
@@ -158,7 +160,8 @@ var firebaseConfig = {
     MatchupPlayPage,
     CategoryPage,
     SubcategoryPage,
-    TagnamePage
+    TagnamePage,
+    QuickSettingModalPage
   ],
   providers: [
     StatusBar,

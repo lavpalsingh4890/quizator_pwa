@@ -54,7 +54,8 @@ export class PostClientApiProvider {
       "post_desc": description,
       "blogger_id": blogger_id,
       "search_tag": search_tag,
-      "post_state":"1"
+      "post_state":"1",
+      "total_votes":0
     };
     return post_data;
   }

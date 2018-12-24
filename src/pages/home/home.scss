@@ -56,4 +56,16 @@ page-home {
     .post_title{
         font-size: 20px;
     }
+
+    #profile_pic{
+        border-radius: 50%;
+    }
+
+    #post_type{
+        background-color: color($colors, primary);
+        padding:0px;
+        margin:0px;
+        color:white;
+
+    }
 }

@@ -8,5 +8,6 @@ export interface Post {
     post_type: number;
     options:Post_Option[];
     search_tag:string;
+    total_votes:number;
    
   }
