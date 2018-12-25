@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, Modal, ModalOptions, ModalController } from 'ionic-angular';
 import { Context } from '../../providers/context';
+import { FavoriteCategoryPage } from '../favorite-category/favorite-category';
 
 @IonicPage()
 @Component({
@@ -13,14 +14,21 @@ export class QuickSettingModalPage {
   private quiz_button_color ="light";
   private fact_button_color ="light";
   private poll_button_color ="light";
+  private exclude_checkbox_state =false;
   private post_type:number=0;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController) {
+  constructor(public modal: ModalController,public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController) {
+    var state = Context.get("exclude_already_viewed");
+    if(state!=null){
+      this.exclude_checkbox_state = state;
+    }
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad QuickSettingModalPage');
     this.post_type = Context.get("post_type");
     this.initializePostType();
+
+   
   }
   initializePostType(){
     switch(this.post_type){
@@ -44,9 +52,17 @@ export class QuickSettingModalPage {
   set_PostType(post_type:number){
     Context.set("post_type",post_type);
     this.post_type = post_type;
-    this.dismiss (true);
+    this.dismiss(true);
   }
   dismiss (isUpdate) {
     this.viewCtrl.dismiss({"post_type" : this.post_type,"isUpdate":isUpdate});
+  }
+
+  goToFav (){
+    this.viewCtrl.dismiss({"goToFav":true});
+  }
+  exclude_already_viewed(x){
+    Context.set("exclude_already_viewed",x.checked);
+    this.viewCtrl.dismiss({"exclude_already_viewed":x.checked});
   }
 }

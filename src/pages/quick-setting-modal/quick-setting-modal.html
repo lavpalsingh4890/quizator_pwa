@@ -1,5 +1,5 @@
 <ion-content class="main-view">
-  <div class="overlay" (click)="dismiss()"></div>
+  <div class="overlay" (click)="dismiss(false)"></div>
   <ion-scroll class="modal_content" scrollY="true">
     <ion-grid>
       <ion-row>
@@ -30,7 +30,7 @@
         </ion-col>
       </ion-row>
       <ion-row align-items-start>
-        <ion-col  col-4 offset-1>
+        <ion-col col-4 offset-1>
           <ion-label>
             Post View Mode
           </ion-label>
@@ -59,10 +59,27 @@
         <ion-col>
           <ion-item style="background: #e8e8e8;">
             <ion-label>Exclude already viewed</ion-label>
-            <ion-checkbox color="dark" checked="false" (click)="dismiss ()"></ion-checkbox>
+            <ion-checkbox color="dark" checked="{{exclude_checkbox_state}}" (ionChange)="exclude_already_viewed($event)"></ion-checkbox>
           </ion-item>
         </ion-col>
       </ion-row>
+      <ion-row align-items-top justify-content-top>
+        <ion-col>
+          <ion-item style="background: #e8e8e8;">
+            <ion-label>Only Favorite Category</ion-label>
+            <ion-checkbox color="dark" checked="false" (click)="dismiss ()"></ion-checkbox>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+            <ion-col>
+                <button ion-button icon-only color="light" (click)="goToFav ()">
+                  <ion-icon name="heart"></ion-icon>
+                </button>
+      
+              </ion-col>
+        </ion-col>
+      </ion-row>
+     
     </ion-grid>
   </ion-scroll>
 </ion-content>

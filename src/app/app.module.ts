@@ -66,6 +66,7 @@ import { PostItemModule } from '../components/post-item/postItem.module';
 
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { QuickSettingModalPage } from '../pages/quick-setting-modal/quick-setting-modal';
+import { FavoriteCategoryPage } from '../pages/favorite-category/favorite-category';
 var firebaseConfig = {
   apiKey: "AIzaSyAh1EyYPn6Uhn8R9e9AT7wqfPA4aWp8IB4",
   authDomain: "quizator-be795.firebaseapp.com",
@@ -98,7 +99,8 @@ var firebaseConfig = {
     CategoryPage,
     TagnamePage,
     ImageSelectorComponent,
-    QuickSettingModalPage
+    QuickSettingModalPage,
+    FavoriteCategoryPage
   ],
   imports: [
     HttpModule,
@@ -161,7 +163,8 @@ var firebaseConfig = {
     CategoryPage,
     SubcategoryPage,
     TagnamePage,
-    QuickSettingModalPage
+    QuickSettingModalPage,
+    FavoriteCategoryPage
   ],
   providers: [
     StatusBar,

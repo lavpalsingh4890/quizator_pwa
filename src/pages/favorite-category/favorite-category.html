@@ -1,0 +1,57 @@
+<ion-content class="main-view">
+  <div class="overlay" (click)="dismiss()"></div>
+  <ion-scroll class="modal_content" scrollY="true">
+    <ion-grid>
+      <ion-row align-items-center>
+        <ion-col col-10>
+          <ion-item>
+            <ion-label floating>Search Category</ion-label>
+            <ion-input type="text" [(ngModel)]="keyword"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col col-2>
+          <button ion-button icon-only color="light" (click)="getCategory()">
+            <ion-icon name="{{search_button}}"></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid>
+      <div *ngIf="!search_mode" id="fav_container" no-padding>
+        <ion-row justify-content-center align-items-center no-padding>
+          <ion-col align-self-center col-4 *ngFor="let fav of favList; let idx = index" id="fav_container_{{idx}}"
+            text-wrap text-center>
+            <ion-card no-padding>
+              <img *ngIf="fav.category.category_media" class="fav_img" onerror="this.style.display='none'" src="{{fav.category.category_media}}">
+              <p id="fav_{{idx}}" no-padding>
+                {{fav.category.category}}
+              </p>
+              <button ion-button small icon-only clear id="fav_icon_{{idx}}" color="dark" (click)="removeFavorite(fav.category.id,idx)">
+                <ion-icon name="close"></ion-icon>
+              </button>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </div>
+
+      <div *ngIf="search_mode" id="fav_container" no-padding>
+        <ion-row justify-content-center align-items-center no-padding>
+          <ion-col align-self-center col-4 *ngFor="let fav of favList; let idx = index" id="fav_container_{{idx}}"
+            text-wrap text-center>
+            <ion-card no-padding>
+
+             
+              <img *ngIf="fav.category_media" class="fav_img" onerror="this.style.display='none'" src="{{fav.category_media}}">
+              <p id="fav_{{idx}}" no-padding>
+                {{fav.category}}
+              </p>
+              <button ion-button small icon-only clear id="fav_button_{{idx}}" color="danger" (click)="this.color='dark';addFavorite(fav.id,idx)">
+                  <ion-icon id="fav_icon_{{idx}}" name="heart"></ion-icon>
+                </button>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </div>
+    </ion-grid>
+  </ion-scroll>
+</ion-content>

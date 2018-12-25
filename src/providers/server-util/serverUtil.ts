@@ -14,7 +14,7 @@ export class ServerUtil {
     }
 public static getHeaders(){
   let headers = new Headers();
-  //       headers.append('Origin' , 'http://127.0.0.1:8100');
+      // headers.append('Origin' , 'http://127.0.0.1:8100');
         headers.append('Access-Control-Allow-Origin' , '*');
         headers.append('Access-Control-Allow-Methods', 'POST, GET, PUT');
        headers.append('Accept','application/json');

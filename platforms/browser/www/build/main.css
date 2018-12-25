@@ -25674,6 +25674,52 @@ ion-navbar.toolbar {
   min-height: calc(46px + env(safe-area-inset-bottom));
 }
 
+#header {
+  background: #222;
+}
+
+.toolbar-background {
+  background-color: #488aff;
+}
+
+.main-view {
+  background: transparent;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: .5;
+  background-color: #333;
+}
+
+.modal_content {
+  position: absolute;
+  top: calc(50% - (50%/2));
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 50%;
+  padding: 10px;
+  z-index: 100;
+  margin: 0 auto;
+  padding: 10px;
+  color: #333;
+  background: #e8e8e8;
+  background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#e8e8e8));
+  background: linear-gradient(to bottom, #fff 0%, #e8e8e8 100%);
+  border-radius: 5px;
+  -webkit-box-shadow: 0 2px 3px rgba(51, 51, 51, 0.35);
+  box-shadow: 0 2px 3px rgba(51, 51, 51, 0.35);
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  overflow: hidden;
+}
+
 image-selector #post_image_container {
   height: 50%;
   width: 100%;
@@ -25840,6 +25886,11 @@ page-category .error_text {
   font-size: 10px;
 }
 
+.fav_img {
+  width: 100%;
+  height: 70px;
+}
+
 page-home .wrap {
   word-wrap: break-word;
   -webkit-box-pack: center;
@@ -25855,7 +25906,7 @@ page-home .card {
 }
 
 page-home .card .item-text-wrap {
-  background: silver;
+  background: #488aff;
   height: 80%;
   display: -webkit-box;
   display: -webkit-flex;
@@ -25876,10 +25927,12 @@ page-home .card .item-text-wrap {
 
 page-home .selected_correct {
   background: green;
+  color: whitesmoke;
 }
 
 page-home .selected_incorrect {
   background: red;
+  color: whitesmoke;
 }
 
 page-home .post_image {
@@ -25899,7 +25952,31 @@ page-home .post_image_container {
 }
 
 page-home .post_option {
-  background: silver;
+  background: #488aff;
+  color: whitesmoke;
+}
+
+page-home #post_desc_container {
+  margin-top: 10px;
+}
+
+page-home #post_date {
+  color: grey;
+}
+
+page-home .post_title {
+  font-size: 20px;
+}
+
+page-home #profile_pic {
+  border-radius: 50%;
+}
+
+page-home #post_type {
+  background-color: #488aff;
+  padding: 0px;
+  margin: 0px;
+  color: white;
 }
 
 .container {

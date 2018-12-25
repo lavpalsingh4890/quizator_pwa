@@ -1,5 +1,6 @@
 <ion-header>
   <ion-navbar>
+    
     <ion-grid>
       <ion-row align-items-center justify-content-center>
 
@@ -67,18 +68,14 @@
     </button>
   </ion-fab>
   <ion-card *ngIf="post_type_label" id="post_type">
-
     <ion-label>
       {{post_type_label}}
     </ion-label>
   </ion-card>
   <ion-list>
     <ion-item *ngFor="let post of posts; let m_id = index">
-
       <ion-row>
         <ion-card>
-
-
           <div class="post_image_container" *ngIf="post.post_media_id">
             <img onerror="this.style.display='none'" class="post_image" id="post_media_{{m_id}}" src="{{post.post_media_id.mediaUrl}}" />
           </div>
@@ -91,38 +88,29 @@
           </ion-col>
         </ion-row>
       </div>
-
-
-
-      <div id="post_option_container" *ngIf="post.options">
-        <ion-row justify-content-center align-items-center>
-
-          <ion-col align-self-stretch col-6 *ngFor="let post_option of post.options; let idx = index" id="post_option_container_{{m_id}}_{{idx}}"
+      <div id="post_option_container" *ngIf="post.options" no-padding>
+        <ion-row justify-content-center align-items-center no-padding>
+          <ion-col align-self-stretch col-5 *ngFor="let post_option of post.options; let idx = index" id="post_option_container_{{m_id}}_{{idx}}"
             (click)="tapOption(post,post_option,idx,m_id)" text-wrap text-center>
-            <ion-card [class.selected_correct]="post_option === selectedOption && idx === currentSelected && is_correct"
-              [class.selected_incorrect]="post_option === selectedOption && idx === currentSelected && !is_correct">
-
-
+            <ion-card [class.selected_correct]="post_option === selectedOption && idx === currentSelected && is_correct &&post.post_type === '1'"
+              [class.selected_incorrect]="post_option === selectedOption && idx === currentSelected && !is_correct &&post.post_type === '1'">
               <ion-row>
                 <ion-col>
-                  <p [class.selected_correct]="post_option === selectedOption && idx === currentSelected && is_correct"
-                    [class.selected_incorrect]="post_option === selectedOption && idx === currentSelected && !is_correct"
+                  <p [class.selected_correct]="post_option === selectedOption && idx === currentSelected && is_correct &&post.post_type === '1'"
+                    [class.selected_incorrect]="post_option === selectedOption && idx === currentSelected && !is_correct && post.post_type === '1'"
                     id="post_option_{{m_id}}_{{idx}}" padding>
                     {{post_option.option}}
-
                   </p>
                 </ion-col>
               </ion-row>
-              <ion-row *ngIf="post.post_type === '2'" id="post_option_div_{{m_id}}_{{idx}}" >
+              <ion-row *ngIf="post.post_type === '2'" id="post_option_div_{{m_id}}_{{idx}}">
                 <ion-col>
                   <div id="post_option_div_label_{{m_id}}_{{idx}}">
                   </div>
                 </ion-col>
               </ion-row>
-
             </ion-card>
           </ion-col>
-
         </ion-row>
       </div>
       <div id="post_desc_container" *ngIf="post.post_desc && post_viewed.has(post.post_id)">
@@ -169,11 +157,11 @@
 
       <ion-item-divider color="light" no-padding id="post_date">
         <ion-row justify-content-end>
-          <div *ngIf="checkIfExists(post.post_id)">
+          <div *ngIf="post_viewed.has(post.post_id)">
             <ion-col col-1>
               <ion-icon ios="ios-done-all" md="md-done-all"></ion-icon>
             </ion-col>
-            <ion-col col-1 *ngIf="checkIfCorrect(post.post_id)">
+            <ion-col col-1 *ngIf="(checkIfCorrect(post.post_id) ||is_correct)&& post.post_type === '1' ">
               <ion-icon name="happy"></ion-icon>
             </ion-col>
           </div>

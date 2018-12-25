@@ -26,6 +26,7 @@ import { FCM } from '@ionic-native/fcm';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
+  title ="Quizator";
   rootPage: any = HomePage;
 
   pages: Array<{title: string, component: any}>;
@@ -65,7 +66,8 @@ export class MyApp {
   }
 
   openPage(page) {
-
+  
     this.nav.setRoot(page.component);
+   
   }
 }
