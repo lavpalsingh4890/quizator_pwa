@@ -60,12 +60,35 @@ page-home {
     #profile_pic{
         border-radius: 50%;
     }
-
+    #category_pic{
+        width:40px;
+        height:40px;
+        border-radius: 50%;
+    }
     #post_type{
         background-color: color($colors, primary);
         padding:0px;
         margin:0px;
         color:white;
 
+    }
+
+    #notification-button {            
+        position: relative;
+        width: 42px;
+        top:1px;
+        right: 1px;
+        overflow: visible!important;
+    }
+
+
+#notifications-badge {
+        background-color: red;
+        position: absolute;
+        top: 3px;
+        right: 5px;
+        font-size: 10px;
+        padding: 3px;
+        border-radius: 100%;
     }
 }

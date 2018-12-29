@@ -65,4 +65,7 @@ export class QuickSettingModalPage {
     Context.set("exclude_already_viewed",x.checked);
     this.viewCtrl.dismiss({"exclude_already_viewed":x.checked});
   }
+  post_view_mode(view_mode){
+    this.viewCtrl.dismiss({"post_view_mode":view_mode});
+  }
 }

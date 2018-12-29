@@ -27,6 +27,7 @@ export class AddPostPage {
   private question: string;
   private description: string;
   private search_tag: string;
+  private category_tag:string;
   private media_tag;
   private media_source;
   private post_type = "quiz";
@@ -43,6 +44,7 @@ export class AddPostPage {
   private errors: string = '';
   private mediaId: number;
   private is_error: boolean;
+
 
   @ViewChild(ImageSelectorComponent) inputComponent: ImageSelectorComponent
 
@@ -102,7 +104,7 @@ export class AddPostPage {
   }
   post() {
     if (this.validateFields()) {
-      this.postClient.post(this.isTagPicked, this.isImageUploaded, this.mediaId, this.question, this.search_tag, this.image, this.media_tag, this.media_source, this.post_type, this.categoryId, this.correct_option, this.items, this.description).subscribe(d => {
+      this.postClient.post(this.isTagPicked, this.isImageUploaded, this.mediaId, this.question, this.search_tag, this.image, this.media_tag, this.media_source, this.post_type, this.categoryId, this.correct_option, this.items, this.description,this.category_tag).subscribe(d => {
         console.log(this.isTagPicked);
         console.log(this.isImageUploaded);
         if (!this.isTagPicked || this.isImageUploaded) {
@@ -113,7 +115,7 @@ export class AddPostPage {
           let media_id = data_.media_id;
           var opts: Post_Option[] = this.postClient.getOptions(this.correct_option, this.items);
           console.log(opts);
-          var post: Post = this.postClient.createPost(this.question, this.search_tag, this.description, this.postClient.getPostType(this.post_type), this.categoryId, 1, opts, media_id);
+          var post: Post = this.postClient.createPost(this.question, this.search_tag, this.description, this.postClient.getPostType(this.post_type), this.categoryId, 1, opts, media_id,this.category_tag);
           console.log(post);
           this.postClient.addPost(post,this.mediaId,this.categoryId).subscribe(data => {
             this.data.response = data["_body"];

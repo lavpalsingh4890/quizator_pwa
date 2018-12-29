@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    
+
     <ion-grid>
       <ion-row align-items-center justify-content-center>
 
@@ -24,14 +24,17 @@
           <ion-fab middle right>
             <button ion-fab (click)="myAlert_show()">
               <ion-icon ios="ios-shuffle" md="md-shuffle"></ion-icon>
+
             </button>
           </ion-fab>
 
         </ion-col>
         <ion-col>
           <ion-fab middle right>
-            <button ion-fab mini (click)="myAlert_show()">
-              <ion-icon ios="ios-chatbubbles" md="md-chatbubbles"></ion-icon>
+            <button id="notification-button" ion-fab mini (click)="myAlert_show()">
+              <ion-icon ios="ios-chatbubbles" md="md-chatbubbles">
+                <ion-badge id="notifications-badge" color="danger">999</ion-badge>
+              </ion-icon>
             </button>
           </ion-fab>
 
@@ -62,17 +65,228 @@
 </ion-header>
 
 <ion-content>
-  <ion-fab bottom right>
+  <ion-fab top right>
     <button (click)="open_Modal ()" ion-fab mini>
       <ion-icon name="settings"></ion-icon>
     </button>
   </ion-fab>
-  <ion-card *ngIf="post_type_label" id="post_type">
+  <ion-card *ngIf="post_type_label && post_view_mode!=2" id="post_type">
     <ion-label>
       {{post_type_label}}
     </ion-label>
   </ion-card>
-  <ion-list>
+  <div *ngIf="post_view_mode==2 && single_post">
+    <div *ngFor="let post of single_post">
+      <ion-fab *ngIf="(post && post.post_type==3) || (post && post.options && post.options.length==0)" bottom right>
+        <button (click)="next()" ion-fab mini>
+          <ion-icon name="fastforward"></ion-icon>
+        </button>
+      </ion-fab>
+      <ion-fab *ngIf="post && post.post_type==3 && current_post_id" bottom left>
+          <button (click)="prev()" ion-fab mini>
+            <ion-icon name="rewind"></ion-icon>
+          </button>
+        </ion-fab>
+      <div class="post_image_container" *ngIf="post && post.post_media_id">
+        <img onerror="this.style.display='none'" class="post_image" id="post_media_{{m_id}}" src="{{post.post_media_id.mediaUrl}}" />
+      </div>
+      <ion-item-divider color="light" no-padding id="post_date">
+        <ion-row justify-content-end>
+          <div *ngIf="post_viewed && post && post_viewed.has(post.post_id)">
+            <ion-col col-1>
+              <ion-icon ios="ios-done-all" md="md-done-all"></ion-icon>
+            </ion-col>
+            <ion-col col-1 *ngIf="(checkIfCorrect(post.post_id) ||is_correct)&& post.post_type === '1' ">
+              <ion-icon name="happy"></ion-icon>
+            </ion-col>
+          </div>
+
+          <ion-col *ngIf="post" text-center>
+            {{post.post_time| date: 'mediumDate'}}
+          </ion-col>
+        </ion-row>
+      </ion-item-divider>
+      <div class="post_title_container" *ngIf="post && post.title">
+        <ion-row no-padding>
+          <ion-col text-center text-wrap>
+            <p class="post_title" style="position:relative; color: black" id="post_title_{{m_id}}">{{post.title}}</p>
+          </ion-col>
+        </ion-row>
+      </div>
+      <div id="post_option_container" *ngIf="post && post.options" no-padding>
+        <ion-row justify-content-center align-items-center no-padding>
+          <ion-col align-self-stretch col-5 *ngFor="let post_option of post.options; let idx = index" id="post_option_container_{{m_id}}_{{idx}}"
+            (click)="tapOption(post,post_option,idx,0)" text-wrap text-center>
+            <ion-card [class.selected_correct]="post_option === selectedOption && idx === currentSelected && is_correct &&post.post_type === '1'"
+              [class.selected_incorrect]="post_option === selectedOption && idx === currentSelected && !is_correct &&post.post_type === '1'">
+              <ion-row>
+                <ion-col>
+                  <p [class.selected_correct]="post_option === selectedOption && idx === currentSelected && is_correct &&post.post_type === '1'"
+                    [class.selected_incorrect]="post_option === selectedOption && idx === currentSelected && !is_correct && post.post_type === '1'"
+                    id="post_option_{{m_id}}_{{idx}}" padding>
+                    {{post_option.option}}
+                  </p>
+                </ion-col>
+              </ion-row>
+              <ion-row *ngIf="post.post_type === '2'" id="post_option_div_{{m_id}}_{{idx}}">
+                <ion-col>
+                  <div id="post_option_div_label_{{m_id}}_{{idx}}">
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </div>
+      <div id="post_desc_container" *ngIf="post && post.post_desc && post_viewed.has(post.post_id)" no-padding>
+        <ion-row>
+          <ion-col text-left text-wrap>
+            <p style="position:relative; color: black; font-size: 15px">
+              {{post.post_desc}}
+            </p>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="post.post_media_id && post.post_media_id.imageCredits" no-padding>
+          <ion-col text-left text-wrap>
+            <p style="position:relative; color: grey; font-size: 10px">
+              Image Credits : {{post.post_media_id.imageCredits}}
+            </p>
+          </ion-col>
+        </ion-row>
+      </div>
+      <div id="post_category_container" *ngIf="post && post.post_category_id">
+        <ion-row align-items-center no-padding>
+
+          <ion-col col-3>
+            <div id="post_web_search_container" *ngIf="post.search_tag && post_viewed.has(post.post_id)">
+              <button ion-button (click)="searchOnWeb(post.search_tag)" clear>
+                Read more
+              </button>
+            </div>
+          </ion-col>
+          <ion-col col-7 text-end>
+            <p style="position:relative; color: black" *ngIf="post.post_category_id && post.post_category_id.category"
+              text-wrap>
+              {{post.post_category_id.category}}</p>
+          </ion-col>
+          <ion-col col-2>
+            <img id="category_pic" onerror="this.style.display='none'" *ngIf="post.post_category_id && post.post_category_id.category_media"
+              src="{{post.post_category_id.category_media}}">
+
+
+
+          </ion-col>
+        </ion-row>
+      </div>
+
+
+    </div>
+  </div>
+  <!-- direction="vertical" -->
+
+
+  <ion-slides #slides pager='true' (ionSlideDidChange)="onSlideChanged()"  effect="slide" *ngIf="post_view_mode==1" style="position:absolute; bottom: 0;left: 0;right: 0; ">
+    <ion-slide *ngFor="let post of posts; let m_id = index">
+      <ion-content>
+        <div class="post_image_container" *ngIf="post.post_media_id">
+          <img onerror="this.style.display='none'" class="post_image" id="post_media_{{m_id}}" src="{{post.post_media_id.mediaUrl}}" />
+        </div>
+        <ion-item-divider color="light" no-padding id="post_date">
+          <ion-row justify-content-end>
+            <div *ngIf="post_viewed.has(post.post_id)">
+              <ion-col col-1>
+                <ion-icon ios="ios-done-all" md="md-done-all"></ion-icon>
+              </ion-col>
+              <ion-col col-1 *ngIf="(checkIfCorrect(post.post_id) ||is_correct)&& post.post_type === '1' ">
+                <ion-icon name="happy"></ion-icon>
+              </ion-col>
+            </div>
+
+            <ion-col text-right>
+              {{post.post_time| date: 'mediumDate'}}
+            </ion-col>
+          </ion-row>
+        </ion-item-divider>
+        <div class="post_title_container" *ngIf="post.title">
+          <ion-row no-padding>
+            <ion-col text-center text-wrap>
+              <p class="post_title" style="position:relative; color: black" id="post_title_{{m_id}}">{{post.title}}</p>
+            </ion-col>
+          </ion-row>
+        </div>
+        <div id="post_option_container" *ngIf="post.options" no-padding>
+          <ion-row justify-content-center align-items-center no-padding>
+            <ion-col align-self-stretch col-5 *ngFor="let post_option of post.options; let idx = index" id="post_option_container_{{m_id}}_{{idx}}"
+              (click)="tapOption(post,post_option,idx,m_id)" text-wrap text-center>
+              <ion-card [class.selected_correct]="post_option === selectedOption && idx === currentSelected && is_correct &&post.post_type === '1'"
+                [class.selected_incorrect]="post_option === selectedOption && idx === currentSelected && !is_correct &&post.post_type === '1'">
+                <ion-row>
+                  <ion-col>
+                    <p [class.selected_correct]="post_option === selectedOption && idx === currentSelected && is_correct &&post.post_type === '1'"
+                      [class.selected_incorrect]="post_option === selectedOption && idx === currentSelected && !is_correct && post.post_type === '1'"
+                      id="post_option_{{m_id}}_{{idx}}" padding>
+                      {{post_option.option}}
+                    </p>
+                  </ion-col>
+                </ion-row>
+                <ion-row *ngIf="post.post_type === '2'" id="post_option_div_{{m_id}}_{{idx}}">
+                  <ion-col>
+                    <div id="post_option_div_label_{{m_id}}_{{idx}}">
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </div>
+        <div id="post_desc_container" *ngIf="post.post_desc && post_viewed.has(post.post_id)" no-padding>
+          <ion-row>
+            <ion-col text-left text-wrap>
+              <p style="position:relative; color: black; font-size: 15px">
+                {{post.post_desc}}
+              </p>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="post.post_media_id && post.post_media_id.imageCredits" no-padding>
+            <ion-col text-left text-wrap>
+              <p style="position:relative; color: grey; font-size: 10px">
+                Image Credits : {{post.post_media_id.imageCredits}}
+              </p>
+            </ion-col>
+          </ion-row>
+        </div>
+        <div id="post_category_container" *ngIf="post.post_category_id">
+          <ion-row align-items-center no-padding>
+
+            <ion-col col-3>
+              <div id="post_web_search_container" *ngIf="post.search_tag && post_viewed.has(post.post_id)">
+                <button ion-button (click)="searchOnWeb(post.search_tag)" clear>
+                  Read more
+                </button>
+              </div>
+            </ion-col>
+            <ion-col col-7 text-end>
+              <p style="position:relative; color: black" *ngIf="post.post_category_id && post.post_category_id.category"
+                text-wrap>
+                {{post.post_category_id.category}}</p>
+            </ion-col>
+            <ion-col col-2>
+              <img id="category_pic" onerror="this.style.display='none'" *ngIf="post.post_category_id && post.post_category_id.category_media"
+                src="{{post.post_category_id.category_media}}">
+
+
+
+            </ion-col>
+          </ion-row>
+        </div>
+
+
+
+      </ion-content>
+    </ion-slide>
+  </ion-slides>
+
+  <ion-list *ngIf="post_view_mode==0">
     <ion-item *ngFor="let post of posts; let m_id = index">
       <ion-row>
         <ion-card>
@@ -174,7 +388,7 @@
     </ion-item>
   </ion-list>
 
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+  <ion-infinite-scroll *ngIf="post_view_mode==0" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data..."></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>

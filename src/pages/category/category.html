@@ -24,18 +24,14 @@
           <ion-icon name="search"></ion-icon>
         </button>
       </ion-row>
+      <button ion-button color="light" (click)="done()" round full>Done
+        </button>
     </ion-card-content>
   </ion-card>
-  <ion-card>
-
-    <ion-card-header>
-      <ion-item>
-        <ion-label floating>Enter new category name</ion-label>
-        <ion-input type="text" [(ngModel)]="category_name"></ion-input>
-      </ion-item>
-    </ion-card-header>
-
-  </ion-card>
+  <ion-item>
+      <ion-label floating>Enter new category name</ion-label>
+      <ion-input type="text" [(ngModel)]="category_name"></ion-input>
+    </ion-item>
 
   <ion-row *ngIf="is_category_image">
     <div class="container">
@@ -64,7 +60,6 @@
   <ion-label *ngIf="is_error" class="error_text">
     {{error_text}}
   </ion-label>
-  <button ion-button color="light" (click)="done()" round full>Done
-  </button>
+
   <!-- <input type="file" (change)="onFileChanged($event)"> -->
 </ion-content>

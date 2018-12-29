@@ -14,7 +14,7 @@ export class PostClientApiProvider {
   constructor(public http: Http) {
     console.log('Hello PostClientApiProvider Provider');
   }
-  post(isTagPicked: boolean, isImageUploaded: boolean, mediaId: number, title: string, search_tag: string, media_path: string, media_tag: string, media_source: string, post_type: string, post_category_id: number, correct_option: string, options: string[], description: string, ) {
+  post(isTagPicked: boolean, isImageUploaded: boolean, mediaId: number, title: string, search_tag: string, media_path: string, media_tag: string, media_source: string, post_type: string, post_category_id: number, correct_option: string, options: string[], description: string, category_tag:string) {
     var opts: Post_Option[] = this.getOptions(correct_option, options);
 
     if (!isTagPicked || isImageUploaded) {
@@ -24,7 +24,7 @@ export class PostClientApiProvider {
       return this.addTag(tag, title, description, this.getPostType(post_type), post_category_id, 1, opts);
 
     } else {
-      var post: Post = this.createPost(title, description, search_tag, this.getPostType(post_type), post_category_id, 1, opts, mediaId);
+      var post: Post = this.createPost(title, description, search_tag, this.getPostType(post_type), post_category_id, 1, opts, mediaId,category_tag);
       console.log(post);
       return this.addPost(post,mediaId,post_category_id);
     }
@@ -46,7 +46,7 @@ export class PostClientApiProvider {
     };
     return tag_data;
   }
-  createPost(title: string, description: string, search_tag: string, post_type: number, post_category_id: number, blogger_id: number, options: Post_Option[], media_id: number) {
+  createPost(title: string, description: string, search_tag: string, post_type: number, post_category_id: number, blogger_id: number, options: Post_Option[], media_id: number,category_tag:string) {
     var post_data: Post = {
       "title": title,
       "options": options,
@@ -55,7 +55,8 @@ export class PostClientApiProvider {
       "blogger_id": blogger_id,
       "search_tag": search_tag,
       "post_state":"1",
-      "total_votes":0
+      "total_votes":0,
+      "category_tag":category_tag
     };
     return post_data;
   }
