@@ -1,12 +1,12 @@
-<ion-header>
-  <ion-navbar>
+<ion-header id="header">
+ 
 
-    <ion-grid>
+    <ion-grid  style="margin-top: 12px;">
       <ion-row align-items-center justify-content-center>
 
         <ion-col>
           <ion-fab middle right>
-            <button ion-fab mini (click)="myAlert_show()">
+            <button ion-fab mini color="light" (click)="navigateTo(0)">
               <ion-icon ios="ios-home" md="md-home"></ion-icon>
             </button>
           </ion-fab>
@@ -14,7 +14,7 @@
         </ion-col>
         <ion-col>
           <ion-fab middle right>
-            <button ion-fab mini (click)="myAlert_show()">
+            <button ion-fab mini (click)="navigateTo(1)">
               <ion-icon name="logo-buffer"></ion-icon>
             </button>
           </ion-fab>
@@ -61,7 +61,6 @@
 
     </ion-grid>
 
-  </ion-navbar>
 </ion-header>
 
 <ion-content>
@@ -83,24 +82,37 @@
         </button>
       </ion-fab>
       <ion-fab *ngIf="post && post.post_type==3 && current_post_id" bottom left>
-          <button (click)="prev()" ion-fab mini>
-            <ion-icon name="rewind"></ion-icon>
-          </button>
-        </ion-fab>
+        <button (click)="prev()" ion-fab mini>
+          <ion-icon name="rewind"></ion-icon>
+        </button>
+      </ion-fab>
       <div class="post_image_container" *ngIf="post && post.post_media_id">
-        <img onerror="this.style.display='none'" class="post_image" id="post_media_{{m_id}}" src="{{post.post_media_id.mediaUrl}}" />
+        <!-- <img onerror="this.style.display='none'" class="post_image" id="post_media_{{m_id}}" src="{{post.post_media_id.mediaUrl}}" /> -->
+        <img-loader onerror="this.style.display='none'" class="post_image" src="{{post.post_media_id.mediaUrl}}" useImg (load)="onImageLoad($event)"></img-loader>
+      
       </div>
       <ion-item-divider color="light" no-padding id="post_date">
         <ion-row justify-content-end>
-          <div *ngIf="post_viewed && post && post_viewed.has(post.post_id)">
-            <ion-col col-1>
-              <ion-icon ios="ios-done-all" md="md-done-all"></ion-icon>
-            </ion-col>
-            <ion-col col-1 *ngIf="(checkIfCorrect(post.post_id) ||is_correct)&& post.post_type === '1' ">
-              <ion-icon name="happy"></ion-icon>
-            </ion-col>
-          </div>
 
+          <ion-col margin-left col-1 *ngIf="post && checkIfFav(post.post_id); ">
+            <ion-icon id="fav_icon_{{m_id}}" color="danger" name="heart" (click)="removePostFromFav(post.post_id)">
+            </ion-icon>
+          </ion-col>
+          <ion-col margin-left col-1 *ngIf="post && !checkIfFav(post.post_id);">
+            <ion-icon id="fav_icon_{{m_id}}" color="dark" name="heart" (click)="post && addPostToFav(post.post_id)">
+            </ion-icon>
+          </ion-col>
+          <ion-col col-3>
+            <div *ngIf="post_viewed && post && post_viewed.has(post.post_id)">
+              <ion-col col-1>
+                <ion-icon ios="ios-done-all" md="md-done-all"></ion-icon>
+              </ion-col>
+              <ion-col col-1 *ngIf="post && (checkIfCorrect(post.post_id) ||is_correct)&& post.post_type === '1' ">
+                <ion-icon name="happy"></ion-icon>
+              </ion-col>
+
+            </div>
+          </ion-col>
           <ion-col *ngIf="post" text-center>
             {{post.post_time| date: 'mediumDate'}}
           </ion-col>
@@ -138,7 +150,8 @@
           </ion-col>
         </ion-row>
       </div>
-      <div id="post_desc_container" *ngIf="post && post.post_desc && post_viewed.has(post.post_id)" no-padding>
+      <div id="post_desc_container" *ngIf="post && post.post_desc && (post_viewed.has(post.post_id)||post.post_type === '2')"
+        no-padding>
         <ion-row>
           <ion-col text-left text-wrap>
             <p style="position:relative; color: black; font-size: 15px">
@@ -172,9 +185,6 @@
           <ion-col col-2>
             <img id="category_pic" onerror="this.style.display='none'" *ngIf="post.post_category_id && post.post_category_id.category_media"
               src="{{post.post_category_id.category_media}}">
-
-
-
           </ion-col>
         </ion-row>
       </div>
@@ -185,24 +195,37 @@
   <!-- direction="vertical" -->
 
 
-  <ion-slides #slides pager='true' (ionSlideDidChange)="onSlideChanged()"  effect="slide" *ngIf="post_view_mode==1" style="position:absolute; bottom: 0;left: 0;right: 0; ">
+  <ion-slides #slides pager='true' (ionSlideDidChange)="onSlideChanged()" effect="slide" *ngIf="post_view_mode==1"
+    style="position:absolute; bottom: 0;left: 0;right: 0; ">
     <ion-slide *ngFor="let post of posts; let m_id = index">
       <ion-content>
         <div class="post_image_container" *ngIf="post.post_media_id">
-          <img onerror="this.style.display='none'" class="post_image" id="post_media_{{m_id}}" src="{{post.post_media_id.mediaUrl}}" />
+          <!-- <img onerror="this.style.display='none'" class="post_image" id="post_media_{{m_id}}" src="{{post.post_media_id.mediaUrl}}" /> -->
+          <img-loader onerror="this.style.display='none'" class="post_image" src="{{post.post_media_id.mediaUrl}}" useImg (load)="onImageLoad($event)"></img-loader>
+   
         </div>
         <ion-item-divider color="light" no-padding id="post_date">
           <ion-row justify-content-end>
-            <div *ngIf="post_viewed.has(post.post_id)">
-              <ion-col col-1>
-                <ion-icon ios="ios-done-all" md="md-done-all"></ion-icon>
-              </ion-col>
-              <ion-col col-1 *ngIf="(checkIfCorrect(post.post_id) ||is_correct)&& post.post_type === '1' ">
-                <ion-icon name="happy"></ion-icon>
-              </ion-col>
-            </div>
 
-            <ion-col text-right>
+            <ion-col col-1 margin-left *ngIf="checkIfFav(post.post_id); ">
+              <ion-icon id="fav_icon_{{m_id}}" color="danger" name="heart" (click)="removePostFromFav(post.post_id)">
+              </ion-icon>
+            </ion-col>
+            <ion-col col-1 margin-left *ngIf="!checkIfFav(post.post_id);">
+              <ion-icon id="fav_icon_{{m_id}}" color="dark" name="heart" (click)="addPostToFav(post.post_id)">
+              </ion-icon>
+            </ion-col>
+            <ion-col col-3>
+              <div *ngIf="post_viewed.has(post.post_id)">
+                <ion-col col-1>
+                  <ion-icon ios="ios-done-all" md="md-done-all"></ion-icon>
+                </ion-col>
+                <ion-col col-1 *ngIf="(checkIfCorrect(post.post_id) ||is_correct)&& post.post_type === '1' ">
+                  <ion-icon name="happy"></ion-icon>
+                </ion-col>
+              </div>
+            </ion-col>
+            <ion-col text-center>
               {{post.post_time| date: 'mediumDate'}}
             </ion-col>
           </ion-row>
@@ -239,7 +262,8 @@
             </ion-col>
           </ion-row>
         </div>
-        <div id="post_desc_container" *ngIf="post.post_desc && post_viewed.has(post.post_id)" no-padding>
+        <div id="post_desc_container" *ngIf="post && post.post_desc  && (post_viewed.has(post.post_id)||post.post_type === '2')"
+          no-padding>
           <ion-row>
             <ion-col text-left text-wrap>
               <p style="position:relative; color: black; font-size: 15px">
@@ -291,7 +315,9 @@
       <ion-row>
         <ion-card>
           <div class="post_image_container" *ngIf="post.post_media_id">
-            <img onerror="this.style.display='none'" class="post_image" id="post_media_{{m_id}}" src="{{post.post_media_id.mediaUrl}}" />
+            <!-- <img onerror="this.style.display='none'" class="post_image" id="post_media_{{m_id}}" src="{{post.post_media_id.mediaUrl}}" /> -->
+            <img-loader onerror="this.style.display='none'" class="post_image" src="{{post.post_media_id.mediaUrl}}" useImg (load)="onImageLoad($event)"></img-loader>
+   
           </div>
         </ion-card>
       </ion-row>
@@ -327,7 +353,7 @@
           </ion-col>
         </ion-row>
       </div>
-      <div id="post_desc_container" *ngIf="post.post_desc && post_viewed.has(post.post_id)">
+      <div id="post_desc_container" *ngIf="post && post.post_desc  && (post_viewed.has(post.post_id)||post.post_type === '2')">
         <ion-row>
           <ion-col text-left text-wrap>
             <p>
@@ -371,16 +397,26 @@
 
       <ion-item-divider color="light" no-padding id="post_date">
         <ion-row justify-content-end>
-          <div *ngIf="post_viewed.has(post.post_id)">
-            <ion-col col-1>
-              <ion-icon ios="ios-done-all" md="md-done-all"></ion-icon>
-            </ion-col>
-            <ion-col col-1 *ngIf="(checkIfCorrect(post.post_id) ||is_correct)&& post.post_type === '1' ">
-              <ion-icon name="happy"></ion-icon>
-            </ion-col>
-          </div>
 
-          <ion-col text-right>
+          <ion-col col-1 margin-left *ngIf="checkIfFav(post.post_id); ">
+            <ion-icon id="fav_icon_{{m_id}}" color="danger" name="heart" (click)="removePostFromFav(post.post_id)">
+            </ion-icon>
+          </ion-col>
+          <ion-col col-1 margin-left *ngIf="!checkIfFav(post.post_id);">
+            <ion-icon id="fav_icon_{{m_id}}" color="dark" name="heart" (click)="addPostToFav(post.post_id)">
+            </ion-icon>
+          </ion-col>
+          <ion-col col-3>
+            <div *ngIf="post_viewed.has(post.post_id)">
+              <ion-col col-1>
+                <ion-icon ios="ios-done-all" md="md-done-all"></ion-icon>
+              </ion-col>
+              <ion-col col-1 *ngIf="(checkIfCorrect(post.post_id) ||is_correct)&& post.post_type === '1' ">
+                <ion-icon name="happy"></ion-icon>
+              </ion-col>
+            </div>
+          </ion-col>
+          <ion-col text-center>
             {{post.post_time| date: 'mediumDate'}}
           </ion-col>
         </ion-row>

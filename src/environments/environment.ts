@@ -2,6 +2,7 @@ export var environment = {
     BASE_URL:"http://localhost:8080/",
     POST_API:"post",
     POSTVIEW_API:"postview",
+    FAVPOST_API:"favpost",
     FAV_API:"favorite",
     CATEGORY_API:"category",
     PARENT_CATEGORY_PARAMS:"?type=main&parent=0",

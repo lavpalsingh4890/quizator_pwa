@@ -1,20 +1,19 @@
 import { Component, ViewChild } from '@angular/core';
 import { Post } from '../../entityModel/post';
-import { IonicPage, NavController, NavParams, Content, ToastController, AlertController, ModalOptions, Modal, ModalController, App, LoadingController, Slides } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Content, ToastController, AlertController, ModalOptions, Modal, ModalController, App, LoadingController, Slides, Icon } from 'ionic-angular';
 import { ServerUtil } from '../../providers/server-util/serverUtil';
 
 import { environment as ENV } from "../../environments/environment";
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { Http } from '@angular/http';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { Post_Option } from '../../pojo/post_option';
-import { post } from '../../providers/mock-post';
 import { Post_Viewed } from '../../entityModel/post_viewed';
-import { Observable } from 'rxjs';
-import { AddPostPage } from '../add-post/add-post';
 import { QuickSettingModalPage } from '../quick-setting-modal/quick-setting-modal';
 import { FavoriteCategoryPage } from '../favorite-category/favorite-category';
 import { PostView } from '../../entityModel/postView';
 import { Context } from '../../providers/context';
+import { CategorymainPage } from '../categorymain/categorymain';
+import { ImageLoader } from 'ionic-image-loader';
 @IonicPage({
   name: 'home'
 
@@ -28,10 +27,10 @@ export class HomePage {
   private errorMessage: string;
   private current_post_id = 0;
   private page = 0;
-  m_id = 0;
-  post_time_out = 500;
+  private m_id = 0;
+  private post_time_out = 500;
   private exclude_already_viewed: boolean = false;
-  private post_view_mode: number = 2; // 0 -> listing , 1 -> endless , 2 -> page view
+  private post_view_mode: number = 0; // 0 -> listing , 1 -> endless , 2 -> page view
   private post_filter: string;        //
   private post_category: string;      // category id
   private post_type: number = 0;          // none-> All, 1 -> quiz, 2 -> poll , 3 -> fact
@@ -40,22 +39,39 @@ export class HomePage {
   private link = ENV.BASE_URL + ENV.POST_API + "?size=15&page=";
   private poll_link = ENV.BASE_URL + ENV.POST_API + "/poll/";
   private postview_link = ENV.BASE_URL + ENV.POSTVIEW_API + "/1";
+  private favpost_link = ENV.BASE_URL + ENV.FAVPOST_API + "/1";
   private post_viewed = new Set();
+  private fav_post = new Set();
   private post_correct_options: Post_Viewed[] = new Array();
   private currentSelected: number;
   private is_correct: boolean = false;
   private posts: Post[] = new Array();
+  private temp_posts: Post[] = new Array();
   private single_post: Post[] = new Array();
   private data: any = {};
   private selectedOption: Post_Option;
-  total_page_count = 0;
-  post_type_label;
-  type = "";
-  constructor(public loadingCtrl: LoadingController, private _app: App, private toastCtrl: ToastController, public modal: ModalController, private alertCtrl: AlertController, private iab: InAppBrowser, public navCtrl: NavController, public http: Http) {
+  private total_page_count = 0;
+  private post_type_label;
+  private type = "";
+  private favorite_post;
+  constructor(public loadingCtrl: LoadingController, private imageLoader: ImageLoader, private _app: App, private toastCtrl: ToastController, public modal: ModalController, private alertCtrl: AlertController, private iab: InAppBrowser, public navCtrl: NavController, public http: Http) {
     // this.posts = post;
     var link = this.link + this.page;
     this.getPosts(link);
     this.getPostView();
+    this.getFavPost();
+  }
+  onImageLoad(event) {
+    // console.log('image ready: ', event);
+  }
+  navigateTo(page) {
+    switch (page) {
+      case 0:
+        location.reload();
+        break;
+        case 1:
+        this.navCtrl.push(CategorymainPage);
+    }
   }
 
   addPostView(postId, isCorrectAttempt) {
@@ -68,6 +84,52 @@ export class HomePage {
         // this.posts = posts.data;
 
         console.log(posts);
+      }, error => {
+        console.log("Oooops!");
+      });
+  }
+
+  addPostToFav(post_id) {
+    var link = this.favpost_link + "?post=" + post_id;
+    this.http.post(link, ServerUtil.getHeaders())
+      .subscribe(d => {
+        this.data.response = d["_body"];
+        let data_array = JSON.stringify(d.json());
+        let posts = JSON.parse(data_array);
+
+        this.fav_post.add(post_id);
+
+        console.log(posts);
+      }, error => {
+        console.log("Oooops!");
+      });
+  }
+  removePostFromFav(post_id) {
+    var link = this.favpost_link + "/" + post_id;
+    this.http.delete(link, ServerUtil.getHeaders())
+      .subscribe(d => {
+        this.data.response = d["_body"];
+        let data_array = JSON.stringify(d.json());
+        let posts = JSON.parse(data_array);
+
+        this.fav_post.delete(post_id);
+        console.log(posts);
+        console.log(this.postView);
+      }, error => {
+        console.log("Oooops!");
+      });
+  }
+  getFavPost() {
+    this.http.get(this.favpost_link, ServerUtil.getHeaders())
+      .subscribe(d => {
+        this.data.response = d["_body"];
+        let data_array = JSON.stringify(d.json());
+        let posts = JSON.parse(data_array);
+        console.log(posts);
+        for (var i = 0; i < posts.data.length; i++) {
+          this.fav_post.add(posts.data[i].post);
+        }
+        console.log(this.fav_post);
       }, error => {
         console.log("Oooops!");
       });
@@ -115,7 +177,7 @@ export class HomePage {
         this.getPosts(link);
       }
       console.log('Async operation has ended' + this.total_page_count);
-    }, 1000);
+    }, 1);
   }
 
   get_correct_option(post_options, post_id) {
@@ -133,18 +195,37 @@ export class HomePage {
         let data_array = JSON.stringify(d.json());
         let posts = JSON.parse(data_array);
         // this.posts = posts.data;
-
+        this.single_post = new Array();
+        console.log(posts)
         this.total_page_count = posts.data.totalPages;
+        console.log("exclude_already_viewed " + Context.get("exclude_already_viewed"))
+        console.log("Fav posts " + this.favorite_post)
         if (Context.get("exclude_already_viewed")) {
-          
+
           for (var i = 0; i < posts.data.post.length; i++) {
             if (!this.post_viewed.has(posts.data.post[i].post_id)) {
-            
-              this.posts.push(posts.data.post[i]);
+              if (this.favorite_post) {
+                console.log("Fav posts")
+                if (this.fav_post.has(posts.data.post[i].post_id)) {
+                  this.posts.push(posts.data.post[i]);
+                }
+
+              } else {
+                this.posts.push(posts.data.post[i]);
+              }
             }
           }
         } else {
-          this.posts = this.posts.concat(posts.data.post);
+          if (this.favorite_post) {
+            console.log("Fav posts")
+            for (var j = 0; j < posts.data.post.length; j++) {
+              if (this.fav_post.has(posts.data.post[j].post_id)) {
+                this.posts.push(posts.data.post[j]);
+              }
+            }
+          } else {
+            this.posts = this.posts.concat(posts.data.post);
+          }
         }
         if (this.posts) {
 
@@ -257,7 +338,13 @@ export class HomePage {
     this.post_time_out = 0;
     if (this.current_post_id + 1 != this.posts.length) {
       this.current_post_id++;
-      this.presentLoadingDefault();
+      if (this.posts[this.current_post_id]) {
+        this.presentLoadingDefault();
+      } else {
+        this.presentLoadingDefault();
+        console.log("No more posts available");
+      }
+
     } else if (this.current_post_id + 1 == this.posts.length) {
       this.fetchMorePost();
     }
@@ -283,7 +370,15 @@ export class HomePage {
     setTimeout(() => {
       this.single_post = new Array();
 
-      this.single_post.push(this.posts[this.current_post_id]);
+      if (this.posts[this.current_post_id]) {
+        this.single_post.push(this.posts[this.current_post_id]);
+        console.log(this.posts[this.current_post_id]);
+      } else {
+        this.current_post_id--;
+        this.single_post.push(this.posts[this.current_post_id]);
+        console.log(this.posts[this.current_post_id]);
+        console.log("No more posts available");
+      }
       loading.dismiss();
     }, this.post_time_out);
   }
@@ -297,7 +392,9 @@ export class HomePage {
         console.log("Oooops!");
       });
   }
-
+  checkIfFav(post_id) {
+    return this.fav_post.has(post_id);
+  }
   checkIfCorrect(post_id) {
     const index = this.postView.findIndex(post_viewed => post_viewed.postId === post_id);
 
@@ -343,6 +440,33 @@ export class HomePage {
     const myModal: Modal = this.modal.create(QuickSettingModalPage);
     myModal.onDidDismiss(data => {
 
+      if (data.favorite_post != null && this.favorite_post != data.favorite_post) {
+        this.favorite_post = data.favorite_post;
+        if (data.favorite_post) {
+
+          this.temp_posts = this.posts;
+          var temp_posts: Post[] = new Array();
+
+          for (var i = 0; i < this.posts.length; i++) {
+
+            if (this.fav_post.has(this.posts[i].post_id)) {
+
+              temp_posts.push(this.posts[i]);
+            }
+
+          }
+          this.initialize();
+          this.posts = this.posts.concat(temp_posts);
+
+
+        } else {
+          this.initialize();
+          this.posts = this.temp_posts;
+        }
+        this.single_post.push(this.posts[this.current_post_id])
+        console.log(this.posts);
+      }
+
       if (data.post_view_mode != null && this.post_view_mode != data.post_view_mode)
         this.post_view_mode = data.post_view_mode;
       if (data != null && data.isUpdate) {
@@ -353,7 +477,7 @@ export class HomePage {
           switch (data.post_type) {
             case 1:
               this.post_type_label = "Quiz";
-              this.post_time_out = 500;
+              this.post_time_out = 0;
               break;
             case 2:
               this.post_type_label = "Poll";
@@ -361,21 +485,19 @@ export class HomePage {
               break;
             case 3:
               this.post_type_label = "Facts";
-              this.post_view_mode = 2;
+              this.post_time_out = 0;
               break;
           }
 
         } else {
           this.type = "";
+          console.log("============" + data.post_type);
         }
-        this.total_page_count = 0;
         this.post_type = data.post_type;
-        this.page = 0;
-        this.current_post_id = 0;
+        this.initialize();
 
         link = this.link + this.page + this.type;
-        this.posts = new Array();
-        this.single_post = new Array();
+
         this.getPosts(link);
       }
       if (data.goToFav) {
@@ -384,12 +506,8 @@ export class HomePage {
       if (data.exclude_already_viewed != null && this.exclude_already_viewed != data.exclude_already_viewed) {
         this.exclude_already_viewed = data.exclude_already_viewed;
 
-        this.total_page_count = 0;
-        this.page = 0;
-        this.posts = new Array();
-        this.single_post = new Array();
-        this.current_post_id = 0;
-        console.log("============" + data.exclude_already_viewed);
+        this.initialize();
+
         if (this.type != "")
           link = this.link + this.page + this.type;
         else
@@ -400,6 +518,16 @@ export class HomePage {
 
     });
     myModal.present();
+  }
+
+  initialize() {
+    this.total_page_count = 0;
+
+    this.page = 0;
+    this.current_post_id = 0;
+    this.posts = new Array();
+    if (this.slides) this.slides.slideTo(0);
+    this.single_post = new Array();
   }
   goToFavorite() {
 

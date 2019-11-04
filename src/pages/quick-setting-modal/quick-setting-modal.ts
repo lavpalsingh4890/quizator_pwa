@@ -15,11 +15,17 @@ export class QuickSettingModalPage {
   private fact_button_color ="light";
   private poll_button_color ="light";
   private exclude_checkbox_state =false;
+  private favorite_post_state =false;
   private post_type:number=0;
   constructor(public modal: ModalController,public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController) {
     var state = Context.get("exclude_already_viewed");
     if(state!=null){
       this.exclude_checkbox_state = state;
+    }
+
+    state = Context.get("favorite_post");
+    if(state!=null){
+      this.favorite_post_state = state;
     }
   }
 
@@ -64,6 +70,10 @@ export class QuickSettingModalPage {
   exclude_already_viewed(x){
     Context.set("exclude_already_viewed",x.checked);
     this.viewCtrl.dismiss({"exclude_already_viewed":x.checked});
+  }
+  favorite_post(x){
+    Context.set("favorite_post",x.checked);
+    this.viewCtrl.dismiss({"favorite_post":x.checked});
   }
   post_view_mode(view_mode){
     this.viewCtrl.dismiss({"post_view_mode":view_mode});

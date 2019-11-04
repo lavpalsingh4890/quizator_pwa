@@ -67,6 +67,11 @@ import { PostItemModule } from '../components/post-item/postItem.module';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { QuickSettingModalPage } from '../pages/quick-setting-modal/quick-setting-modal';
 import { FavoriteCategoryPage } from '../pages/favorite-category/favorite-category';
+import { CategorymainPage } from '../pages/categorymain/categorymain';
+import { CategorysubPage } from '../pages/categorysub/categorysub';
+
+
+import { IonicImageLoader } from 'ionic-image-loader';
 var firebaseConfig = {
   apiKey: "AIzaSyAh1EyYPn6Uhn8R9e9AT7wqfPA4aWp8IB4",
   authDomain: "quizator-be795.firebaseapp.com",
@@ -100,7 +105,9 @@ var firebaseConfig = {
     TagnamePage,
     ImageSelectorComponent,
     QuickSettingModalPage,
-    FavoriteCategoryPage
+    FavoriteCategoryPage,
+    CategorymainPage,
+    CategorysubPage
   ],
   imports: [
     HttpModule,
@@ -110,6 +117,7 @@ var firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireStorageModule,
+    IonicImageLoader.forRoot(),
     IonicStorageModule.forRoot({
       name: 'quizator',
          driverOrder: ['indexeddb','sqlite', 'websql']
@@ -164,7 +172,9 @@ var firebaseConfig = {
     SubcategoryPage,
     TagnamePage,
     QuickSettingModalPage,
-    FavoriteCategoryPage
+    FavoriteCategoryPage,
+    CategorymainPage,
+    CategorysubPage
   ],
   providers: [
     StatusBar,

@@ -20,6 +20,9 @@ import { WelcomePage } from '../pages/welcome/welcome';
 import { FCM } from '@ionic-native/fcm';
 
 
+import { ImageLoaderConfig } from 'ionic-image-loader';
+
+
 @Component({
   templateUrl: 'app.html'
 })
@@ -31,7 +34,7 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(protected deeplinks: Deeplinks,public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,public fcm: FCM) {
+  constructor(protected deeplinks: Deeplinks, private imageLoaderConfig: ImageLoaderConfig,public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,public fcm: FCM) {
     this.initializeApp();
 
     this.pages = [
@@ -47,6 +50,10 @@ export class MyApp {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.imageLoaderConfig.enableDebugMode();
+      this.imageLoaderConfig.enableFallbackAsPlaceholder(true);
+      this.imageLoaderConfig.setFallbackUrl('assets/imgs/logo.png');
+      this.imageLoaderConfig.setMaximumCacheAge(24 * 60 * 60 * 1000);
       this.fcm.getToken().then(token => {
         // Your best bet is to here store the token on the user's profile on the
         // Firebase database, so that when you want to send notifications to this 

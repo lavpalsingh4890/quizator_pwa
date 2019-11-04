@@ -78,6 +78,12 @@
     },
     "cordova-plugin-inappbrowser": {
       "PACKAGE_NAME": "com.technofriend.quizator"
+    },
+    "cordova-plugin-file-transfer": {
+      "PACKAGE_NAME": "com.technofriend.quizator"
+    },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "com.technofriend.quizator"
     }
   },
   "dependent_plugins": {}
