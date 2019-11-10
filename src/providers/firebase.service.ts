@@ -36,8 +36,10 @@ export class FirebaseService {
       this.encodeImageUri(imageURI, function(image64){
         imageRef.putString(image64, 'data_url')
         .then(snapshot => {
-          resolve(snapshot.downloadURL)
+        resolve(snapshot.ref.getDownloadURL())
+        console.log(snapshot.ref.getDownloadURL());
         }, err => {
+          console.log(err);
           reject(err);
         })
       })

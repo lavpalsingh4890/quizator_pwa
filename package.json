@@ -51,8 +51,8 @@
     "ionic-plugin-deeplinks": "1.0.17",
     "ionic2-super-tabs": "^5.2.0",
     "ionicons": "3.0.0",
-    "rxjs": "6.3.3",
-    "rxjs-compat": "6.3.3",
+    "rxjs": "6.0.0",
+    "rxjs-compat": "6.0.0",
     "sw-toolbox": "3.6.0",
     "xlsx": "^0.14.5",
     "zone.js": "0.8.26"

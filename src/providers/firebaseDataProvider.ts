@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
 import { ImageUtil } from './ImageUtil';
+import 'rxjs/Rx';
  
 @Injectable()
 export class DataProvider {
