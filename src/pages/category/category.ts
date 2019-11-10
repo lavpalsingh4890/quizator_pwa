@@ -13,6 +13,7 @@ import { Category as CategoryPojo } from '../../pojo/category';
 import { Context } from '../../providers/context';
 import { ImageSelectorComponent } from '../../components/image-selector/image-selector';
 import { Tag } from '../../entityModel/tag';
+import { AddPostPage } from '../add-post/add-post';
 
 @IonicPage()
 @Component({
@@ -41,9 +42,18 @@ export class CategoryPage {
   private isTagPicked: boolean = false;
   private isImageURL: boolean = false;
   private mediaId: number;
+  private keyword: string;
+  private category: Category;
 
   constructor(private toastCtrl: ToastController, private http: Http, private imageUtil: ImageUtil, private platform: Platform, private imagePicker: ImagePicker, public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
+    this.keyword = this.navParams.get("keyword");
+    this.category = this.navParams.get("Category");
 
+    if (this.category) {
+      this.image = this.category.category_media;
+      this.category_name = this.category.category;
+      this.is_category_image = true;
+    }
 
   }
 
@@ -65,6 +75,10 @@ export class CategoryPage {
       this.sub_category1 = SubcategoryPage.sub_option1.category;
       this.is_sub_selected = true;
       console.log(SubcategoryPage.main_option2.id + " " + SubcategoryPage.main_option2.category + " " + SubcategoryPage.sub_option1.id + " " + SubcategoryPage.sub_option1.category);
+    }
+
+    if (this.keyword) {
+      this.category_name = this.keyword;
     }
   }
   getImage() {
@@ -118,6 +132,7 @@ export class CategoryPage {
   }
 
   done() {
+
     this.navCtrl.pop();
   }
   validate() {
@@ -127,11 +142,14 @@ export class CategoryPage {
     if (!SubcategoryPage.is_sub1_selected) {
       return "Please select valid category";
     }
+
     return "success";
   }
   upload() {
     var result: string = this.validate();
     if (result == 'success') {
+
+
       if (!Context.get("isImageUploading")) {
         Context.set("isImageUploading", true);
         this.imageUtil.uploadImageToFirebase(this.image).then(photoURL => {
@@ -148,6 +166,7 @@ export class CategoryPage {
           toast.present();
         })
       }
+
     } else {
       let toast = this.toastCtrl.create({
         message: result,
@@ -162,8 +181,10 @@ export class CategoryPage {
 
     if (SubcategoryPage.is_sub1_selected)
       parentId = SubcategoryPage.sub_option1.id;
-    else
+    else if (SubcategoryPage.is_main_selected)
       parentId = SubcategoryPage.main_option.id;
+    else
+      parentId = 0;
 
     var category_data: CategoryPojo = {
       "category": this.category_name,
@@ -173,21 +194,53 @@ export class CategoryPage {
     return category_data;
   }
   addCategory() {
-    var link = ENV.BASE_URL_VARG + ENV.CATEGORY_API;
-
+    var link;
     var category: CategoryPojo = this.createCategory();
+    if (this.category) {
 
-    this.http.post(link, category, ServerUtil.getHeaders())
+      this.category.category_media = this.image;
+      this.category.category = this.category_name;
+      if(category.parentId != 0){
+        this.category.parentId == category.parentId;
+      }
+
+      link = ENV.BASE_URL_VARG + ENV.CATEGORY_API+"/"+this.category.id;
+      this.http.put(link, this.category, ServerUtil.getHeaders())
       .subscribe(d => {
         this.data.response = d["_body"];
         let data_array = JSON.stringify(d.json());
         let data_parsed = JSON.parse(data_array);
         let data_ = data_parsed.data;
         console.log(data_.category_id);
-        this.removeImage(false);
+        var c: Category = new Category(data_.category_id, category.category, category.parentId, category.category_media);
+        Context.set("Category", c);
+        CategoryPage.clearCATSUB();
+        this.navCtrl.pop();
       }, error => {
         console.log("Oooops!");
       });
+    }
+    else {
+      link = ENV.BASE_URL_VARG + ENV.CATEGORY_API;
+     
+      this.http.post(link, category, ServerUtil.getHeaders())
+      .subscribe(d => {
+        this.data.response = d["_body"];
+        let data_array = JSON.stringify(d.json());
+        let data_parsed = JSON.parse(data_array);
+        let data_ = data_parsed.data;
+        console.log(data_.category_id);
+        var c: Category = new Category(data_.category_id, category.category, category.parentId, category.category_media);
+        Context.set("Category", c); 
+         CategoryPage.clearCATSUB();
+        this.navCtrl.pop();
+      }, error => {
+        console.log("Oooops!");
+      });
+    }
+
+    
+    
   }
   removeImage(type: boolean) {
     this.isImage = false;
@@ -214,6 +267,16 @@ export class CategoryPage {
   }
   onMediaChange(image) {
     this.image = image;
+  }
+
+  public static clearCATSUB(){
+    SubcategoryPage.main_option = null;
+    SubcategoryPage.main_option2 = null;
+    SubcategoryPage.is_main_selected = false;
+    SubcategoryPage.sub_option1 = null;
+    SubcategoryPage.is_sub1_selected = false;
+    SubcategoryPage.sub_option2 = null;
+    SubcategoryPage.is_sub2_selected = false;
   }
 
 }

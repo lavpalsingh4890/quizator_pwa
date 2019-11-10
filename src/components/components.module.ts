@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { ImageSelectorComponent } from './image-selector/image-selector';
 import { PostItemComponent } from './post-item/post-item';
 @NgModule({
-	declarations: [ImageSelectorComponent,
-    PostItemComponent],
+	declarations: [
+    ],
 	imports: [],
-	exports: [ImageSelectorComponent,
-    PostItemComponent]
+	exports: [
+    ]
 })
 export class ComponentsModule {}

@@ -5,7 +5,6 @@ import { ImageComponentsModule } from '../../components/image-selector/imagecomp
 
 @NgModule({
   declarations: [
-    CategoryPage,
   ],
   imports: [
     ImageComponentsModule,

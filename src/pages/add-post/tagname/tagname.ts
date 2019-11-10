@@ -7,6 +7,7 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import { Tag } from '../../../entityModel/tag';
 import { Context } from '../../../providers/context';
 import { Category } from '../../../entityModel/category';
+import { CategoryPage } from '../../category/category';
 
 @IonicPage()
 @Component({
@@ -14,30 +15,30 @@ import { Category } from '../../../entityModel/category';
   templateUrl: 'tagname.html',
 })
 export class TagnamePage {
- 
- 
+
+
   private items: Tag[];
   private categories: Category[];
   private categories_init: Category[];
   private items_init: Tag[];
   private tagData: Tag[];
   private keyword: string;
-  private type:string;
+  private type: string;
   private data: any = {};
-  private isCategory:boolean =false;
+  private isCategory: boolean = false;
 
   constructor(private alertCtrl: AlertController, private toastCtrl: ToastController, public http: Http, public navCtrl: NavController, public navParams: NavParams) {
     this.keyword = this.navParams.get("keyword");
     this.type = this.navParams.get("type");
     console.log(this.type);
-    if(this.type == 'category'){
+    if (this.type == 'category') {
       this.isCategory = true;
       this.initializeCategories();
       this.getCategories();
     }
-    else{
-    this.initializeItems();
-    this.getTags();
+    else {
+      this.initializeItems();
+      this.getTags();
     }
   }
 
@@ -50,12 +51,12 @@ export class TagnamePage {
     ];
   }
   longPressed(item) {
-    if(this.type =='category'){
-      this.presentPromptCategory(item);
+    if (this.type == 'category') {
+      this.navCtrl.push(CategoryPage,{"Category":item});
     }
     else
-   
-     this.presentPrompt(item);
+
+      this.presentPrompt(item);
     console.log('Long press card ' + item);
   }
 
@@ -197,6 +198,9 @@ export class TagnamePage {
         let categories = JSON.parse(data_array);
         this.categories = categories.data;
         this.categories_init = categories.data;
+        if(this.categories.length==0){
+          this.navCtrl.push(CategoryPage,{"keyword":this.keyword});
+        }
       }, error => {
         console.log("Oooops!");
       });
@@ -214,7 +218,7 @@ export class TagnamePage {
 
   getItems(ev: any) {
 
-    if(this.type=='category'){
+    if (this.type == 'category') {
       this.categories = this.categories_init;
       const val = ev.target.value;
       if (val && val.trim() != '') {
@@ -223,15 +227,15 @@ export class TagnamePage {
         })
       }
     }
-    else{
-    this.items = this.items_init;
-    const val = ev.target.value;
-    if (val && val.trim() != '') {
-      this.items = this.items.filter((item) => {
-        return (item.tag.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
+    else {
+      this.items = this.items_init;
+      const val = ev.target.value;
+      if (val && val.trim() != '') {
+        this.items = this.items.filter((item) => {
+          return (item.tag.toLowerCase().indexOf(val.toLowerCase()) > -1);
+        })
+      }
     }
-  }
   }
 
   back() {
@@ -240,5 +244,13 @@ export class TagnamePage {
 
   initializeCategories(): any {
     this.categories = new Array();
+  }
+
+  ionViewDidEnter() {
+    console.log('ionViewDidEnter AddPostPage');
+    var category: Category = <Category>Context.get("Category");
+    if (category != null) {
+      this.back();
+    }
   }
 }

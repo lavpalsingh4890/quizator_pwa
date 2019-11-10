@@ -4,7 +4,7 @@ import { CategorysubPage } from './categorysub';
 
 @NgModule({
   declarations: [
-    CategorysubPage,
+  
   ],
   imports: [
     IonicPageModule.forChild(CategorysubPage),

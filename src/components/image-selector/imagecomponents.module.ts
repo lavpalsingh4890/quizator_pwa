@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { ImageSelectorComponent } from './image-selector';
 @NgModule({
-	declarations: [ImageSelectorComponent],
+	declarations: [],
 	imports: [],
-	exports: [ImageSelectorComponent]
+	exports: []
 })
 export class ImageComponentsModule {}

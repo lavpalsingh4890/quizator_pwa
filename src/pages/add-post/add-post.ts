@@ -15,7 +15,7 @@ import { Post } from '../../pojo/post';
 import { Post_Option } from '../../pojo/post_option';
 import { ImageSelectorComponent } from '../../components/image-selector/image-selector';
 import { PostRequestBody } from '../../pojo/postRequestBody';
-import {Category as CategoryEntity, Category} from '../../entityModel/category'
+import { Category as CategoryEntity, Category } from '../../entityModel/category'
 
 @IonicPage()
 @Component({
@@ -29,7 +29,7 @@ export class AddPostPage {
   private question: string;
   private description: string;
   private search_tag: string;
-  private level:string;
+  private level: string;
   private media_tag;
   private media_source;
   private post_type = "quiz";
@@ -37,7 +37,7 @@ export class AddPostPage {
   private correct_option: string;
   private data: any = {};
   private categoryId: number;
-  private categoryList:CategoryEntity[] = new Array();
+  private categoryList: CategoryEntity[] = new Array();
   private category_name: string;
   private category: string = "Select Category";
   private isImage: boolean = false;
@@ -53,12 +53,11 @@ export class AddPostPage {
   @ViewChild(ImageSelectorComponent) inputComponent: ImageSelectorComponent
 
 
-  constructor( public alertCtrl: AlertController, private postClient: PostClientApiProvider, private storage: Storage,
+  constructor(public alertCtrl: AlertController, private postClient: PostClientApiProvider, private storage: Storage,
     private toastCtrl: ToastController, private imageUtil: ImageUtil, private platform: Platform, private navCtrl: NavController, private textUtil: TextUtilProvider) {
-
   }
 
-  
+
   cancel() {
     this.navCtrl.pop();
   }
@@ -108,7 +107,7 @@ export class AddPostPage {
   }
   post() {
     if (this.validateFields()) {
-      this.postClient.post(this.isTagPicked, this.isImageUploaded, this.mediaId, this.question, this.search_tag, this.image, this.media_tag, this.media_source, this.post_type, this.categoryList, this.correct_option, this.items, this.description,this.level).subscribe(d => {
+      this.postClient.post(this.isTagPicked, this.isImageUploaded, this.mediaId, this.question, this.search_tag, this.image, this.media_tag, this.media_source, this.post_type, this.categoryList, this.correct_option, this.items, this.description, this.level).subscribe(d => {
         console.log(this.isTagPicked);
         console.log(this.isImageUploaded);
         if (!this.isTagPicked || this.isImageUploaded) {
@@ -119,28 +118,27 @@ export class AddPostPage {
           let media_id = data_.Tasveer_id;
           var opts: Post_Option[] = this.postClient.getOptions(this.correct_option, this.items);
           console.log(opts);
-          var post: Post = this.postClient.createPost(this.question, this.description, this.search_tag, this.postClient.getPostType(this.post_type), this.categoryList, 1, opts, media_id,this.level);
+          var post: Post = this.postClient.createPost(this.question, this.description, this.search_tag, this.postClient.getPostType(this.post_type), this.categoryList, 1, opts, media_id, this.level);
           console.log(post);
 
-          var media_arr :number[]= new Array();
-          var category_arr:number[]= new Array();
+          var media_arr: number[] = new Array();
+          var category_arr: number[] = new Array();
 
           media_arr.push(media_id);
-          this.categoryList.forEach( (element) => {
+          this.categoryList.forEach((element) => {
             console.log(element)
             category_arr.push(element.id);
-        });
-          
+          });
 
-          var postRequestBody:PostRequestBody = this.postClient.createPostRequestBody(post,media_arr,category_arr);
+
+          var postRequestBody: PostRequestBody = this.postClient.createPostRequestBody(post, media_arr, category_arr);
 
           this.postClient.addPost(postRequestBody).subscribe(data => {
             this.data.response = data["_body"];
             console.log(this.data.response);
-           this.removeImage(false);
+            this.removeImage(false);
           }, error => {
             console.log("Oooops!");
-            this.removeImage(false);
           });
         }
         this.data.response = d["_body"];
@@ -160,10 +158,10 @@ export class AddPostPage {
 
         }
 
-       this.removeImage(false);
+
       });
-    }else{
-     this.is_error =false;
+    } else {
+      this.is_error = false;
     }
   }
 
@@ -215,8 +213,8 @@ export class AddPostPage {
   }
   change(index) {
 
-   //x get elements
-    var element = document.getElementById('messageInputBox'+index);
+    //x get elements
+    var element = document.getElementById('messageInputBox' + index);
     var textarea = element.getElementsByTagName('textarea')[0];
 
     // set default style for textarea
@@ -237,11 +235,12 @@ export class AddPostPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddPostPage');
+
   }
   ionViewDidEnter() {
     console.log('ionViewDidEnter AddPostPage');
-    
-  
+
+
     var t: Tag = <Tag>Context.get("Tag");
     if (t != null) {
       console.log(t.tag);
@@ -251,18 +250,29 @@ export class AddPostPage {
       this.isTagPicked = true;
       this.mediaId = t.id;
     }
-
+    this.category_name =null;
     var category: Category = <Category>Context.get("Category");
     if (category != null) {
       console.log(category.category);
-      this.categoryList.push(category);
+      Context.set("Category",null)
+      var cat_name: string = category.category;
+      if (this.categoryList.findIndex(c => c.category === (category.category)) == -1) {
+        this.categoryList.push(category);
+        
+      }
     }
 
     if (SubcategoryPage.is_sub1_selected) {
       console.log(SubcategoryPage.main_option2.id + " " + SubcategoryPage.main_option2.category + " " + SubcategoryPage.sub_option1.id + " " + SubcategoryPage.sub_option1.category);
       this.categoryId = SubcategoryPage.sub_option1.id;
-      this.category = SubcategoryPage.sub_option1.category;
+      // this.category = SubcategoryPage.sub_option1.category;
+      this.categoryList.push(SubcategoryPage.sub_option1);
+    }else if (SubcategoryPage.is_main_selected) {
+      this.categoryId = SubcategoryPage.main_option.id;
+      // this.category = SubcategoryPage.sub_option1.category;
+      this.categoryList.push(SubcategoryPage.main_option);
     }
+    CategoryPage.clearCATSUB();
   }
   removeImage(type: boolean) {
     this.isImage = false;
@@ -273,9 +283,15 @@ export class AddPostPage {
     }
     Context.set("photoURL", null);
     Context.set("Tag", null);
+    Context.set("Category", null);
     this.isImageUploaded = false;
 
+    this.categoryList = new Array();
     this.search_tag = null;
+    this.description = null;
+    this.level = null;
+    this.category_name = null;
+    this.items = [];
     this.media_tag = null;
     this.media_source = null;
     this.question = null;
@@ -284,24 +300,24 @@ export class AddPostPage {
     this.inputComponent.removeImage(false);
   }
 
-  onMediaTagChange(media_tag){
-    this.media_tag =media_tag;
+  onMediaTagChange(media_tag) {
+    this.media_tag = media_tag;
   }
-  onMediaSourceChange(media_source){
-    this.media_source =media_source;
+  onMediaSourceChange(media_source) {
+    this.media_source = media_source;
   }
-  onMediaChange(image){
-    this.image =image;
-  }
-
-  getCategories(){
-    this.navCtrl.push(TagnamePage, { "keyword": this.category_name,"type": "category" });
+  onMediaChange(image) {
+    this.image = image;
   }
 
-  deleteCategory(item){
-    if (this.items.indexOf(item) != -1) {
-      this.items.splice(this.items.indexOf(item), 1);
-      console.log(this.items.toString());
+  getCategories() {
+    this.navCtrl.push(TagnamePage, { "keyword": this.category_name, "type": "category" });
+  }
+
+  deleteCategory(item) {
+    if (this.categoryList.indexOf(item) != -1) {
+      this.categoryList.splice(this.categoryList.indexOf(item), 1);
+      console.log(this.categoryList.toString());
     } else {
 
       console.log("item doesn't exist");

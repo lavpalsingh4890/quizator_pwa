@@ -4,7 +4,6 @@ import { IonicApp, IonicErrorHandler, IonicModule,Slides } from 'ionic-angular';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 import { WelcomePage } from '../pages/welcome/welcome';
 
 import { BasicDetailPage } from '../pages/basic-detail/basic-detail';
@@ -72,6 +71,31 @@ import { CategorysubPage } from '../pages/categorysub/categorysub';
 
 
 import { IonicImageLoader } from 'ionic-image-loader';
+import { AccountPageModule } from '../pages/account/account.module';
+import { AddBlogPageModule } from '../pages/add-blog/add-blog.module';
+import { AddPostPageModule } from '../pages/add-post/add-post.module';
+import { ChatMainPageModule } from '../pages/chat-main/chat-main.module';
+import { ChatListPageModule } from '../pages/chat-list/chat-list.module';
+import { CommentPageModule } from '../pages/comment/comment.module';
+import { InterestPageModule } from '../pages/interest/interest.module';
+import { MatchupPageModule } from '../pages/matchup/matchup.module';
+import { NotificationPageModule } from '../pages/notification/notification.module';
+import { SearchPageModule } from '../pages/search/search.module';
+import { ViewBlogPageModule } from '../pages/view-blog/view-blog.module';
+import { ViewPostPageModule } from '../pages/view-post/view-post.module';
+import { MatchupPlayPageModule } from '../pages/matchup-play/matchup-play.module';
+import { SubcategoryPageModule } from '../pages/category/subcategory/subcategory.module';
+import { CategoryPageModule } from '../pages/category/category.module';
+import { TagnamePageModule } from '../pages/add-post/tagname/tagname.module';
+import { QuickSettingModalPageModule } from '../pages/quick-setting-modal/quick-setting-modal.module';
+import { FavoriteCategoryPageModule } from '../pages/favorite-category/favorite-category.module';
+import { CategorymainPageModule } from '../pages/categorymain/categorymain.module';
+import { CategorysubPageModule } from '../pages/categorysub/categorysub.module';
+import { WelcomePageModule } from '../pages/welcome/welcome.module';
+import { BasicDetailPageModule } from '../pages/basic-detail/basic-detail.module';
+import { ImageComponentsModule } from '../components/image-selector/imagecomponents.module';
+import { CommonModule } from '@angular/common'; 
+import { ComponentsModule } from '../components/components.module';
 var firebaseConfig = {
   apiKey: "AIzaSyAh1EyYPn6Uhn8R9e9AT7wqfPA4aWp8IB4",
   authDomain: "quizator-be795.firebaseapp.com",
@@ -83,36 +107,37 @@ var firebaseConfig = {
 @NgModule({
   declarations: [
     MyApp,
-    HomePage,
-    ListPage,
-    WelcomePage,
-    BasicDetailPage,
-    AccountPage,
-    AddBlogPage,
-    AddPostPage,
-    ChatMainPage,
-    ChatListPage,
-    CommentPage,
-    InterestPage,
-    MatchupPage,
-    NotificationPage,
-    SearchPage,
-    ViewBlogPage,
-    ViewPostPage,
-    MatchupPlayPage,
-    SubcategoryPage,
-    CategoryPage,
-    TagnamePage,
     ImageSelectorComponent,
-    QuickSettingModalPage,
-    FavoriteCategoryPage,
+    AddPostPage,
+    CategoryPage,
     CategorymainPage,
-    CategorysubPage
+    CategorysubPage,
   ],
   imports: [
     HttpModule,
+    CommonModule,
     LongPressModule,
+    AccountPageModule,
+    AddBlogPageModule,
+    ChatMainPageModule,
+    ChatListPageModule,
+    CommentPageModule,
+    InterestPageModule,
+    MatchupPageModule,
+    ChatListPageModule,
+    WelcomePageModule,
+    BasicDetailPageModule,
+    NotificationPageModule,
+    SearchPageModule,
+    ViewBlogPageModule,
+    ViewPostPageModule,
+    MatchupPlayPageModule,
+    SubcategoryPageModule,
+    TagnamePageModule, 
+    QuickSettingModalPageModule,
+    FavoriteCategoryPageModule,
     BrowserModule,
+    HomePageModule,
     HttpClientModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
@@ -152,7 +177,6 @@ var firebaseConfig = {
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage,
     WelcomePage,
     BasicDetailPage,
     AccountPage,

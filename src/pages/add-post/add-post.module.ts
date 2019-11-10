@@ -5,7 +5,7 @@ import { ImageComponentsModule } from '../../components/image-selector/imagecomp
 
 @NgModule({
   declarations: [
-    AddPostPage
+  
   ],
   imports: [
     ImageComponentsModule,
