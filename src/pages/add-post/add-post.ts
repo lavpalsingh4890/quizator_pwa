@@ -15,7 +15,7 @@ import { Post } from '../../pojo/post';
 import { Post_Option } from '../../pojo/post_option';
 import { ImageSelectorComponent } from '../../components/image-selector/image-selector';
 import { PostRequestBody } from '../../pojo/postRequestBody';
-import {Category as CategoryEntity} from '../../entityModel/category'
+import {Category as CategoryEntity, Category} from '../../entityModel/category'
 
 @IonicPage()
 @Component({
@@ -37,7 +37,7 @@ export class AddPostPage {
   private correct_option: string;
   private data: any = {};
   private categoryId: number;
-  private categoryList:CategoryEntity[];
+  private categoryList:CategoryEntity[] = new Array();
   private category_name: string;
   private category: string = "Select Category";
   private isImage: boolean = false;
@@ -88,7 +88,7 @@ export class AddPostPage {
       this.errors += 'Search Tag field - minimum 10 characters required \r\n ';
       this.is_error = true;
     }
-    if (this.categoryId == null || this.categoryId == 0) {
+    if (this.categoryList.length == 0) {
       this.errors += 'Please select valid category \r\n ';
       this.is_error = true;
     }
@@ -108,7 +108,7 @@ export class AddPostPage {
   }
   post() {
     if (this.validateFields()) {
-      this.postClient.post(this.isTagPicked, this.isImageUploaded, this.mediaId, this.question, this.search_tag, this.image, this.media_tag, this.media_source, this.post_type, this.categoryId, this.correct_option, this.items, this.description,this.level).subscribe(d => {
+      this.postClient.post(this.isTagPicked, this.isImageUploaded, this.mediaId, this.question, this.search_tag, this.image, this.media_tag, this.media_source, this.post_type, this.categoryList, this.correct_option, this.items, this.description,this.level).subscribe(d => {
         console.log(this.isTagPicked);
         console.log(this.isImageUploaded);
         if (!this.isTagPicked || this.isImageUploaded) {
@@ -119,14 +119,18 @@ export class AddPostPage {
           let media_id = data_.Tasveer_id;
           var opts: Post_Option[] = this.postClient.getOptions(this.correct_option, this.items);
           console.log(opts);
-          var post: Post = this.postClient.createPost(this.question, this.description, this.search_tag, this.postClient.getPostType(this.post_type), this.categoryId, 1, opts, media_id,this.level);
+          var post: Post = this.postClient.createPost(this.question, this.description, this.search_tag, this.postClient.getPostType(this.post_type), this.categoryList, 1, opts, media_id,this.level);
           console.log(post);
 
           var media_arr :number[]= new Array();
           var category_arr:number[]= new Array();
 
           media_arr.push(media_id);
-          category_arr.push(this.categoryId);
+          this.categoryList.forEach( (element) => {
+            console.log(element)
+            category_arr.push(element.id);
+        });
+          
 
           var postRequestBody:PostRequestBody = this.postClient.createPostRequestBody(post,media_arr,category_arr);
 
@@ -236,11 +240,8 @@ export class AddPostPage {
   }
   ionViewDidEnter() {
     console.log('ionViewDidEnter AddPostPage');
-    this.categoryList = new Array();
-    this.categoryList.push({"id":1,"category":"Nature","parentId":0,"category_media":"xyz"});
-    this.categoryList.push({"id":1,"category":"History","parentId":0,"category_media":"xyz"});
-    this.categoryList.push({"id":1,"category":"Science","parentId":0,"category_media":"xyz"});
-
+    
+  
     var t: Tag = <Tag>Context.get("Tag");
     if (t != null) {
       console.log(t.tag);
@@ -251,6 +252,11 @@ export class AddPostPage {
       this.mediaId = t.id;
     }
 
+    var category: Category = <Category>Context.get("Category");
+    if (category != null) {
+      console.log(category.category);
+      this.categoryList.push(category);
+    }
 
     if (SubcategoryPage.is_sub1_selected) {
       console.log(SubcategoryPage.main_option2.id + " " + SubcategoryPage.main_option2.category + " " + SubcategoryPage.sub_option1.id + " " + SubcategoryPage.sub_option1.category);
@@ -289,7 +295,7 @@ export class AddPostPage {
   }
 
   getCategories(){
-
+    this.navCtrl.push(TagnamePage, { "keyword": this.category_name,"type": "category" });
   }
 
   deleteCategory(item){

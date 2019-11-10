@@ -9,5 +9,6 @@ export var environment = {
     CATEGORY_API:"category",
     PARENT_CATEGORY_PARAMS:"?type=main&parent=0",
     TAG_FIND_API:"media/find?keyword=",
+    CATEGORY_FIND_API:"category/match?keyword=",
     TAGNAME_API: "media"
 }

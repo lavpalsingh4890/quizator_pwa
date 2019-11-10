@@ -6,6 +6,7 @@ import { environment as ENV } from "../../../environments/environment";
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Tag } from '../../../entityModel/tag';
 import { Context } from '../../../providers/context';
+import { Category } from '../../../entityModel/category';
 
 @IonicPage()
 @Component({
@@ -13,17 +14,31 @@ import { Context } from '../../../providers/context';
   templateUrl: 'tagname.html',
 })
 export class TagnamePage {
+ 
+ 
   private items: Tag[];
+  private categories: Category[];
+  private categories_init: Category[];
   private items_init: Tag[];
   private tagData: Tag[];
-  keyword: string;
+  private keyword: string;
+  private type:string;
   private data: any = {};
+  private isCategory:boolean =false;
 
   constructor(private alertCtrl: AlertController, private toastCtrl: ToastController, public http: Http, public navCtrl: NavController, public navParams: NavParams) {
     this.keyword = this.navParams.get("keyword");
-    console.log(this.keyword);
+    this.type = this.navParams.get("type");
+    console.log(this.type);
+    if(this.type == 'category'){
+      this.isCategory = true;
+      this.initializeCategories();
+      this.getCategories();
+    }
+    else{
     this.initializeItems();
     this.getTags();
+    }
   }
 
   ionViewDidLoad() {
@@ -35,7 +50,12 @@ export class TagnamePage {
     ];
   }
   longPressed(item) {
-    this.presentPrompt(item);
+    if(this.type =='category'){
+      this.presentPromptCategory(item);
+    }
+    else
+   
+     this.presentPrompt(item);
     console.log('Long press card ' + item);
   }
 
@@ -95,6 +115,63 @@ export class TagnamePage {
     });
     alert.present();
   }
+
+  presentPromptCategory(item) {
+    let alert = this.alertCtrl.create({
+      title: 'Edit Category',
+      inputs: [
+        {
+          name: 'CategoryName',
+          placeholder: 'Category Name',
+          value: item.category
+        },
+        {
+          name: 'CategoryMediaUrl',
+          placeholder: 'Media Url',
+          value: item.category_media
+        },
+        {
+          name: 'ParentID',
+          placeholder: 'Parent ID',
+          value: item.parentId
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+          }
+        },
+        {
+          text: 'Done',
+          handler: data => {
+            if (data.CategoryName != item.category || data.CategoryMediaUrl != item.category_media || data.ParentID != item.parentId) {
+              var new_Category: Category = {
+                "id": item.id,
+                "parentId": data.ParentID,
+                "category": data.CategoryName,
+                "category_media": data.CategoryMediaUrl
+              }
+              this.updateCategory(new_Category, item.id).subscribe(d => {
+                this.getCategories();
+              }, error => {
+
+              });
+
+            } else {
+              return false;
+            }
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+  updateCategory(new_Category: any, id: any): any {
+    var link = ENV.BASE_URL_VARG + ENV.CATEGORY_API + "/" + id;
+    return this.http.put(link, new_Category, ServerUtil.getHeaders())
+  }
   getTags() {
     var link = ENV.BASE_URL_TASVEER + ENV.TAG_FIND_API + this.keyword;
     this.http.get(link, ServerUtil.getHeaders())
@@ -110,27 +187,58 @@ export class TagnamePage {
       });
   }
 
+  getCategories() {
+    var link = ENV.BASE_URL_VARG + ENV.CATEGORY_FIND_API + this.keyword;
+    this.http.get(link, ServerUtil.getHeaders())
+      .subscribe(d => {
+        this.data.response = d["_body"];
+        console.log(this.data.response);
+        let data_array = JSON.stringify(d.json());
+        let categories = JSON.parse(data_array);
+        this.categories = categories.data;
+        this.categories_init = categories.data;
+      }, error => {
+        console.log("Oooops!");
+      });
+  }
+
   log(item) {
     Context.set("Tag", item);
     this.navCtrl.pop();
   }
 
+  selectCategory(item) {
+    Context.set("Category", item);
+    this.navCtrl.pop();
+  }
+
   getItems(ev: any) {
-    // Reset items back to all of the items
+
+    if(this.type=='category'){
+      this.categories = this.categories_init;
+      const val = ev.target.value;
+      if (val && val.trim() != '') {
+        this.categories = this.categories.filter((item) => {
+          return (item.category.toLowerCase().indexOf(val.toLowerCase()) > -1);
+        })
+      }
+    }
+    else{
     this.items = this.items_init;
-
-    // set val to the value of the searchbar
     const val = ev.target.value;
-
-    // if the value is an empty string don't filter the items
     if (val && val.trim() != '') {
       this.items = this.items.filter((item) => {
         return (item.tag.toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
     }
   }
+  }
 
   back() {
     this.navCtrl.pop();
+  }
+
+  initializeCategories(): any {
+    this.categories = new Array();
   }
 }

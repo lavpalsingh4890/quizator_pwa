@@ -1,33 +1,66 @@
 <ion-content padding>
   <ion-row>
     <ion-col col-10>
-        <ion-searchbar [(ngModel)]="keyword" (ionInput)="getItems($event)"></ion-searchbar>
+        <ion-searchbar  *ngIf ="isCategory" [(ngModel)]="keyword" (keyup.enter)="getCategories()" (ionInput)="getItems($event)"></ion-searchbar>
+      
+      <ion-searchbar  *ngIf ="!isCategory" [(ngModel)]="keyword" (keyup.enter)="getTags()" (ionInput)="getItems($event)"></ion-searchbar>
     </ion-col>
     <ion-col col-2>
-        <button ion-button icon-only (click)="getTags()">
+        <button *ngIf ="!isCategory" ion-button icon-only  (click)="getTags()">
             <ion-icon name="search"></ion-icon>
           </button>
+          <button *ngIf ="isCategory" ion-button icon-only (keyup.enter)="getCategories()" (click)="getCategories()">
+              <ion-icon name="search"></ion-icon>
+            </button>
     </ion-col>
   </ion-row>
   <ion-row>
-      <ion-col (press)="longPressed(item)" (click)="log(item)" *ngFor="let item of items" col-6>
+      <button ion-button (click)="back()" color="light" round full>Back
+        
+      </button>
+    </ion-row>
+  <ion-row>
+      <ion-col  (press)="longPressed(item)" (click)="selectCategory(item)" *ngFor="let item of categories" col-6>
    
-          <ion-card no-padding >
-             <ion-card-content  no-padding>
-                 <ion-row align-items-stretch>
-                     <ion-col align-self-stretch>
-                        <img  src={{item.mediaUrl}} style="width:100%;height:100px"/>
-                     </ion-col>
-                    
-                   </ion-row>
-                   <ion-row align-items-stretch>
-                      <ion-col align-self-stretch>
-                          {{ item.tag }}
-                       </ion-col>
-                   </ion-row>
-             </ion-card-content>
-           </ion-card>
+        <div *ngIf ="isCategory">
+            <ion-card no-padding >
+                <ion-card-content  no-padding>
+                    <ion-row align-items-stretch>
+                        <ion-col align-self-stretch>
+                           <img  src={{categories.category_media}} style="width:100%;height:100px"/>
+                        </ion-col>
+                       
+                      </ion-row>
+                      <ion-row align-items-stretch>
+                         <ion-col align-self-stretch>
+                             {{ item.category }}
+                          </ion-col>
+                      </ion-row>
+                </ion-card-content>
+              </ion-card>
+        </div>
      </ion-col> 
+     <ion-col  (press)="longPressed(item)" (click)="log(item)" *ngFor="let item of items" col-6>
+        <div *ngIf ="!isCategory">
+            <ion-card no-padding >
+                <ion-card-content  no-padding>
+                    <ion-row align-items-stretch>
+                        <ion-col align-self-stretch>
+                           <img  [src]=item.mediaUrl style="width:100%;height:100px"/>
+                        </ion-col>
+                       
+                      </ion-row>
+                      <ion-row align-items-stretch>
+                         <ion-col align-self-stretch>
+                             {{ item.tag }}
+                          </ion-col>
+                      </ion-row>
+                </ion-card-content>
+              </ion-card>
+        </div>
+          
+     </ion-col> 
+      
   </ion-row>
   
   <!-- <ion-list>
@@ -40,9 +73,5 @@
     </ion-item>
   </ion-row>
   </ion-list> -->
-  <ion-row>
-      <button ion-button (click)="back()" color="light" round full>Back
-        
-      </button>
-    </ion-row>
+ 
 </ion-content>

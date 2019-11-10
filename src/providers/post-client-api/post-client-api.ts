@@ -8,6 +8,7 @@ import { Tag } from '../../pojo/tag';
 import { environment as ENV } from "../../environments/environment";
 import { Observable, of } from 'rxjs';
 import { PostRequestBody } from '../../pojo/postRequestBody';
+import { Category } from '../../entityModel/category';
 
 @Injectable()
 export class PostClientApiProvider {
@@ -15,14 +16,14 @@ export class PostClientApiProvider {
   constructor(public http: Http) {
     console.log('Hello PostClientApiProvider Provider');
   }
-  post(isTagPicked: boolean, isImageUploaded: boolean, mediaId: number, title: string, search_tag: string, media_path: string, media_tag: string, media_source: string, post_type: string, post_category_id: number, correct_option: string, options: string[], description: string, category_tag:string) {
+  post(isTagPicked: boolean, isImageUploaded: boolean, mediaId: number, title: string, search_tag: string, media_path: string, media_tag: string, media_source: string, post_type: string, post_category_id: Category[], correct_option: string, options: string[], description: string, category_tag:string) {
     var opts: Post_Option[] = this.getOptions(correct_option, options);
 
     if (!isTagPicked || isImageUploaded) {
       var tag: Tag = this.createTag(media_path, media_tag, media_source);
       console.log(tag);
 
-      return this.addTag(tag, title, description, this.getPostType(post_type), post_category_id, 1, opts);
+      return this.addTag(tag);
 
     } else {
       var post: Post = this.createPost(title, description, search_tag, this.getPostType(post_type), post_category_id, 1, opts, mediaId,category_tag);
@@ -31,14 +32,17 @@ export class PostClientApiProvider {
           var category_arr:number[]= new Array();
 
           media_arr.push(mediaId);
-          category_arr.push(post_category_id);
+          post_category_id.forEach( (element) => {
+            console.log(element)
+            category_arr.push(element.id);
+        });
       var postRequestBody:PostRequestBody = this.createPostRequestBody(post,media_arr,category_arr);
       return this.addPost(postRequestBody);
     }
 
   }
 
-  addTag(tag: Tag, title: string, description: string, post_type: number, post_category_id: number, blogger_id: number, opts: Post_Option[]) {
+  addTag(tag: Tag) {
     var link = ENV.BASE_URL_TASVEER + ENV.TAGNAME_API;
 
     return this.http.post(link, tag, ServerUtil.getHeaders())
@@ -53,7 +57,7 @@ export class PostClientApiProvider {
     };
     return tag_data;
   }
-  createPost(title: string, description: string, search_tag: string, post_type: number, post_category_id: number, blogger_id: number, options: Post_Option[], media_id: number,level:string) {
+  createPost(title: string, description: string, search_tag: string, post_type: number, post_category_id: Category[], blogger_id: number, options: Post_Option[], media_id: number,level:string) {
     var post_data: Post = {
       "title": title,
       "options": options,
