@@ -1,18 +1,14 @@
 import { Component, Injectable, Input, Output, EventEmitter } from '@angular/core';
-import { IonicPage, NavController, Platform, ToastController, AlertController } from 'ionic-angular';
+import {  NavController, Platform, ToastController, AlertController } from 'ionic-angular';
 import { TextUtilProvider } from '../../providers/text-util/text-util';
 import { normalizeURL } from 'ionic-angular';
 import { ImageUtil } from '../../providers/ImageUtil';
 import { Context } from '../../providers/context';
 import { Storage } from '@ionic/storage';
 import { PostClientApiProvider } from '../../providers/post-client-api/post-client-api';
-import { Tag } from '../../entityModel/tag';
-import { Observable, of } from 'rxjs';
-import { Post } from '../../pojo/post';
-import { Post_Option } from '../../entityModel/post_option';
+
 import { TagnamePage } from '../../pages/add-post/tagname/tagname';
-import { SubcategoryPage } from '../../pages/category/subcategory/subcategory';
-import { AddPostPage } from '../../pages/add-post/add-post';
+
 
 @Injectable()
 @Component({

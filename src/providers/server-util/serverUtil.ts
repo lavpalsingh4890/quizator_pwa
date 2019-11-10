@@ -1,10 +1,7 @@
 
 import { Injectable } from '@angular/core';
-import { environment as ENV } from "../../environments/environment" ;
-import { Http , Headers, RequestOptions, Response} from '@angular/http';
-import { Post } from '../../pojo/post';
-import { Category } from '../../pojo/category';
-import { Observable, of } from 'rxjs';
+import { Http , Headers, RequestOptions} from '@angular/http';
+
 
 @Injectable()
 export class ServerUtil {
@@ -22,10 +19,7 @@ public static getHeaders(){
   let options = new RequestOptions({ headers:headers});
   return options;
 }
-   
-    getSubCategory(parent_id:number){
 
-    }
 
    
 }

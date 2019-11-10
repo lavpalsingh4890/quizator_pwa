@@ -35,15 +35,15 @@ import { SubcategoryPage } from '../pages/category/subcategory/subcategory';
 import { EmojiProvider } from '../providers/emoji';
 import { TextUtilProvider } from '../providers/text-util/text-util';
 import { FCM } from '@ionic-native/fcm';
-import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
+import { Facebook } from '@ionic-native/facebook';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { IonicStorageModule } from '@ionic/storage';
 import { StorageUtilProvider } from '../providers/storage-util/storage-util';
-import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import { SQLite } from '@ionic-native/sqlite';
 import { SessionUtilProvider } from '../providers/session-util/session-util';
 import { ImagePicker } from '@ionic-native/image-picker';
 
-import { Camera, CameraOptions } from '@ionic-native/camera';
+
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -61,7 +61,7 @@ import { TagnamePage } from '../pages/add-post/tagname/tagname';
 import { LongPressModule } from 'ionic-long-press';
 import { ImageSelectorComponent } from '../components/image-selector/image-selector';
 import { HomePageModule } from '../pages/home/home.module';
-import { PostItemModule } from '../components/post-item/postItem.module';
+
 
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { QuickSettingModalPage } from '../pages/quick-setting-modal/quick-setting-modal';
@@ -73,7 +73,7 @@ import { CategorysubPage } from '../pages/categorysub/categorysub';
 import { IonicImageLoader } from 'ionic-image-loader';
 import { AccountPageModule } from '../pages/account/account.module';
 import { AddBlogPageModule } from '../pages/add-blog/add-blog.module';
-import { AddPostPageModule } from '../pages/add-post/add-post.module';
+
 import { ChatMainPageModule } from '../pages/chat-main/chat-main.module';
 import { ChatListPageModule } from '../pages/chat-list/chat-list.module';
 import { CommentPageModule } from '../pages/comment/comment.module';
@@ -85,17 +85,18 @@ import { ViewBlogPageModule } from '../pages/view-blog/view-blog.module';
 import { ViewPostPageModule } from '../pages/view-post/view-post.module';
 import { MatchupPlayPageModule } from '../pages/matchup-play/matchup-play.module';
 import { SubcategoryPageModule } from '../pages/category/subcategory/subcategory.module';
-import { CategoryPageModule } from '../pages/category/category.module';
+
 import { TagnamePageModule } from '../pages/add-post/tagname/tagname.module';
 import { QuickSettingModalPageModule } from '../pages/quick-setting-modal/quick-setting-modal.module';
 import { FavoriteCategoryPageModule } from '../pages/favorite-category/favorite-category.module';
-import { CategorymainPageModule } from '../pages/categorymain/categorymain.module';
-import { CategorysubPageModule } from '../pages/categorysub/categorysub.module';
+
+
 import { WelcomePageModule } from '../pages/welcome/welcome.module';
 import { BasicDetailPageModule } from '../pages/basic-detail/basic-detail.module';
-import { ImageComponentsModule } from '../components/image-selector/imagecomponents.module';
+
 import { CommonModule } from '@angular/common'; 
-import { ComponentsModule } from '../components/components.module';
+import { Camera } from '@ionic-native/camera';
+
 var firebaseConfig = {
   apiKey: "AIzaSyAh1EyYPn6Uhn8R9e9AT7wqfPA4aWp8IB4",
   authDomain: "quizator-be795.firebaseapp.com",

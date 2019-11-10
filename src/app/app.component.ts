@@ -5,17 +5,13 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
 import { InterestPage } from '../pages/interest/interest';
-import { BasicDetailPage } from '../pages/basic-detail/basic-detail';
+
 import { AddPostPage } from '../pages/add-post/add-post';
 import { Deeplinks } from '@ionic-native/deeplinks';
-import { CategoryPage } from '../pages/category/category';
 
 
-import { ChatListPage } from '../pages/chat-list/chat-list';
-import { ViewPostPage } from '../pages/view-post/view-post';
-import { AccountPage } from '../pages/account/account';
-import { ViewBlogPage } from '../pages/view-blog/view-blog';
-import { WelcomePage } from '../pages/welcome/welcome';
+
+
 import { FCM } from '@ionic-native/fcm';
 
 
@@ -53,6 +49,7 @@ export class MyApp {
       this.imageLoaderConfig.setFallbackUrl('assets/imgs/logo.png');
       this.imageLoaderConfig.setMaximumCacheAge(24 * 60 * 60 * 1000);
       this.fcm.getToken().then(token => {
+        console.log(token)
         // Your best bet is to here store the token on the user's profile on the
         // Firebase database, so that when you want to send notifications to this 
         // specific user you can do it from Cloud Functions.
