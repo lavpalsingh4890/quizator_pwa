@@ -9,6 +9,5 @@ export interface Post {
     options:Post_Option[];
     search_tag:string;
     total_votes:number;
-    category_tag:string;
-   
+    level:string; 
   }

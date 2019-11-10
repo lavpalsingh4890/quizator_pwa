@@ -3,7 +3,7 @@ import { Post_Category } from "./post_category";
 import { Post_Media } from "./post_media";
 
 export interface Post {
-  post_id:number;
+    post_id:number;
     blogger_id: number;
     title: string;
     post_desc: string;
@@ -15,4 +15,5 @@ export interface Post {
     search_tag:string;
     post_state:string;
 
+    level:number;
   }

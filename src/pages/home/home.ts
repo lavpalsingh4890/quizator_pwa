@@ -13,7 +13,6 @@ import { FavoriteCategoryPage } from '../favorite-category/favorite-category';
 import { PostView } from '../../entityModel/postView';
 import { Context } from '../../providers/context';
 import { CategorymainPage } from '../categorymain/categorymain';
-import { ImageLoader } from 'ionic-image-loader';
 @IonicPage({
   name: 'home'
 
@@ -36,10 +35,10 @@ export class HomePage {
   private post_type: number = 0;          // none-> All, 1 -> quiz, 2 -> poll , 3 -> fact
 
   private postView: PostView[] = new Array();
-  private link = ENV.BASE_URL + ENV.POST_API + "?size=15&page=";
-  private poll_link = ENV.BASE_URL + ENV.POST_API + "/poll/";
-  private postview_link = ENV.BASE_URL + ENV.POSTVIEW_API + "/1";
-  private favpost_link = ENV.BASE_URL + ENV.FAVPOST_API + "/1";
+  private link = ENV.BASE_URL_SAWAAL + ENV.POST_API + "?size=15&page=";
+  private poll_link = ENV.BASE_URL_SAWAAL + ENV.POST_API + "/poll/";
+  private postview_link = ENV.BASE_URL_SAWAAL + ENV.POSTVIEW_API + "/1";
+  private favpost_link = ENV.BASE_URL_VARG + ENV.FAVPOST_API + "/1";
   private post_viewed = new Set();
   private fav_post = new Set();
   private post_correct_options: Post_Viewed[] = new Array();
@@ -54,7 +53,7 @@ export class HomePage {
   private post_type_label;
   private type = "";
   private favorite_post;
-  constructor(public loadingCtrl: LoadingController, private imageLoader: ImageLoader, private _app: App, private toastCtrl: ToastController, public modal: ModalController, private alertCtrl: AlertController, private iab: InAppBrowser, public navCtrl: NavController, public http: Http) {
+  constructor(public loadingCtrl: LoadingController, private _app: App, private toastCtrl: ToastController, public modal: ModalController, private alertCtrl: AlertController, private iab: InAppBrowser, public navCtrl: NavController, public http: Http) {
     // this.posts = post;
     var link = this.link + this.page;
     this.getPosts(link);
@@ -286,12 +285,12 @@ export class HomePage {
       for (var post_option_var of post_options) {
         var opt_id = "post_option_div_label_" + pid + "_" + index;
         var opt_element = document.getElementById(opt_id);
-        var poll_count = post_option_var.poll_count;
+        var poll_count = post_option_var.pollcount;
         if (!this.post_viewed.has(post.post_id)) {
           if (index == id) {
 
             poll_count = poll_count + 1;
-            post_option_var.poll_count = poll_count;
+            post_option_var.pollcount = poll_count;
           }
         }
         var percent = (poll_count / total_votes) * 100;

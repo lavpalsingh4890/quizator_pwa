@@ -173,7 +173,7 @@ export class CategoryPage {
     return category_data;
   }
   addCategory() {
-    var link = ENV.BASE_URL + ENV.CATEGORY_API;
+    var link = ENV.BASE_URL_VARG + ENV.CATEGORY_API;
 
     var category: CategoryPojo = this.createCategory();
 

@@ -10,7 +10,7 @@ import { Observable, of } from 'rxjs';
 export class ServerUtil {
     data: any = {};
     constructor(public http: Http) {
-        console.log(ENV.BASE_URL);
+
     }
 public static getHeaders(){
   let headers = new Headers();

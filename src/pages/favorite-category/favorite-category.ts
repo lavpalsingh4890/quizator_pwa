@@ -14,8 +14,8 @@ export class FavoriteCategoryPage {
   private search_mode =false;
   private favList: Favorite[] =new Array();
   private search_button = "search";
-  private link = ENV.BASE_URL + ENV.FAV_API +"/2";
-  private link_category = ENV.BASE_URL + ENV.CATEGORY_API + "/match";
+  private link = ENV.BASE_URL_VARG + ENV.FAV_API +"/2";
+  private link_category = ENV.BASE_URL_VARG + ENV.CATEGORY_API + "/match";
   private keyword: string;
   private data: any = {};
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public http: Http) {

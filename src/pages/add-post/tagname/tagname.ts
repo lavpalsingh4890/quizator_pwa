@@ -40,7 +40,7 @@ export class TagnamePage {
   }
 
   updateTag(new_tag: Tag, id) {
-    var link = ENV.BASE_URL + ENV.TAGNAME_API + "/" + id;
+    var link = ENV.BASE_URL_TASVEER + ENV.TAGNAME_API + "/" + id;
     return this.http.put(link, new_tag, ServerUtil.getHeaders())
   }
   presentPrompt(item) {
@@ -96,7 +96,7 @@ export class TagnamePage {
     alert.present();
   }
   getTags() {
-    var link = ENV.BASE_URL + ENV.TAG_FIND_API + this.keyword;
+    var link = ENV.BASE_URL_TASVEER + ENV.TAG_FIND_API + this.keyword;
     this.http.get(link, ServerUtil.getHeaders())
       .subscribe(d => {
         this.data.response = d["_body"];

@@ -7,6 +7,7 @@ import { Tag } from '../../pojo/tag';
 
 import { environment as ENV } from "../../environments/environment";
 import { Observable, of } from 'rxjs';
+import { PostRequestBody } from '../../pojo/postRequestBody';
 
 @Injectable()
 export class PostClientApiProvider {
@@ -26,13 +27,19 @@ export class PostClientApiProvider {
     } else {
       var post: Post = this.createPost(title, description, search_tag, this.getPostType(post_type), post_category_id, 1, opts, mediaId,category_tag);
       console.log(post);
-      return this.addPost(post,mediaId,post_category_id);
+      var media_arr :number[]= new Array();
+          var category_arr:number[]= new Array();
+
+          media_arr.push(mediaId);
+          category_arr.push(post_category_id);
+      var postRequestBody:PostRequestBody = this.createPostRequestBody(post,media_arr,category_arr);
+      return this.addPost(postRequestBody);
     }
 
   }
 
   addTag(tag: Tag, title: string, description: string, post_type: number, post_category_id: number, blogger_id: number, opts: Post_Option[]) {
-    var link = ENV.BASE_URL + ENV.TAGNAME_API;
+    var link = ENV.BASE_URL_TASVEER + ENV.TAGNAME_API;
 
     return this.http.post(link, tag, ServerUtil.getHeaders())
 
@@ -46,7 +53,7 @@ export class PostClientApiProvider {
     };
     return tag_data;
   }
-  createPost(title: string, description: string, search_tag: string, post_type: number, post_category_id: number, blogger_id: number, options: Post_Option[], media_id: number,category_tag:string) {
+  createPost(title: string, description: string, search_tag: string, post_type: number, post_category_id: number, blogger_id: number, options: Post_Option[], media_id: number,level:string) {
     var post_data: Post = {
       "title": title,
       "options": options,
@@ -56,16 +63,25 @@ export class PostClientApiProvider {
       "search_tag": search_tag,
       "post_state":"1",
       "total_votes":0,
-      "category_tag":category_tag
+      "level":level
     };
     return post_data;
   }
-  createOption(id: number, data: string, is_true: boolean) {
+
+  createPostRequestBody(post: Post, media:number[], category:number[]) {
+    var post_data: PostRequestBody = {
+      "sawaal": post,
+      "media": media,
+      "category": category
+    };
+    return post_data;
+  }
+  createOption(id: number, data: string, is_true: number) {
     var post_opt: Post_Option = {
       "option": data,
       "id": id,
-      "is_correct": is_true,
-      "poll_count": 0
+      "iscorrect": is_true,
+      "pollcount": 0
     };
     return post_opt;
   }
@@ -81,37 +97,19 @@ export class PostClientApiProvider {
     var count = 1;
     var options = new Array();
     items.forEach(val => {
-      var is_true = false;
-      if (val == correct_option) is_true = true;
+      var is_true = 0;
+      if (val == correct_option) is_true = 1;
       var o: Post_Option = this.createOption(count, val, is_true);
       options.push(o);
       count++;
     });
     return options;
   }
-  public addPost(post_data: Post,media,category): Observable<Response> {
-    var link = ENV.BASE_URL + ENV.POST_API;
-
-    if (media != null || category != null) {
-
-      var categoryAdded:boolean =false;
-      link = link + "?";
-      if (media != null) { 
-        link = link + "media=" + media;
-        if (category != null) { 
-          link = link +  "&category="+category;
-          categoryAdded =true;
-        }
-      }
-      if (!categoryAdded&&category != null) { 
-        link = link + "category="+category;
-      }
-
-    }
-
-    var myData = JSON.stringify(post_data);
+  public addPost(postRequestBody:PostRequestBody): Observable<Response> {
+    var link = ENV.BASE_URL_SAWAAL + ENV.POST_API;
+    var myData = JSON.stringify(postRequestBody);
     let headers = new Headers();
-    //       headers.append('Origin' , 'http://127.0.0.1:8100');
+    console.log(postRequestBody)
     headers.append('Access-Control-Allow-Origin', '*');
     headers.append('Access-Control-Allow-Methods', 'POST, GET, PUT');
     headers.append('Accept', 'application/json');

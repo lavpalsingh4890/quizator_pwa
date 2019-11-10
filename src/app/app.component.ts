@@ -30,7 +30,7 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   title ="Quizator";
-  rootPage: any = HomePage;
+  rootPage: any = AddPostPage;
 
   pages: Array<{title: string, component: any}>;
 

@@ -14,6 +14,7 @@ import { Observable, of } from 'rxjs';
 import { Post } from '../../pojo/post';
 import { Post_Option } from '../../pojo/post_option';
 import { ImageSelectorComponent } from '../../components/image-selector/image-selector';
+import { PostRequestBody } from '../../pojo/postRequestBody';
 
 @IonicPage()
 @Component({
@@ -27,7 +28,7 @@ export class AddPostPage {
   private question: string;
   private description: string;
   private search_tag: string;
-  private category_tag:string;
+  private level:string;
   private media_tag;
   private media_source;
   private post_type = "quiz";
@@ -104,7 +105,7 @@ export class AddPostPage {
   }
   post() {
     if (this.validateFields()) {
-      this.postClient.post(this.isTagPicked, this.isImageUploaded, this.mediaId, this.question, this.search_tag, this.image, this.media_tag, this.media_source, this.post_type, this.categoryId, this.correct_option, this.items, this.description,this.category_tag).subscribe(d => {
+      this.postClient.post(this.isTagPicked, this.isImageUploaded, this.mediaId, this.question, this.search_tag, this.image, this.media_tag, this.media_source, this.post_type, this.categoryId, this.correct_option, this.items, this.description,this.level).subscribe(d => {
         console.log(this.isTagPicked);
         console.log(this.isImageUploaded);
         if (!this.isTagPicked || this.isImageUploaded) {
@@ -115,9 +116,18 @@ export class AddPostPage {
           let media_id = data_.media_id;
           var opts: Post_Option[] = this.postClient.getOptions(this.correct_option, this.items);
           console.log(opts);
-          var post: Post = this.postClient.createPost(this.question, this.search_tag, this.description, this.postClient.getPostType(this.post_type), this.categoryId, 1, opts, media_id,this.category_tag);
+          var post: Post = this.postClient.createPost(this.question, this.search_tag, this.description, this.postClient.getPostType(this.post_type), this.categoryId, 1, opts, media_id,this.level);
           console.log(post);
-          this.postClient.addPost(post,this.mediaId,this.categoryId).subscribe(data => {
+
+          var media_arr :number[]= new Array();
+          var category_arr:number[]= new Array();
+
+          media_arr.push(media_id);
+          category_arr.push(this.categoryId);
+
+          var postRequestBody:PostRequestBody = this.postClient.createPostRequestBody(post,media_arr,category_arr);
+
+          this.postClient.addPost(postRequestBody).subscribe(data => {
             this.data.response = data["_body"];
             console.log(this.data.response);
            this.removeImage(false);

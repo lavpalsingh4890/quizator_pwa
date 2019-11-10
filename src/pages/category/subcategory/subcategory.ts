@@ -73,13 +73,13 @@ export class SubcategoryPage {
     var link;
     switch (this.type) {
       case 0:
-        link = ENV.BASE_URL + ENV.CATEGORY_API + ENV.PARENT_CATEGORY_PARAMS;
+        link = ENV.BASE_URL_VARG + ENV.CATEGORY_API + ENV.PARENT_CATEGORY_PARAMS;
         break;
       case 1:
-        link = ENV.BASE_URL + ENV.CATEGORY_API + "?type=subcategory&parent=" + SubcategoryPage.main_option2.id;
+        link = ENV.BASE_URL_VARG + ENV.CATEGORY_API + "?type=subcategory&id=" + SubcategoryPage.main_option2.id;
         break;
       case 2:
-        link = ENV.BASE_URL + ENV.CATEGORY_API + "?type=subcategory&parent=" + SubcategoryPage.sub_option1.id;
+        link = ENV.BASE_URL_VARG + ENV.CATEGORY_API + "?type=subcategory&id=" + SubcategoryPage.sub_option1.id;
         break;
       default:
         break;
@@ -125,7 +125,7 @@ export class SubcategoryPage {
   }
 
   updateTag(new_category: Category, id) {
-    var link = ENV.BASE_URL + ENV.CATEGORY_API + "/" + id;
+    var link = ENV.BASE_URL_VARG + ENV.CATEGORY_API + "/" + id;
     return this.http.put(link, new_category, ServerUtil.getHeaders())
   }
   presentPrompt(item) {

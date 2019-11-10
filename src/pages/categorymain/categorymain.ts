@@ -22,7 +22,7 @@ export class CategorymainPage {
   data: any = {};
   type: number;
   search_query;
-  private link = ENV.BASE_URL + ENV.FAV_API +"/2";
+  private link = ENV.BASE_URL_VARG + ENV.FAV_API +"/2";
   private favList: Favorite[] =new Array();
 
   constructor(private alertCtrl: AlertController, public http: Http, public navCtrl: NavController, public navParams: NavParams, public server: ServerUtil) {
@@ -64,7 +64,7 @@ export class CategorymainPage {
   }
 
   getCategory() {
-    var link = ENV.BASE_URL + ENV.CATEGORY_API + ENV.PARENT_CATEGORY_PARAMS;
+    var link = ENV.BASE_URL_VARG + ENV.CATEGORY_API + ENV.PARENT_CATEGORY_PARAMS;
 
     this.http.get(link, ServerUtil.getHeaders())
       .subscribe(d => {
