@@ -109,7 +109,22 @@
             <ion-icon name="search"></ion-icon>
           </button>
     </ion-col>
-    </ion-row>
+  </ion-row>
+ 
+      <ion-row *ngFor="let item of categoryList ; let i = index">
+        <ion-col col-10>
+          <ion-item>
+            {{item.category}}
+              </ion-item>
+        </ion-col>
+       
+        <ion-col col-2>
+          <button ion-button icon-only (click)="deleteCategory(item)">
+            <ion-icon name="close"></ion-icon>
+          </button>
+        </ion-col>
+    
+  </ion-row>
     <ion-row>
       <button (click)="chooseCategory()" ion-button color="light" full>{{category}}</button>
     </ion-row>

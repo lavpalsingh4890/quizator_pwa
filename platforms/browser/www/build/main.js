@@ -967,7 +967,7 @@ let PostClientApiProvider = class PostClientApiProvider {
             "title": title,
             "options": options,
             "post_type": post_type,
-            "post_desc": description,
+            "description": description,
             "blogger_id": blogger_id,
             "search_tag": search_tag,
             "post_state": "1",
@@ -1623,10 +1623,10 @@ let AddPostPage = class AddPostPage {
                     let data_array = JSON.stringify(d.json());
                     let data_parsed = JSON.parse(data_array);
                     let data_ = data_parsed.data;
-                    let media_id = data_.media_id;
+                    let media_id = data_.Tasveer_id;
                     var opts = this.postClient.getOptions(this.correct_option, this.items);
                     console.log(opts);
-                    var post = this.postClient.createPost(this.question, this.search_tag, this.description, this.postClient.getPostType(this.post_type), this.categoryId, 1, opts, media_id, this.level);
+                    var post = this.postClient.createPost(this.question, this.description, this.search_tag, this.postClient.getPostType(this.post_type), this.categoryId, 1, opts, media_id, this.level);
                     console.log(post);
                     var media_arr = new Array();
                     var category_arr = new Array();

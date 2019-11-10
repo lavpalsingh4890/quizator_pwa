@@ -58,7 +58,7 @@ export class PostClientApiProvider {
       "title": title,
       "options": options,
       "post_type": post_type,
-      "post_desc": description,
+      "description": description,
       "blogger_id": blogger_id,
       "search_tag": search_tag,
       "post_state":"1",

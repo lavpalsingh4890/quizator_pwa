@@ -15,6 +15,7 @@ import { Post } from '../../pojo/post';
 import { Post_Option } from '../../pojo/post_option';
 import { ImageSelectorComponent } from '../../components/image-selector/image-selector';
 import { PostRequestBody } from '../../pojo/postRequestBody';
+import {Category as CategoryEntity} from '../../entityModel/category'
 
 @IonicPage()
 @Component({
@@ -36,6 +37,7 @@ export class AddPostPage {
   private correct_option: string;
   private data: any = {};
   private categoryId: number;
+  private categoryList:CategoryEntity[];
   private category_name: string;
   private category: string = "Select Category";
   private isImage: boolean = false;
@@ -114,10 +116,10 @@ export class AddPostPage {
           let data_array = JSON.stringify(d.json());
           let data_parsed = JSON.parse(data_array);
           let data_ = data_parsed.data;
-          let media_id = data_.media_id;
+          let media_id = data_.Tasveer_id;
           var opts: Post_Option[] = this.postClient.getOptions(this.correct_option, this.items);
           console.log(opts);
-          var post: Post = this.postClient.createPost(this.question, this.search_tag, this.description, this.postClient.getPostType(this.post_type), this.categoryId, 1, opts, media_id,this.level);
+          var post: Post = this.postClient.createPost(this.question, this.description, this.search_tag, this.postClient.getPostType(this.post_type), this.categoryId, 1, opts, media_id,this.level);
           console.log(post);
 
           var media_arr :number[]= new Array();
@@ -234,6 +236,11 @@ export class AddPostPage {
   }
   ionViewDidEnter() {
     console.log('ionViewDidEnter AddPostPage');
+    this.categoryList = new Array();
+    this.categoryList.push({"id":1,"category":"Nature","parentId":0,"category_media":"xyz"});
+    this.categoryList.push({"id":1,"category":"History","parentId":0,"category_media":"xyz"});
+    this.categoryList.push({"id":1,"category":"Science","parentId":0,"category_media":"xyz"});
+
     var t: Tag = <Tag>Context.get("Tag");
     if (t != null) {
       console.log(t.tag);
@@ -279,5 +286,19 @@ export class AddPostPage {
   }
   onMediaChange(image){
     this.image =image;
+  }
+
+  getCategories(){
+
+  }
+
+  deleteCategory(item){
+    if (this.items.indexOf(item) != -1) {
+      this.items.splice(this.items.indexOf(item), 1);
+      console.log(this.items.toString());
+    } else {
+
+      console.log("item doesn't exist");
+    }
   }
 }
