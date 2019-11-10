@@ -97,6 +97,19 @@
       {{errors}}
     </div>
 
+    <ion-row align-items-center>
+      <ion-col col-10>
+      <ion-item>
+        <ion-label floating>Add Category Name</ion-label>
+        <ion-input type="text" [(ngModel)]="category_name" (keyup.enter)="getCategories()"></ion-input>
+      </ion-item>
+    </ion-col>
+    <ion-col col-2>
+        <button ion-button icon-only (click)="getCategories()">
+            <ion-icon name="search"></ion-icon>
+          </button>
+    </ion-col>
+    </ion-row>
     <ion-row>
       <button (click)="chooseCategory()" ion-button color="light" full>{{category}}</button>
     </ion-row>
@@ -111,6 +124,7 @@
         <button ion-button color="dark" round full (click)="post()">Post</button>
       </ion-col>
     </ion-row>
+
 
   </div>
 

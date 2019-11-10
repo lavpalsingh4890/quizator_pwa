@@ -36,6 +36,7 @@ export class AddPostPage {
   private correct_option: string;
   private data: any = {};
   private categoryId: number;
+  private category_name: string;
   private category: string = "Select Category";
   private isImage: boolean = false;
   private isquiz: boolean = true;
