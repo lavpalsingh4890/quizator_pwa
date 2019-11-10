@@ -43,7 +43,7 @@ export class HomePage {
   private fav_post = new Set();
   private post_correct_options: Post_Viewed[] = new Array();
   private currentSelected: number;
-  private is_correct: boolean = false;
+  private iscorrect: boolean = false;
   private posts: Post[] = new Array();
   private temp_posts: Post[] = new Array();
   private single_post: Post[] = new Array();
@@ -181,7 +181,7 @@ export class HomePage {
 
   get_correct_option(post_options, post_id) {
     for (var post_option of post_options) {
-      if (post_option.is_correct) {
+      if (post_option.iscorrect) {
         return post_option.id;
       }
     }
@@ -255,7 +255,7 @@ export class HomePage {
         input.style.color = "whitesmoke"
       }
       this.currentSelected = id;
-      this.is_correct = post_option.is_correct;
+      this.iscorrect = post_option.iscorrect;
     } else if (post.post_type == 2) {
       this.post_time_out = 2000;
       if (!this.post_viewed.has(post.post_id)) {
@@ -312,14 +312,14 @@ export class HomePage {
     if (!this.post_viewed.has(post.post_id)) {
       var post_play: Post_Viewed = {
         "post_id": post.post_id,
-        "is_correct": this.is_correct
+        "iscorrect": this.iscorrect
       };
       this.post_correct_options.push(post_play);
       console.log(this.post_correct_options);
     }
     if (!this.post_viewed.has(post.post_id)) {
       this.post_viewed.add(post.post_id);
-      this.addPostView(post.post_id, this.is_correct);
+      this.addPostView(post.post_id, this.iscorrect);
     }
     if (this.post_view_mode == 2) {
       if (this.current_post_id != this.posts.length) {
