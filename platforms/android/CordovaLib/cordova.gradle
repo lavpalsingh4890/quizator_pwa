@@ -189,7 +189,7 @@ ext {
     // These helpers are shared, but are not guaranteed to be stable / unchanged.
     privateHelpers = {}
     privateHelpers.getProjectTarget = { doGetProjectTarget() }
-    privateHelpers.findLatestInstalledBuildTools = { doFindLatestInstalledBuildTools('19.1.0') }
+    privateHelpers.findLatestInstalledBuildTools = { doFindLatestInstalledBuildTools('28.0.3') }
     privateHelpers.extractIntFromManifest = { name -> doExtractIntFromManifest(name) }
     privateHelpers.extractStringFromManifest = { name -> doExtractStringFromManifest(name) }
     privateHelpers.promptForPassword = { msg -> doPromptForPassword(msg) }

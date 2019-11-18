@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-zh/values-zh.xml",
+            "outputFile": "/Users/lavpal/My Workspace/MyProjects/Quizator/PWA/quizator-client/platforms/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-zh/values-zh.xml",
             "map": [
                 {
-                    "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/android-crop-1.0.0.aar/31a6336255c5af57dbdbeff9a6ae2daa/res/values-zh/values-zh.xml",
+                    "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/android-crop-1.0.0.aar/db71b2c3bfe9128f02eb3a4d071752b6/res/values-zh/values-zh.xml",
                     "from": {
                         "startLines": "4,5,6,7,8",
                         "startColumns": "4,4,4,4,4",

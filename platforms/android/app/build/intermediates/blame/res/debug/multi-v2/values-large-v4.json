@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-large-v4/values-large-v4.xml",
+            "outputFile": "/Users/lavpal/My Workspace/MyProjects/Quizator/PWA/quizator-client/platforms/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-large-v4/values-large-v4.xml",
             "map": [
                 {
-                    "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/android-crop-1.0.0.aar/31a6336255c5af57dbdbeff9a6ae2daa/res/values-large/values-large.xml",
+                    "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/android-crop-1.0.0.aar/db71b2c3bfe9128f02eb3a4d071752b6/res/values-large/values-large.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "4",
@@ -13,43 +13,11 @@
                         "endOffsets": "215"
                     },
                     "to": {
-                        "startLines": "9",
+                        "startLines": "2",
                         "startColumns": "4",
-                        "startOffsets": "532",
+                        "startOffsets": "55",
                         "endColumns": "47",
-                        "endOffsets": "575"
-                    }
-                },
-                {
-                    "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/values-large-v4/values-large-v4.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10",
-                        "startColumns": "4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,114,185,256,326,396,464,532,636",
-                        "endColumns": "58,70,70,69,69,67,67,103,115",
-                        "endOffsets": "109,180,251,321,391,459,527,631,747"
-                    },
-                    "to": {
-                        "startLines": "2,3,4,5,6,7,8,10,11",
-                        "startColumns": "4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,114,185,256,326,396,464,580,684",
-                        "endColumns": "58,70,70,69,69,67,67,103,115",
-                        "endOffsets": "109,180,251,321,391,459,527,679,795"
-                    }
-                }
-            ]
-        },
-        {
-            "outputFile": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-large-v4/values-large-v4.xml",
-            "map": [
-                {
-                    "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/0ab84221d9ea433b67c9d8cb8d774c5d/res/values-large-v4/values-large-v4.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10",
-                        "startColumns": "4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,114,185,256,326,396,464,532,636",
-                        "endColumns": "58,70,70,69,69,67,67,103,115",
-                        "endOffsets": "109,180,251,321,391,459,527,631,747"
+                        "endOffsets": "98"
                     }
                 }
             ]

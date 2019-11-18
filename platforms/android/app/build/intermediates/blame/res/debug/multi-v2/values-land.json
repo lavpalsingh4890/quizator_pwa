@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/lavpal/My Workspace/quizator-client/platforms/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-land/values-land.xml",
+            "outputFile": "/Users/lavpal/My Workspace/MyProjects/Quizator/PWA/quizator-client/platforms/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-land/values-land.xml",
             "map": [
                 {
-                    "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/android-crop-1.0.0.aar/31a6336255c5af57dbdbeff9a6ae2daa/res/values-land/values-land.xml",
+                    "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/android-crop-1.0.0.aar/db71b2c3bfe9128f02eb3a4d071752b6/res/values-land/values-land.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "4",
@@ -13,36 +13,11 @@
                         "endOffsets": "214"
                     },
                     "to": {
-                        "startLines": "6",
+                        "startLines": "2",
                         "startColumns": "4",
-                        "startOffsets": "328",
+                        "startOffsets": "55",
                         "endColumns": "47",
-                        "endOffsets": "371"
-                    }
-                },
-                {
-                    "source": "/Users/lavpal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/5897ca6abbf3b9c1a7aa5349339b30f5/res/values-land/values-land.xml",
-                    "from": {
-                        "startLines": "2,3,4,5",
-                        "startColumns": "4,4,4,4",
-                        "startOffsets": "55,125,189,260",
-                        "endColumns": "69,63,70,67",
-                        "endOffsets": "120,184,255,323"
-                    }
-                }
-            ]
-        },
-        {
-            "outputFile": "/home/lav/Project WorkSpace/HAD/Quizator/Document/Quizator/platforms/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-land/values-land.xml",
-            "map": [
-                {
-                    "source": "/home/lav/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.0.2.aar/0ab84221d9ea433b67c9d8cb8d774c5d/res/values-land/values-land.xml",
-                    "from": {
-                        "startLines": "2,3,4,5",
-                        "startColumns": "4,4,4,4",
-                        "startOffsets": "55,125,189,260",
-                        "endColumns": "69,63,70,67",
-                        "endOffsets": "120,184,255,323"
+                        "endOffsets": "98"
                     }
                 }
             ]

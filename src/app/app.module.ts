@@ -35,7 +35,7 @@ import { SubcategoryPage } from '../pages/category/subcategory/subcategory';
 import { EmojiProvider } from '../providers/emoji';
 import { TextUtilProvider } from '../providers/text-util/text-util';
 import { FCM } from '@ionic-native/fcm';
-import { Facebook } from '@ionic-native/facebook';
+// import { Facebook } from '@ionic-native/facebook';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { IonicStorageModule } from '@ionic/storage';
 import { StorageUtilProvider } from '../providers/storage-util/storage-util';
@@ -208,7 +208,7 @@ var firebaseConfig = {
     Deeplinks,
     EmojiProvider,
     FCM,
-    Facebook,
+    // Facebook,
     GooglePlus,
     SQLite,
    // { provide: LocationStrategy, useClass: PathLocationStrategy },

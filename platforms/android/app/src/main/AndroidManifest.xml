@@ -8,52 +8,12 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="quizator" />
-            </intent-filter>
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:host="quizator.com" android:pathPrefix="/" android:scheme="https" />
-                <data android:host=" " android:pathPrefix="/" android:scheme=" " />
-                <data android:host=" " android:pathPrefix="/" android:scheme=" " />
-                <data android:host=" " android:pathPrefix="/" android:scheme=" " />
-                <data android:host=" " android:pathPrefix="/" android:scheme=" " />
-            </intent-filter>
         </activity>
-        <activity android:configChanges="orientation|screenSize" android:label="Simple Audio Stream" android:name="com.hutchind.cordova.plugins.streamingmedia.SimpleAudioStream" />
-        <activity android:configChanges="orientation|screenSize" android:label="Simple Video Stream" android:name="com.hutchind.cordova.plugins.streamingmedia.SimpleVideoStream" />
-        <activity android:exported="true" android:launchMode="singleTop" android:name="com.gae.scaffolder.plugin.FCMPluginActivity">
-            <intent-filter>
-                <action android:name="FCM_PLUGIN_ACTIVITY" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <service android:name="com.gae.scaffolder.plugin.MyFirebaseMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <service android:name="com.gae.scaffolder.plugin.MyFirebaseInstanceIDService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/fb_app_id" />
-        <meta-data android:name="com.facebook.sdk.ApplicationName" android:value="@string/fb_app_name" />
-        <activity android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" android:label="@string/fb_app_name" android:name="com.facebook.FacebookActivity" />
-        <activity android:label="@string/multi_app_name" android:name="com.synconset.MultiImageChooserActivity" android:theme="@style/Theme.AppCompat.Light" />
         <provider android:authorities="${applicationId}.provider" android:exported="false" android:grantUriPermissions="true" android:name="org.apache.cordova.camera.FileProvider">
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/camera_provider_paths" />
         </provider>
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
     </application>
     <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="27" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 </manifest>
