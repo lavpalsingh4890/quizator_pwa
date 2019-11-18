@@ -117,6 +117,7 @@ export class PostClientApiProvider {
     headers.append('Access-Control-Allow-Origin', '*');
     headers.append('Access-Control-Allow-Methods', 'POST, GET, PUT');
     headers.append('Accept', 'application/json');
+    headers.append('allow-running-insecure-content','true');
     headers.append('content-type', 'application/json');
     let options = new RequestOptions({ headers: headers });
     return this.http.post(link, myData, options);
