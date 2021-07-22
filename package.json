@@ -55,7 +55,7 @@
     "rxjs": "6.0.0",
     "rxjs-compat": "6.0.0",
     "sw-toolbox": "3.6.0",
-    "xlsx": "^0.14.5",
+    "xlsx": "^0.17.0",
     "zone.js": "0.8.26"
   },
   "devDependencies": {
